@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="__STATIC__/css/select.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="__STATIC__/js/jQuery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/select-ui.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+    <script type="text/javascript" src="__STATIC__/kindeditor/kindeditor-all-min.js"></script>
+    <style>
+        #d1,#d2{
+            width: 165px;
+            height: 30px;
+            padding-left: 30px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        KindEditor.ready(function(K) {
+            K.create('#content7', {
+                allowFileManager : true,
+                filterMode: true,
+                afterBlur: function(){  //利用该方法处理当富文本编辑框失焦之后，立即同步数据
+                    this.sync("#content7") ;
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(e) {
+            $(".select1").uedSelect({
+                width : 200
+            });
+            $('#form1').submit(function(){
+                $.post("{:U('Index/letter')}",$('#form1').serialize(),function(res){
+                    layer.msg(res.info);
+                });
+                return false;
+            })
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">添加活动</a></li>
+    </ul>
+</div>
+
+<div class="formbody">
+    <div id="usual1" class="usual">
+        <div id="tab1" class="tabson">
+            <form action="{:U('add')}" id="form1" method="post" enctype="multipart/form-data">
+                <ul class="forminfo">
+                    <li><label>标题<b>*</b></label>
+                        <input name="title" style="width: 200px;height: 30px;border: 1px solid #ccc;padding-left: 10px;line-height: 30px;opacity: 1" type="text"/>
+                    </li>
+                    <li><label>内容<b>*</b></label>
+                        <textarea id="content7" name="content" style="width:700px;height:250px;visibility:hidden;"></textarea>
+                    </li>
+                    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="马上发送"/></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+</script>
+</html>
