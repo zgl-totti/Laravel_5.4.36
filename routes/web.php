@@ -14,7 +14,6 @@
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-//Route::get('login/','LoginController@index');
 Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/login','LoginController@index');
     Route::post('admin/create','LoginController@index');
@@ -32,6 +31,26 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::post('admin/admin_add','AdminController@add');
     Route::get('admin/admin_edit/{id}','AdminController@edit')->where('id','[0-9]+');
     Route::post('admin/admin_edit/{id}','AdminController@edit')->where('id','[0-9]+');
+    Route::get('admin/brand_index','BrandController@index');
+    Route::post('admin/brand_del','BrandController@del');
+    Route::post('admin/brand_operate','BrandController@operate');
+    Route::get('admin/brand_add','BrandController@add');
+    Route::post('admin/brand_add','BrandController@add');
+    Route::get('admin/brand_edit/{id}','BrandController@edit')->where('id','[0-9]+');
+    Route::post('admin/brand_edit/{id}','BrandController@edit')->where('id','[0-9]+');
+    Route::get('admin/category_index','CategoryController@index');
+    Route::post('admin/category_del','CategoryController@del');
+    Route::post('admin/category_operate','CategoryController@operate');
+    Route::get('admin/category_add','CategoryController@add');
+    Route::post('admin/category_add','CategoryController@add');
+    Route::get('admin/category_edit/{id}','CategoryController@edit')->where('id','[0-9]+');
+    Route::post('admin/category_edit/{id}','CategoryController@edit')->where('id','[0-9]+');
+    Route::post('admin/category_cate','CategoryController@cate');
+    Route::get('admin/order_index/{id}','OrderController@index')->where('id','[0-9]+');
+    Route::get('admin/order_integral','OrderController@integral');
+    Route::get('admin/order_aftermarket','OrderController@aftermarket');
+    Route::post('admin/order_shipments','OrderController@shipments');
+    Route::post('admin/order_agree','OrderController@agree');
 });
 
 Route::group(['namespace'=>'Index'],function(){

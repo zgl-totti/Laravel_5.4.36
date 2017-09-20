@@ -8,13 +8,10 @@
 namespace App\Http\Controllers\Index;
 
 
-use App\Admin;
 use Illuminate\Routing\Controller;
 
 class IndexController extends Controller{
     public function index(){
-        //$list=Admin::all();
-        print_r($list);
-        //echo 888;
+        echo 888;
     }
 }

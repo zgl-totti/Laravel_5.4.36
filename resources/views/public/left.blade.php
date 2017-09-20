@@ -125,21 +125,15 @@
                 <li class="active">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Brand/index')}}" target="rightFrame">品牌列表</a>
+                        <a href="{{url('admin/brand_index')}}" target="rightFrame">品牌列表</a>
                         <i></i>
                     </div>
-                    <!--   <ul class="sub-menus">
-                        <li><a href="javascript:;">文件管理</a></li>
-                        <li><a href="javascript:;">模型信息配置</a></li>
-                        <li><a href="javascript:;">基本内容</a></li>
-                        <li><a href="javascript:;">自定义</a></li>
-                    </ul> -->
                 </li>
 
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Brand/add')}}" target="rightFrame">添加品牌</a>
+                        <a href="{{url('admin/brand_add')}}" target="rightFrame">添加品牌</a>
                         <i></i>
                     </div>
                 </li>
@@ -155,7 +149,7 @@
                 <li class="active">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Category/index')}}" target="rightFrame">分类列表</a>
+                        <a href="{{url('admin/category_index')}}" target="rightFrame">分类列表</a>
                         <i></i>
                     </div>
                 </li>
@@ -163,7 +157,7 @@
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Category/add')}}" target="rightFrame">添加分类</a>
+                        <a href="{{url('admin/category_add')}}" target="rightFrame">添加分类</a>
                         <i></i>
                     </div>
                 </li>
@@ -226,49 +220,49 @@
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Order/index')}}" target="rightFrame">全部订单列表</a>
+                        <a href="{{url('admin/order_index',['orderstatus'=>0])}}" target="rightFrame">全部订单列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Admin/Order/index/orderstatus/1')}}" target="rightFrame">待付款订单列表</a>
+                        <a href="{{url('admin/order_index',['orderstatus'=>1])}}" target="rightFrame">待付款订单列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Admin/Order/index/orderstatus/2')}}" target="rightFrame">待发货订单列表</a>
+                        <a href="{{url('admin/order_index',['orderstatus'=>2])}}" target="rightFrame">待发货订单列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Admin/Order/index/orderstatus/3')}}" target="rightFrame">已发货订单列表</a>
+                        <a href="{{url('admin/order_index',['orderstatus'=>3])}}" target="rightFrame">已发货订单列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Admin/Order/index/orderstatus/4')}}" target="rightFrame">订单完成列表</a>
+                        <a href="{{url('admin/order_index',['orderstatus'=>4])}}" target="rightFrame">订单完成列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Admin/Order/jfdd')}}" target="rightFrame">积分订单列表</a>
+                        <a href="{{url('admin/order_integral')}}" target="rightFrame">积分订单列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Admin/Change/index')}}" target="rightFrame">售后管理</a>
+                        <a href="{{url('admin/order_aftermarket')}}" target="rightFrame">售后管理</a>
                         <i></i>
                     </div>
                 </li>
