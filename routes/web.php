@@ -14,6 +14,12 @@
 /*Route::get('/', function () {
     return view('welcome');
 });*/
+
+Route::group(['namespace'=>'Index'],function(){
+    Route::get('/','IndexController@index');
+    Route::get('index/index','IndexController@index');
+});
+
 Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/login','LoginController@index');
     Route::post('admin/create','LoginController@index');
@@ -51,8 +57,5 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/order_aftermarket','OrderController@aftermarket');
     Route::post('admin/order_shipments','OrderController@shipments');
     Route::post('admin/order_agree','OrderController@agree');
-});
-
-Route::group(['namespace'=>'Index'],function(){
-    Route::get('index/','IndexController@index');
+    Route::get('admin/order_out/{a}/{b}/{c}/{d}','OrderController@out');
 });

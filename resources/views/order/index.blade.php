@@ -57,11 +57,12 @@
 <div class="formbody">
     <div id="usual1" class="usual">
         <div id="tab2" class="tabson">
-            <form action="{{url('admin/order_index',['orderstatus'=>$orderstatus])}}" method="get">
+            <form action="{{url('admin/order_index',['orderstatus'=>$orderstatus])}}" method="get" id="form1">
+                <input name="_token" type="hidden" value="{{csrf_token()}}"/>
                 <ul class="seachform">
-                    <li><label>收货人查询</label><input name="username" type="text" class="scinput" value="{{$username}}" /></li>
-                    <li><label>订单号查询</label><input name="ordersyn" type="text" class="scinput" value="{{$ordersyn}}" /></li>
-                    <li><label>手机号查询</label><input name="phone" type="text" class="scinput" value="{{$phone}}" /></li>
+                    <li><label>收货人查询</label><input name="username" id="a" type="text" class="scinput" value="{{$username}}" /></li>
+                    <li><label>订单号查询</label><input name="ordersyn" id="b" type="text" class="scinput" value="{{$ordersyn}}" /></li>
+                    <li><label>手机号查询</label><input name="phone" id="c" type="text" class="scinput" value="{{$phone}}" /></li>
                     <li><input name="orderstatus" type="hidden" id="orderstatus" class="scinput" value="{{$orderstatus}}"/></li>
 
                     <!-- <li><label>订单状态</label>
@@ -80,7 +81,7 @@
                     @if($orderstatus==2)
                         <li><label>&nbsp;</label><input type="button" class="scbtn plfh" value="批量发货"/></li>
                     @endif
-                    <li><label>&nbsp;</label><input type="button" class="scbtn plfh dcdd" value="订单导出"/></li>
+                    <li><label>&nbsp;</label><input type="button" class="scbtn dcdd" value="订单导出"/></li>
                 </ul>
 
                 <table class="tablelist">
@@ -156,7 +157,15 @@
     <script type="text/javascript">
         $('.tablelist tbody tr:odd').addClass('odd');
         $('.dcdd').click(function(){
-            location="{:U('Order/out')}"
+            var a=$('#a').val();
+            var b=$('#b').val();
+            var c=$('#c').val();
+            var d=$('#orderstatus').val();
+            if(!a){a=0;}
+            if(!b){b=0;}
+            if(!c){c=0;}
+            if(!d){d=0;}
+            location="{{url('admin/order_out')}}/"+a+'/'+b+'/'+c+'/'+d;
         })
     </script>
 </div>
@@ -171,7 +180,7 @@
                 $.post("{{url('admin/order_shipments')}}",{oid:oid,_token:token,status:status},function(res){
                     if(res.code==1){
                         layer.msg(res.info,{icon:6,time:1600},function(){
-                            location="{{url('admin/order_index')}}?status="+orderstatus;
+                            location="{{url('admin/order_index')}}/"+orderstatus;
                         });
                     }else{
                         layer.msg(res.info,{icon:6,time:1600});
@@ -193,7 +202,7 @@
                 $.post("{{url('admin/order_shipments')}}",{oid:S,_token:token,status:status},function(res){
                     if(res.code==1){
                         layer.msg(res.info,{icon:6,time:1600},function(){
-                            location="{{url('admin/order_index')}}?status="+orderstatus;
+                            location="{{url('admin/order_index')}}/"+orderstatus;
                         });
                     }else{
                         layer.msg(res.info,{icon:2,time:1600});
