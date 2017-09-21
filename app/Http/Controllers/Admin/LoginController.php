@@ -30,12 +30,9 @@ class LoginController extends Controller{
                     return response(['code'=>2,'info'=>'用户被停权！']);
                 }
                 $request->session()->put('aid',$info['id']);
-                $condition['lasttime']=time();
-                $condition['ip']=$request->getClientIp();
-                $info->save($condition);
-                /*$info->lasttime=time();
+                $info->lasttime=time();
                 $info->ip=$request->getClientIp();
-                $info->save();*/
+                $info->save();
                 return response(['code'=>1,'info'=>'登录成功！']);
             }else{
                 return response(['code'=>2,'info'=>$validator->messages()]);
