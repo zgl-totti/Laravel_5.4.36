@@ -1,0 +1,26 @@
+<ul>
+    <volist name="list3" id="val3">
+        <if condition="$val3['status'] eq 0">
+            <li>
+                <div class="jf">{$val3.needjf}积分</div>
+                <div class="hotUl_main xuni">
+                    <span class="ubb">{$val3.getub}</span>
+                    <br/><span class="ub">U币</span>
+                </div>
+                <div class="duihuan"><h2>立即兑换</h2></div>
+            </li>
+            <else/>
+            <li>
+                <div class="jf">{$val3.needjf}积分</div>
+                <div class="hotUl_main shiwu">
+                    <img width="210" src="/Uploads/{$val3['ginfo']['pic']}" alt=""/>
+                </div>
+                <div class="duihuan"><a href="{:U('Goods/goodsDetail',array('gid'=>$val3['ginfo']['id'],'jf'=>$val3['needjf']))}"><h2>{:mb_substr($val3['ginfo']['goodsname'],0,15,'utf-8')}</h2></a></div>
+            </li>
+        </if>
+    </volist>
+</ul>
+<div class="clear"></div>
+<div class="listpage">
+    {$page3}
+</div>

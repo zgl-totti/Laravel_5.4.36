@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+.comment-main{padding-bottom:10px ;}
+.item-pic {width: 90px;height: 90px;border: 1px solid #EEE;float: left;overflow: hidden; margin-left:5px;margin-right: 10px;}
+.filePic {width:100px;padding:10px 10px;position: relative;overflow: hidden;}
+.filePic .inputPic {cursor: pointer;opacity: 0;width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
+.filePic span{display: none;}
+
+img{width:100% ;}
+.item-opinion{border-top: 1px solid #F5F8FA;width: 100%;overflow: hidden;padding:10px 0px ;}
+.item-opinion li{float:left;width: 33.33%;text-align: center;font-size:14px ;cursor: pointer;}
+.item-opinion li i{display:inline-block;width:16px;height:16px;margin-right: 5px;}
+.item-opinion li i.op1,.item-opinion li i.op2{background:url(../images/iconfont-evaluate.png);background-size:16px 16px;}
+.item-opinion li i.op3{background:url(../images/iconfont-bad.png);background-size:16px 16px;}
+
+.item-opinion li i.op1.active{background:url(../images/iconfont-good.png);background-size:16px 16px;}
+.item-opinion li i.op2.active{background:url(../images/iconfont-middle.png);background-size:16px 16px;}
+.item-opinion li i.op3.active{background:url(../images/iconfont-badon.png);background-size:16px 16px;}
+
+
+
+.info-btn{text-align: center;}
+
+
+
+@media only screen and (min-width: 640px){
+
+/*多个商品评价*/
+.comment-list{position: relative;margin:0px 5px ;padding-bottom:10px ;}
+.comment-list .comment_detail{position: absolute; width: 690px;height: 300px;}
+.comment-list .comment_detail ul.comment_ul1{display: block;text-decoration: none;height: 50px;text-align: center;background: #ccc;line-height: 50px;}
+.comment-list .comment_detail ul.comment_ul1 li{display: block;text-decoration: none;width: 165px;float: left}
+.comment-list .comment_detail ul.comment_ul2{display: block;text-decoration: none;height: 80px;text-align: center;margin-top: 15px;}
+.comment-list .comment_detail ul.comment_ul2 li{display: block;text-decoration: none;width: 165px;height:80px;float: left;}
+.comment-list .comment_detail div.comment_cont{display: block;float: left;width: 690px;height:80px;}
+.comment-list .comment_detail div.comment_cont textarea{display: block;width:690px;height:80px;border:1px solid #e7e7e7;}
+.comment-list .comment_detail div.comment_cont textarea:focus{outline: none}
+.comment-list .comment_detail div.fabiao{width:85px;height:40px;float: left;margin-top: 25px;margin-left: 300px;}
+.comment-list .comment_detail div.fabiao a{display: block;font-size: 16px; width:85px;height:40px;background: red;color: #ffffff;border:none;border-radius: 5px;text-align: center;line-height: 40px;}
+.comment-list .comment_detail div.fabiao a:focus{outline: none}
+
+
+/*评价列表*/
+.comment_listall{width: 1000px;height:auto;background: #f8f8f8;margin-top: 50px;margin-left: 5px;}
+.comment_listall .comment_list_ul{height:40px;width: 1000px;}
+.comment_listall .comment_list_ul li{margin-left: 20px; display: block;height:40px;width: 90px;line-height: 40px;float: left;}
+.comment_listall .comment_list_num li{margin-top: 20px;}
+
+
+.item-pic{width: 150px;height: auto;float: none;}
+.item-title{width:150px ;overflow: hidden;}
+.item-pay-logis{display: none;}
+.item-name p,.comment-list .info-little span{height: 18px;line-height: 18px;overflow: hidden;}
+.item-opinion{position: absolute;top: 150px;right:0px;width:300px;max-width:600px ;}
+.item-comment{position: absolute;left:200px;top: 40px;right:0px;max-width:600px ;}
+
+.filePic{position: absolute;left:200px;bottom: 10px;width:120px;}
+.filePic span{display: block;cursor: pointer;}
+.filePic img{display: none;}
+.user-comment{max-width:1000px;margin:0px auto;}
+}
+
+
+
+
+

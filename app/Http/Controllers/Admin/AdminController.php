@@ -13,7 +13,7 @@ class AdminController extends BaseController{
             $request->input('keywords') && $query->where('username','like','%'.$request->input('keywords').'%');
         })->paginate(10);
         $firstRow=($list->currentPage()-1)*$list->perPage();
-        return view('admin.index',['list'=>$list,'firstRow'=>$firstRow,'keywords'=>$request->input('keywords')]);
+        return view('admin.admin.index',['list'=>$list,'firstRow'=>$firstRow,'keywords'=>$request->input('keywords')]);
     }
 
     public function del(Request $request){
@@ -49,7 +49,7 @@ class AdminController extends BaseController{
             $this->post($data,$status);
         }else{
             $group=Group::where('status',1)->get()->toArray();
-            return view('admin.add',['group'=>$group]);
+            return view('admin.admin.add',['group'=>$group]);
         }
     }
 
@@ -70,7 +70,7 @@ class AdminController extends BaseController{
             }
             $info['group'] = $arr;
             $group = Group::where('status', 1)->get()->toArray();
-            return view('admin.edit', ['info' => $info, 'group' => $group]);
+            return view('admin.admin.edit', ['info' => $info, 'group' => $group]);
         }
     }
 

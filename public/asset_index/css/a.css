@@ -1,0 +1,411 @@
+*{
+	font-size: 12px;
+	margin:0;
+	padding: 0;
+}
+/*搜索框*/
+#sForm{
+    position: relative;
+}
+#sForm .bn,#sForm .gn{
+    display: inline-block;
+    position: absolute;
+    top:-30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    text-align: center;
+    width: 60px;
+    border-radius: 1px;
+}
+#sForm .bn{
+    left: 58px;
+    background: orange;
+    color: #fff;
+ }
+#sForm .gn{
+    left: -2px;
+    background: #F03726;
+    color: #fff;
+}
+#layout_foot{
+
+}#searchInput{
+    font-size: 18px;
+    padding-left: 20px;
+ }
+#ai-topsearch {
+    font-size: 18px;
+}
+/*正品保障帮助中心和底部*/
+#layout_foot dd a.srh-btn {
+    background: rgba(0, 0, 0, 0) url("../img/s_pic1.png") no-repeat scroll -140px -49px;
+    display: block;
+    height: 25px;
+    margin-top: 5px;
+    overflow: hidden;
+    text-indent: -999em;
+    width: 105px;
+}
+#layout_foot dd a.srh-btn:hover{
+	background-position: -140px -74px;
+}
+#layout_foot{
+	width: 100%;
+	margin-top:45px;
+	height: 514px;
+	background: #F5F5F5;
+	font-family: "微软雅黑";
+}
+#serv{
+	width: 1190px;
+	margin: 0 auto;
+}
+#layout_foot .ng-promise {
+    border-bottom: 1px solid #eaeaea;
+    padding: 12px 0;
+    width: 1190px;
+    overflow: hidden;
+}
+#layout_foot .ng-promise dl {
+    float: left;
+    overflow: hidden;
+    width: 230px;
+}
+#layout_foot .ng-promise dt {
+    background: rgba(0, 0, 0, 0) url("../img/s_pic1.png") no-repeat scroll 0 0;
+    float: left;
+    height: 48px;
+    margin-right: 8px;
+    overflow: hidden;
+    text-indent: -999em;
+    width: 48px;
+}
+#layout_foot .ng-promise dt.zheng {
+    background-position: 0 0;
+}
+#layout_foot .ng-promise dt.jisu {
+    background-position: -48px 0;
+}
+#layout_foot .ng-promise dt.wuyou {
+    background-position: -96px 0;
+}
+#layout_foot .ng-promise dt.te {
+    background-position: -144px 0;
+}
+#layout_foot .ng-promise dt.help {
+    background-position: -191px 0;
+}
+#layout_foot .ng-promise dd {
+    float: left;
+    height: 48px;
+    width: 140px;
+}
+#layout_foot .ng-promise dd p {
+    color: #545454;
+    line-height: 24px;
+    width: 100%;
+}
+#layout_foot .ng-promise dd p a{
+    color: #222;
+    font-size: 14px;
+    font-weight: 700;
+}
+#layout_foot .ng-help-box {
+    float: left;
+    height: 180px;
+    width: 1050px;
+}
+#layout_foot .ng-help-box dl {
+    float: left;
+    height: 160px;
+    width: 210px;
+}
+#layout_foot .ng-help-box dt {
+    color: #545454;
+    font-size: 14px;
+    font-weight: 700;
+    height: 35px;
+    line-height: 40px;
+    overflow: hidden;
+    width: 100%;
+}
+#layout_foot .ng-help-box dd {
+    line-height: 22px;
+    width: 100%;
+}
+#layout_foot .ng-help-box dd a {
+    color: #545454;
+}
+#layout_foot .ng-help-box dd a:hover {
+    color: #f60;
+}
+#layout_foot .ng-hot-line {
+    border-left: 1px solid #eaeaea;
+    float: left;
+    height: 180px;
+    margin-left: -41px;
+    padding-left: 40px;
+    width: 190px;
+}
+#layout_foot .ng-hot-line p, #layout_foot .ng-app-down p {
+    color: #545454;
+    font-size: 14px;
+    font-weight: 700;
+    height: 35px;
+    line-height: 40px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    width: 100%;
+}
+#layout_foot .ng-hot-line b {
+    background: rgba(0, 0, 0, 0) url("../img/s_pic1.png") no-repeat scroll 0 0;
+    display: inline-block;
+    float: left;
+    height: 55px;
+}
+#layout_foot .ng-hot-line b.phone {
+    background-position: 0 -144px;
+    width: 160px;
+}
+#layout_foot .ng-hot-line b.phone-num {
+    background-position: -80px -144px;
+    width: 0;
+}
+#layout_foot .ng-hot-line a.online {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    color: #212121;
+    display: inline-block;
+    height: 27px;
+    line-height: 27px;
+    text-align: center;
+    text-decoration: none;
+    width: 100px;
+}
+#layout_foot .ng-hot-line a.online em {
+    color: #f90;
+    font-size: 18px;
+    margin-right: 2px;
+}
+.ng-app-down {
+    float: left;
+    height: 180px;
+    width: 90px;
+    /*margin-left: 40px;*/
+}
+#layout_partner{
+	width: 100%;
+	height: 260px;
+	background: #33302B;
+}
+#partner{
+	width: 1190px;
+	margin: 0 auto;
+
+}
+.ng-new-pro-list {
+    margin-left: -50px;
+    width: 850px;
+}
+.ng-new-pro-list dl {
+    padding: 0 50px;
+    width: 324px;
+    float: left;
+    box-sizing: content-box;
+}
+.ng-new-pro-list dd {
+    width: 224px;
+    float: left;
+
+}
+.ng-sort {
+    margin-left: -595px;
+}
+.ng-nav-index {
+    margin-left: -405px;
+    width: 785px;
+}
+.ng-search .g-search-fixed {
+    margin-left: -265px;
+}
+.ng-new-pro-list dt {
+    float: left;
+    height: 80px;
+    margin-right: 20px;
+    margin-top: 5px;
+    width: 80px;
+}
+ .ng-new-pro-list dd p.ng-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 25px;
+}
+.ng-new-pro-list dd p.ng-intro {
+    line-height: 18px;
+}
+.ng-new-pro-list dd p a {
+    color: #eee;
+    text-decoration: none;
+    font-size: 12px;
+}
+.ng-serch-suning {
+    float: left;
+    height: 100px;
+    margin-top: 10px;
+    width: 390px;
+    color: #eee;
+}
+.ng-serch-suning dt {
+    background: rgba(0, 0, 0, 0) url("../img/s_pic1.png") no-repeat scroll 0 -50px;
+    float: left;
+    height: 94px;
+    margin-top: 3px;
+    width: 140px;
+}
+.ng-new-pro-con{
+	position: relative;
+	top: 12px;
+}
+.ng-url-list {
+    height: 25px;
+    line-height: 25px;
+}
+.ng-url-list a {
+    color: #f9f9f9;
+}
+.ng-url-list span {
+    color: #888;
+    padding: 0 8px;
+}
+.ng-authentication {
+    /*float: left;*/
+    height: 25px;
+    margin-top: 5px;
+    width: 350px;
+    position: relative;
+    top: 30px;
+}
+.ng-authentication a {
+    display: inline-block;
+    margin-right: 8px;
+    
+}
+.ng-copyright {
+    color: #999;
+    float: right;
+    height: 25px;
+    line-height: 25px;
+    margin-top: 5px;
+    width: 640px;
+}
+.ng-toolbar {
+    z-index: 7690;
+}
+.ng-toolbar .ng-bar-node {
+    z-index: 7692;
+}
+.ng-toolbar .ng-d-box {
+    z-index: 7691;
+}
+.foot_list{
+	width: 1190px;
+	margin: 0 auto;
+	height: 120px;
+	/*position: relative;*/
+	/*top: 125px;*/
+}
+.foot_list p{
+	float: left;
+}
+/*正品保障帮助中心和底部*/
+/*悬浮搜索框*/
+#xuanfu{
+    position: fixed;
+    top: 0;
+    height: 50px;
+    width: 100%;
+    z-index: 800;
+    display: none;
+    background: #fff;
+}
+.xfC{
+    width: 1200px;
+    height: 50px;
+    margin: 0 auto;
+}
+.xfC .xfLogo{
+    float: left;
+    width: 100px;
+    height: 50px;
+}
+.xfSearch{
+    width: 622px;
+    height: 50px;
+    float: left;
+    margin: 0 0 0 150px;
+    border: 2px solid #F03726;
+    position: relative;
+}
+.xfSearch #xfsearchInput{
+    width: 500px;
+    height: 46px;
+    border: 0;
+    outline: none;
+    padding: 0 0 0 73px;
+    font-size: 16px;
+}
+.xfSearch span{
+    position: absolute;
+    width: 73px;
+    height: 46px;
+    font-size: 16px;
+    line-height: 46px;
+    text-align: center;
+}
+#xfai-topsearch{
+    width: 114px;
+    height: 47px;
+    background: #F03726;
+    margin: 0;
+    font-size: 16px;
+    border: none;
+    padding: 0;
+    position: relative;
+    top: -1px;
+    float: right;
+    color: #fff;
+}
+.xfSearch .xfactive{
+    background: rgb(246,246,246);
+}
+.xfactive:hover .xfbn{
+    display: inline-block;
+}
+.xfactive:hover .xfpp{
+    display: inline-block;
+}
+.xfbn{
+    position: absolute;
+    top:46px;
+    color: orange;
+    background:#ccc;
+    left:0;
+    display: none;
+}
+.xfpp{
+    position: absolute;
+    top:92px;
+    color: orange;
+    background:#ccc;
+    left:0;
+    display: none;
+}
+.xfbn:hover,.xfpp:hover{
+    color: red;
+    cursor: pointer;
+}
+.activv{
+    left:0;
+}

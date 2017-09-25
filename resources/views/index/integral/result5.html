@@ -1,0 +1,13 @@
+<volist name="dhls" id="valls" empty="$emptyls">
+    <div class="jl">
+        <span style="margin: 0">您在{:date('Y-m-d H:i:s',$valls['addtime'])}消耗了{$valls['jinfo']['needjf']}积分,兑换了</span>
+        <if condition="$valls['jinfo']['status'] eq 0">
+            <span>{$valls['jinfo']['getub']}U币</span>
+            <else/>
+            <a href="{:U('Goods/goodsDetail',array('gid'=>$valls['ginfo']['id']))}">{$valls['ginfo']['goodsname']}</a>
+        </if>
+    </div>
+</volist>
+<div class="listpage">
+    {$page5}
+</div>

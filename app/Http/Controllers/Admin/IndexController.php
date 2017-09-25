@@ -20,7 +20,7 @@ class IndexController extends BaseController{
         if(empty($aid)){
             return redirect('admin/login');
         }
-        return view('index.index');
+        return view('admin.index.index');
     }
 
     public function top(Request $request){
@@ -29,7 +29,7 @@ class IndexController extends BaseController{
             return redirect('admin/login');
         }
         $info=Admin::find($aid);
-        return view('public.top',['info'=>$info]);
+        return view('admin.public.top',['info'=>$info]);
     }
 
     public function left(Request $request){
@@ -37,11 +37,11 @@ class IndexController extends BaseController{
         if(empty($aid)){
             return redirect('admin/login');
         }
-        return view('public.left');
+        return view('admin.public.left');
     }
 
     public function footer(){
-        return view('public.footer');
+        return view('admin.public.footer');
     }
 
     public function main(Request $request){
@@ -50,7 +50,7 @@ class IndexController extends BaseController{
             return redirect('admin/login');
         }
         $info=Admin::find($aid);
-        return view('index.main')->with('info',$info);
+        return view('admin.index.main')->with('info',$info);
     }
 
     public function paiHang(Request $request,$id){

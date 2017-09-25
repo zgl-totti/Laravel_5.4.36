@@ -38,12 +38,12 @@ class LoginController extends Controller{
                 return response(['code'=>2,'info'=>$validator->messages()]);
             }
         }else {
-            return view('login.index');
+            return view('admin.login.index');
         }
     }
 
     public function logout(Request $request){
         $request->session()->forget('aid');
-        return redirect('admin/login');
+        return redirect('admin.admin/login');
     }
 }

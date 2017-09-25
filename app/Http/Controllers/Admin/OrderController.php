@@ -54,7 +54,7 @@ class OrderController extends BaseController{
         }*/
 
         $firstRow=($list->currentPage()-1)*$list->perPage();
-        return view('order.index',[
+        return view('admin.order.index',[
             'list'=>$list,'firstRow'=>$firstRow,
             'username'=>$username,'phone'=>$phone,
             'ordersyn'=>$ordersyn,'orderstatus'=>$orderstatus
@@ -80,7 +80,7 @@ class OrderController extends BaseController{
                 $arr && $query->whereIn('scid',$arr);
             })->paginate(10);
         $firstRow=($list->currentPage()-1)*$list->perPage();
-        return view('order.integral',['list'=>$list,'username'=>$username,'phone'=>$phone,'ordersyn'=>$ordersyn,'firstRow'=>$firstRow]);
+        return view('admin.order.integral',['list'=>$list,'username'=>$username,'phone'=>$phone,'ordersyn'=>$ordersyn,'firstRow'=>$firstRow]);
     }
 
     //售后管理
@@ -106,7 +106,7 @@ class OrderController extends BaseController{
                 $arr && $query->whereIn('scid',$arr);
             })->paginate(10);
         $firstRow=($list->currentPage()-1)*$list->perPage();
-        return view('order.aftermarket',['list'=>$list,'username'=>$username,'phone'=>$phone,'aftersyn'=>$aftersyn,'firstRow'=>$firstRow]);
+        return view('admin.order.aftermarket',['list'=>$list,'username'=>$username,'phone'=>$phone,'aftersyn'=>$aftersyn,'firstRow'=>$firstRow]);
     }
 
     //发货

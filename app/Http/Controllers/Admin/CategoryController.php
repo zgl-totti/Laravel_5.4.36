@@ -13,7 +13,7 @@ class CategoryController extends BaseController{
             $keywords && $query->where('categoryname','like',$keywords.'%');
         })->orderBy('path')->paginate(10);
         $firstRow=($list->currentPage()-1)*$list->perPage();
-        return view('category.index',['list'=>$list,'keywords'=>$keywords,'firstRow'=>$firstRow]);
+        return view('admin.category.index',['list'=>$list,'keywords'=>$keywords,'firstRow'=>$firstRow]);
     }
 
     public function operate(Request $request){
@@ -72,7 +72,7 @@ class CategoryController extends BaseController{
             }
         }else{
             $category=Category::where('pid',0)->where('status',1)->get();
-            return view('category.add',['category'=>$category]);
+            return view('admin.category.add',['category'=>$category]);
         }
     }
 
@@ -107,7 +107,7 @@ class CategoryController extends BaseController{
             $id=intval($id);
             $info=Category::find($id);
             $category=Category::where('pid',0)->where('status',1)->get();
-            return view('category.edit',['info'=>$info,'category'=>$category]);
+            return view('admin.category.edit',['info'=>$info,'category'=>$category]);
         }
     }
 

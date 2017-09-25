@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+    <title>特惠促销区</title>
+    <link href="__STATIC__/css/demo.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/css/amazeui.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/css/personal.css" rel="stylesheet" type="text/css">
+    <link href="__STATIC__/css/a.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__STATIC__/js/jQuery-1.8.2.min.js"></script>
+    <script src="__STATIC__/layer/layer.js"></script>
+    <style>
+        .content{
+            background-image: url("__STATIC__/images/ggg.jpg");
+            background: rgb(241,145,6);
+            overflow: hidden;
+        }
+        .imgaa{
+
+            width: 340px;
+            cursor: pointer;
+            text-align: center;
+            float: left;
+            border: 2px solid burlywood;
+            position: relative;
+          }
+
+        .aaa{
+            position: fixed;
+            left: 0;
+
+        }
+        .bbb{
+            position: fixed;
+            right: 0;
+
+        }
+        .c{
+            width:1020px;
+            margin: 0 auto;
+
+        }
+        .sc{
+            position:absolute ;
+            right: 2px;
+            top:0;
+            color: #000000;
+        }
+    </style>
+<script>
+    $(function(){
+        $('.g').click(function(){
+            $(this).hide();
+        })
+    })
+</script>
+</head>
+
+<body >
+<header>
+    <article>
+        <include file='Public/header'/>
+    </article>
+</header>
+<include file='Public/nav'/>
+<b class="line" ></b>
+<div class="content" >
+
+
+    <!--广告-->
+
+    <div class="aaa">
+        <div class="g"><a ><img width="250px" height="350px" src="__STATIC__/images/ggl.png" ><p>关闭x</p></a></div>
+    </div>
+    <div class="bbb">
+        <div  class="g"><a><img width="250px" height="350px" src="__STATIC__/images/ggr.png" ><p>关闭x</p></a></div>
+    </div>
+    <!--广告-->
+    <img style="margin: 0 auto;margin-left: 360px" src="__STATIC__/images/tou.png">
+    <hr style="border:#000000;border-top:10px solid #555555;" />
+<div  class="c" >
+    <volist name="ggList" id="v">
+        <div class="imgaa">
+            <a href="{:U('Goods/goodsDetail',array('gid'=>$v['id']))}">
+            <img style="width: 330px" src="/Uploads/{$v['pic']}" alt=""/></a>
+            <p style="height: 38px">{$v['goodsname']}</p>
+            <p>￥{$v['price']}</p>
+            <i class="am-icon-heart am-icon-fw sc" gid="{$v['id']}"></i>
+        </div>
+    </volist>
+</div>
+</div>
+<include file="Public/tip"/>
+<include file="Public/footer"/>
+</body>
+<script>
+    $('.sc').click(function(){
+        if('{:I("session.mid")}') {
+            gid = $(this).attr('gid');
+            $.post('{:U("Collection/add")}', {gid: gid}, function (res) {
+                if (res.status) {
+                    layer.msg("收藏成功", {time: 600})
+                } else {
+                    layer.msg("亲，您已经收藏过了!", {time: 600})
+                }
+            })
+        }else{
+            layer.alert('亲，请登录后再来收藏！',function(){
+                location='{:U("Login/login")}';
+            })
+        }
+    })
+</script>
+
+</html>

@@ -14,7 +14,7 @@ class BrandController extends BaseController{
             $keywords && $query->where('brandname','like',$keywords.'%');
         })->paginate(10);
         $firstRow=($list->currentPage()-1)*$list->perPage();
-        return view('brand.index',['keywords'=>$keywords,'list'=>$list,'firstRow'=>$firstRow]);
+        return view('admin.brand.index',['keywords'=>$keywords,'list'=>$list,'firstRow'=>$firstRow]);
     }
 
     public function add(Request $request){
@@ -54,7 +54,7 @@ class BrandController extends BaseController{
                 return response(['code'=>2,'info'=>'添加品牌失败']);
             }
         }else{
-            return view('brand.add');
+            return view('admin.brand.add');
         }
     }
 
@@ -128,7 +128,7 @@ class BrandController extends BaseController{
         }else{
             $brand_id=intval($id);
             $info=Brand::find($brand_id);
-            return view('brand.edit',['info'=>$info]);
+            return view('admin.brand.edit',['info'=>$info]);
         }
     }
 }
