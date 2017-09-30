@@ -151,9 +151,9 @@
             </div>
             <div class="clear"></div>
         </div>
-        <form action="{:U('Order/index')}" class="theme-signin" id="loginForm" name="loginform" method="get">
-            <input type="hidden" name="gid" value="{:I('get.gid')}"/>
-            <input type="hidden" name="cut" value="{:I('get.cut')}"/>
+        <form action="{{url('order/index')}}" class="theme-signin" id="loginForm" name="loginform" method="get">
+            <input type="hidden" name="gid" value="{{$info['id']}}"/>
+            <input type="hidden" name="status" value="{{$status}}"/>
             <div class="clearfixRight">
                 <!--规格属性-->
                 <!--名称-->
@@ -171,7 +171,7 @@
                         @elseif($status==2)
                             <li class="price iteminfo_price">
                                 <dt>首单专享价 </dt>
-                                <dd><em>￥</em><b class="sys_item_price">{$cutprice}</b></dd>
+                                <dd><em>￥</em><b class="sys_item_price">{{$info['getBargain']['cutprice']}}</b></dd>
                                 <dd>&nbsp;&nbsp;<b style="font-size:18px;position: relative;color: #005EA7">超优惠!<i style="color: red;position:absolute;top:-9px;font-size: 15px;">hot</i></b></dd>
                             </li>
                             <li class="price iteminfo_mktprice">
@@ -272,7 +272,6 @@
                         </dd>
                     </dl>
                 </div>
-                <input type="hidden" name="jf" value="{:I('get.jf')}"/>
                 <div class="pay">
                     <li>
                         <div class="clearfix tb-btn tb-btn-buy theme-login">
@@ -569,7 +568,8 @@
         flag=true;
     });
     function layerUser() {
-        if ("{:I('session.mid')}") {
+        $('#loginForm').submit();
+        /*if ("{:I('session.mid')}") {
             $('#loginForm').submit();
         } else {
             if (flag) {
@@ -640,7 +640,7 @@
                     return false;
                 })
             }
-        }
+        }*/
         //layer弹框自动登录
         $('.auto_login').toggle(
                 function () {

@@ -28,8 +28,9 @@ class GoodsController extends Controller{
                 }])->with('getCategory')->with('getIntegral')
                 ->first();
         }elseif($status==2){
-            $discounts=Bargain::where('gid',$gid)->first();
-            $info='';
+            $info=Goods::where('id',$id)->with('getBargain')
+                ->with('getPic')
+                ->first();
         }elseif($status==3){
             $info=Goods::where('id',$id)->with('getPic')
                 ->with(['getComment'=>function($query){

@@ -21,6 +21,7 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('goods/index/{id1}/{id2}','GoodsController@index')->where('id1','[0-9]+')->where('id2','[0-3]');
     Route::get('integral/index','IntegralController@index');
     Route::get('newperson/index','NewPersonController@index');
+    Route::get('order/index','OrderController@index');
 });
 
 Route::group(['namespace'=>'Admin'],function(){

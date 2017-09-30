@@ -26,4 +26,8 @@ class Goods extends Model{
     public function getIntegral(){
         return $this->hasOne('App\Integral','gid','id');
     }
+
+    public function getBargain(){
+        return $this->hasOne('App\Bargain','gid','id');
+    }
 }

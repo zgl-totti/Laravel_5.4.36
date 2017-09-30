@@ -59,21 +59,21 @@
     </div>
     <div class="content_list">
         <ul class="content_ul">
-            <volist name="goodsList" id="list" offset="0" length="30">
+            @foreach($list as $v)
                 <li>
-                    <a class="cut_{$list['gid']}" href="{:U('Goods/goodsDetail?gid='.$list['gid'])}">
-                        <img src="__UPLOADS__/{$list['pic']}" alt=""/>
-                        <p class="comm_name">{$list['goodsname']}</p>
+                    <a class="cut_{{$v['gid']}}" href="{{url('goods/index',['gid'=>$v['gid'],'status'=>2])}}">
+                        <img src="{{url('uploads')}}/{{$v['getGoods']['pic']}}" alt=""/>
+                        <p class="comm_name">{{$v['getGoods']['goodsname']}}</p>
                     </a>
-                    <p class="comm_p1">新人专享价:¥ {$list['cutprice']}</p>
-                    <p class="comm_p3">已砍:¥{$list['cut']}</p>
-                    <p class="comm_p2">汇购价:¥{$list['price']}</p>
+                    <p class="comm_p1">新人专享价:¥ {{$v['cutprice']}}</p>
+                    <p class="comm_p3">已砍:¥{{$v['cut']}}</p>
+                    <p class="comm_p2">汇购价:¥{{$v['price']}}</p>
                     <script>
                         var gid="{$list['gid']}";
                         $('a[class="cut_'+gid+'"]').attr('href',"{:U('Goods/goodsDetail?gid='.$list['gid'].'&cut='.$list['cut'])}")
                     </script>
                 </li>
-            </volist>
+            @endforeach
         </ul>
     </div>
 </div>
