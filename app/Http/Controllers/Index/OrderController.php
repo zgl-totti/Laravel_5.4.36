@@ -1,11 +1,11 @@
 <?php
 namespace App\Http\Controllers\Index;
 
-use App\Bargain;
-use App\Goods;
-use App\Integral;
-use App\Member;
-use App\Site;
+use App\Models\Bargain;
+use App\Models\Goods;
+use App\Models\Integral;
+use App\Models\Member;
+use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;

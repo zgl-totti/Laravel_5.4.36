@@ -9,10 +9,10 @@
 namespace App\Http\Controllers\Index;
 
 
-use App\Draw;
-use App\DrawLog;
-use App\Integral;
-use App\Member;
+use App\Models\Draw;
+use App\Models\DrawLog;
+use App\Models\Integral;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 

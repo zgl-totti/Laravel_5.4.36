@@ -2,9 +2,8 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Admin;
-use App\Brand;
-use App\Goods;
+use App\Models\Brand;
+use App\Models\Goods;
 use Illuminate\Http\Request;
 
 class BrandController extends BaseController{

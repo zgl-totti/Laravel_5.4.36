@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,14 +12,14 @@ class Order extends Model{
     public $timestamps = false;
 
     public function getOrderGoods(){
-        return $this->hasMany('App\OrderGoods','oid','id');
+        return $this->hasMany('App\Models\OrderGoods','oid','id');
     }
 
     public function getStatus(){
-        return $this->hasOne('App\OrderStatus','id','orderstatus');
+        return $this->hasOne('App\Models\OrderStatus','id','orderstatus');
     }
 
     public function getSite(){
-        return $this->hasOne('App\OrderSite','id','scid');
+        return $this->hasOne('App\Models\OrderSite','id','scid');
     }
 }

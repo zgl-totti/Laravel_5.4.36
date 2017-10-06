@@ -9,9 +9,9 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Admin;
-use App\Collect;
-use App\Goods;
+use App\Models\Admin;
+use App\Models\Collect;
+use App\Models\Goods;
 use Illuminate\Http\Request;
 
 class IndexController extends BaseController{

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class DrawLog extends Model{
     public $timestamps = false;
 
     public function getMember(){
-        return $this->hasOne('App\Member','id','mid');
+        return $this->hasOne('App\Models\Member','id','mid');
     }
 }

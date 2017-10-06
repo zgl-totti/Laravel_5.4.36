@@ -1,11 +1,10 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\After;
-use App\Goods;
-use App\Order;
-use App\OrderIntegral;
-use App\OrderSite;
+use App\Models\After;
+use App\Models\Order;
+use App\Models\OrderIntegral;
+use App\Models\OrderSite;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 

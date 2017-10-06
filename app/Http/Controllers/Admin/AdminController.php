@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Access;
-use App\Admin;
-use App\Group;
+use App\Models\Access;
+use App\Models\Admin;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

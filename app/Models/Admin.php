@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class Admin extends Model{
     public $timestamps = false;
 
     public function access(){
-        return $this->hasMany('App\Access','uid','id');
+        return $this->hasMany('App\Models\Access','uid','id');
     }
 }

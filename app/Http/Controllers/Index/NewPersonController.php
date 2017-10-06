@@ -9,8 +9,8 @@
 namespace App\Http\Controllers\Index;
 
 
-use App\Bargain;
-use App\Member;
+use App\Models\Bargain;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 

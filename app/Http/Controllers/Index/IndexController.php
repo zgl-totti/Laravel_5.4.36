@@ -8,12 +8,12 @@
 namespace App\Http\Controllers\Index;
 
 
-use App\Activity;
-use App\Advertise;
-use App\Brand;
-use App\Category;
-use App\Goods;
-use App\Member;
+use App\Models\Activity;
+use App\Models\Advertise;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Goods;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
