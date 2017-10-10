@@ -11,4 +11,7 @@ class Advertise extends Model{
     /*指定是否模型应该被戳记时间*/
     public $timestamps = false;
 
+    public function getCategory(){
+        return $this->hasOne('App\Models\Category','categoryname','content');
+    }
 }

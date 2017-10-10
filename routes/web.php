@@ -18,10 +18,14 @@
 Route::group(['namespace'=>'Index'],function(){
     Route::get('/','IndexController@index');
     Route::get('index/index','IndexController@index');
+    Route::get('index/promotion/{id}','IndexController@promotion')->where('id','[0-9]+');
     Route::get('goods/index/{id1}/{id2}','GoodsController@index')->where('id1','[0-9]+')->where('id2','[0-3]');
     Route::get('integral/index','IntegralController@index');
     Route::get('newperson/index','NewPersonController@index');
     Route::get('order/index','OrderController@index');
+    Route::get('active/index/{id}','ActiveController@index')->where('id','[0-9]+');
+    Route::get('search/category/{id}','SearchController@category')->where('id','[0-9]+');
+    Route::get('search/brand/{id}','SearchController@brand')->where('id','[0-9]+');
 });
 
 Route::group(['namespace'=>'Admin'],function(){

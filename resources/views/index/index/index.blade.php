@@ -72,8 +72,6 @@
             background: #d70b1c;
             color: #fff;
         }
-
-
         /*新人专享*/
         .new_user{
             font: 12px/1.5 arial,tahoma,宋体;
@@ -87,13 +85,11 @@
             top: 30%;
             z-index: 1000097;
         }
-
         .new_user .new_pic {
             height: 455px;
             overflow: hidden;
             width: 600px;
         }
-
         .new_user img {
             display: block;
             height: 455px;
@@ -200,7 +196,7 @@
 <body>
 <div class="new_user"  id="new_user">
     <div class="new_pic">
-        <a target="_blank" href="{:U('Newperson/index')}">
+        <a target="_blank" href="{{url('newperson/index')}}">
             <img alt="" src="{{url('asset_index/images/bgk1.png')}}">
         </a>
     </div>
@@ -303,7 +299,7 @@
                             @foreach($category as $v)
                                 <li class="appliance js_toggle relative first">
                                     <div class="category-info">
-                                        <h3 class="category-name b-category-name"><i><img src="{{asset('asset_index/images/cake.png')}}"></i><a class="ml-22" title="" href="{:U('Search/category',array('keyword'=>$val1['categoryname']))}">{{$v['categoryname']}}</a></h3>
+                                        <h3 class="category-name b-category-name"><i><img src="{{asset('asset_index/images/cake.png')}}"></i><a class="ml-22" title="" href="{{url('search/category',['id'=>$v['id']])}}">{{$v['categoryname']}}</a></h3>
                                         <em>&gt;</em>
                                     </div>
                                     <div class="menu-item menu-in top">
@@ -312,9 +308,9 @@
                                                 <div class="menu-srot">
                                                     <div class="sort-side">
                                                         <dl class="dl-sort">
-                                                            <dt><a title="" href="{:U('Search/category',array('keyword'=>$val1['categoryname']))}"><span title="">{{$v['categoryname']}}</span></a></dt>
+                                                            <dt><a title="" href="{{url('search/category',['id'=>$v['id']])}}"><span title="">{{$v['categoryname']}}</span></a></dt>
                                                             @foreach($v['child'] as $v1)
-                                                                <dd><a title="" href="{:U('Search/category',array('keyword'=>$v['categoryname']))}"><span>{{$v1['categoryname']}}</span></a></dd>
+                                                                <dd><a title="" href="{{url('search/category',['id'=>$v1['id']])}}"><span>{{$v1['categoryname']}}</span></a></dd>
                                                             @endforeach
                                                         </dl>
                                                     </div>
@@ -451,7 +447,7 @@
                             <h3>{{$v['content']}}</h3>
                         </div>
                         <div class="recommendationMain one">
-                            <a href="{:U('hd',array('cname'=>$v1['content']))}"><img src="{{url('uploads')}}/{{$v['images']}}"></a>
+                            <a href="{{url('index/promotion',['id'=>$v['id']])}}"><img src="{{url('uploads')}}/{{$v['images']}}"></a>
                         </div>
                     </div>
                 @endif
@@ -466,7 +462,7 @@
             </div>
             <div class="am-g am-g-fixed ">
                 @foreach($activity as $v)
-                    <a href="{:U('Active/index',array('aid'=>$va10['id']))}">
+                    <a href="{{url('active/index',['id'=>$v['id']])}}">
                         <div class="am-u-sm-3 ">
                             <div class="icon-sale one "></div>
                             <h4>{{$v['activityname']}}</h4>

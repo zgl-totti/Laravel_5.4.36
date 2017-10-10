@@ -56,4 +56,16 @@ class IndexController extends Controller{
         }
         return $list;
     }
+
+    public function promotion(Request $request,$id){
+        $mid=$request->session()->get('mid');
+        $member=Member::find($mid);
+        $id=intval($id);
+        $info=Advertise::where('id',$id)->with('getCategory')->first();
+        $info['goods']=Goods::where('cid',$info['getCategory']['id'])->get();
+        return view('index.index.promotion',[
+            'member'=>$member,
+            'info'=>$info
+        ]);
+    }
 }
