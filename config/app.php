@@ -227,6 +227,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        //加载第三方类库
         'Excel' => Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],

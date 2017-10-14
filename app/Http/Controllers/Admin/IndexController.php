@@ -15,28 +15,15 @@ use App\Models\Goods;
 use Illuminate\Http\Request;
 
 class IndexController extends BaseController{
-    public function index(Request $request){
-        $aid=$request->session()->get('aid');
-        if(empty($aid)){
-            return redirect('admin/login');
-        }
+    public function index(){
         return view('admin.index.index');
     }
 
-    public function top(Request $request){
-        $aid=$request->session()->get('aid');
-        if(empty($aid)){
-            return redirect('admin/login');
-        }
-        $info=Admin::find($aid);
-        return view('admin.public.top',['info'=>$info]);
+    public function top(){
+        return view('admin.public.top');
     }
 
-    public function left(Request $request){
-        $aid=$request->session()->get('aid');
-        if(empty($aid)){
-            return redirect('admin/login');
-        }
+    public function left(){
         return view('admin.public.left');
     }
 
@@ -44,13 +31,15 @@ class IndexController extends BaseController{
         return view('admin.public.footer');
     }
 
-    public function main(Request $request){
-        $aid=$request->session()->get('aid');
+    public function main(){
+        /*$aid=$request->session()->get('aid');
         if(empty($aid)){
             return redirect('admin/login');
         }
         $info=Admin::find($aid);
-        return view('admin.index.main')->with('info',$info);
+        return view('admin.index.main')->with('info',$info);*/
+
+        return view('admin.index.main');
     }
 
     public function paiHang(Request $request,$id){

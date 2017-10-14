@@ -11,6 +11,12 @@ class Admin extends Model{
     /*指定是否模型应该被戳记时间*/
     public $timestamps = false;
 
+    /*//可以批量赋值的属性
+    protected $fillable=[];
+
+    //不能被批量赋值的属性
+    protected $guarded=[];*/
+
     public function access(){
         return $this->hasMany('App\Models\Access','uid','id');
     }

@@ -9,13 +9,11 @@
 namespace App\Http\Controllers\Admin;
 
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class BaseController extends Controller{
-    public function __construct(Request $request){
-        $this->middleware(function(){
-
-        });
+    public function __construct(){
+        //启动中间件
+        $this->middleware('admin');
     }
 }

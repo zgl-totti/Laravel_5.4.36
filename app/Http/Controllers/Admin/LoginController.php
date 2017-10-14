@@ -7,7 +7,6 @@
  */
 namespace App\Http\Controllers\Admin;
 
-
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -44,6 +43,6 @@ class LoginController extends Controller{
 
     public function logout(Request $request){
         $request->session()->forget('aid');
-        return redirect('admin.admin/login');
+        return redirect('admin/login');
     }
 }
