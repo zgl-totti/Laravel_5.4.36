@@ -34,6 +34,7 @@ Route::group(['namespace'=>'Index'],function(){
 
 Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/login','LoginController@index');
+    Route::get('admin/captcha','LoginController@captcha');
     Route::post('admin/create','LoginController@index');
     Route::get('admin/logout','LoginController@logout');
     Route::get('admin/index','IndexController@index');

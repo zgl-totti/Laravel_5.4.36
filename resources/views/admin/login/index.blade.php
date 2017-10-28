@@ -38,21 +38,6 @@
                     }else{
                         layer.msg(res.info,{icon:2,time:2000})
                     }
-                    /*if(res.status==1){
-                        layer.open({
-                            content:res.info,
-                            icon:1,
-                            yes:function(){
-                                location="";
-                            }
-                        });
-                    }else{
-                        layer.open({
-                            content:res.info,
-                            icon:2,
-                            title:'wrong!'
-                        });
-                    }*/
                 },'json')
             })
         })
