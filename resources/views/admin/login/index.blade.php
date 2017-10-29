@@ -60,7 +60,7 @@
                 <li><input name="password" type="password" class="loginpwd" /></li>
                 <li class="yzm">
                     <span><input name="verify" type="text" /></span>
-                    <cite><img src="" width="118" height="46" style="cursor:pointer" /> </cite>
+                    <cite><img src="{{url('admin/captcha',rand())}}" width="118" height="46" style="cursor:pointer" onclick="this.src='{{url('admin/captcha',rand())}}'" /> </cite>
                 </li>
                 <li>
                     <input name="" type="button" class="loginbtn" value="登录"    />

@@ -19,7 +19,8 @@ class Admin extends Model{
 
     public static $rules=[
         'username'=>'required',
-        'password'=>'required'
+        'password'=>'required',
+        'verify'=>'required'
     ];
 
     public static $messages=[
@@ -28,7 +29,8 @@ class Admin extends Model{
 
     public static $attributeNames=[
         'username'=>'用户名',
-        'password'=>'密码'
+        'password'=>'密码',
+        'verify'=>'验证码'
     ];
 
     public function access(){

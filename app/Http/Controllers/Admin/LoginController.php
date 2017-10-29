@@ -8,8 +8,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
+use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller{
@@ -18,6 +20,10 @@ class LoginController extends Controller{
             $data=$request->all();
             $validator=Validator::make($data,Admin::$rules,Admin::$messages,Admin::$attributeNames);
             if($validator->passes()){
+                $check_captcha=$this->checkCaptcha($data['verify']);
+                if(empty($check_captcha)){
+                    return response(['code'=>2,'info'=>'验证码错误！']);
+                }
                 $where['username']=$data['username'];
                 $where['password']=md5($data['password']);
                 $info=Admin::where($where)->first();
@@ -34,10 +40,12 @@ class LoginController extends Controller{
                 return response(['code'=>1,'info'=>'登录成功！']);
             }else{
                 $error=$validator->messages()->toArray();
-                if($error['username']){
+                if(! empty($error['username'])){
                     return response(['code'=>2,'info'=>$error['username'][0]]);
-                }else{
+                }elseif(! empty($error['password'])){
                     return response(['code'=>2,'info'=>$error['password'][0]]);
+                }else{
+                    return response(['code'=>2,'info'=>$error['verify'][0]]);
                 }
             }
         }else {
@@ -45,8 +53,27 @@ class LoginController extends Controller{
         }
     }
 
-    public function captcha(){
-        //$captcha= new Capt
+    public function captcha($id){
+        $captcha= new CaptchaBuilder();
+        $captcha->build(150,32);
+        $verify=$captcha->getPhrase();
+        Session::put('verify',$verify);
+        ob_clean();
+        return response($captcha->output())->header('Content-type','image/jpeg');
+    }
+
+    private function checkCaptcha($data){
+        $captcha=Session::get('verify');
+        if($captcha==$data){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function logout(Request $request){
+        $request->session()->forget('aid');
+        return redirect('admin/login');
     }
 
     /*public function index(Request $request){
@@ -76,9 +103,4 @@ class LoginController extends Controller{
             return view('admin.login.index');
         }
     }*/
-
-    public function logout(Request $request){
-        $request->session()->forget('aid');
-        return redirect('admin/login');
-    }
 }
