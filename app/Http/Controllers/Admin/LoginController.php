@@ -53,7 +53,7 @@ class LoginController extends Controller{
         }
     }
 
-    public function captcha($id){
+    public function captcha(){
         $captcha= new CaptchaBuilder();
         $captcha->build(150,32);
         $verify=$captcha->getPhrase();

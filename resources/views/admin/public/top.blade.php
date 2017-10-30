@@ -14,7 +14,6 @@
                 $(this).addClass("selected");
             })
         })
-
     </script>
 </head>
 <body style="background:url({{asset('/asset_admin/images/topbg.gif')}}) repeat-x;">
