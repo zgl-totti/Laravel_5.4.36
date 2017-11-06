@@ -8,17 +8,14 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ActiveController extends Controller{
+class ActiveController extends BaseController{
     public function index(Request $request,$id){
         $id=intval($id);
-        $mid=$request->session()->get('mid');
-        $member=Member::find($mid);
         $info=Activity::where('id',$id)->with('getBrand')->first();
         $day=date('j', $info['stoptime']);
         if(time()>$info['stoptime']){
             $info['goods']=Goods::where('bid',$info['getBrand']['id'])->get();
             return view('index.active.index',[
-                'member'=>$member,
                 'd'=>$day,
                 'info'=>$info
             ]);

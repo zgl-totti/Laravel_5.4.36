@@ -281,7 +281,7 @@
         <div class="nav-cont">
             <ul>
                 <li class="index"><a href="{{url('index/index')}}">首页</a></li>
-                <li class="qc"><a href="{:U('Nav/tj')}">推荐</a></li>
+                <li class="qc"><a href="{{url('nav/recommend')}}">推荐</a></li>
                 <li class="qc" ><a href="{{url('newperson/index')}}" target="_blank" style="width: 120px;height: 36px;">新人专享<img style="position: absolute;" src="{{asset('asset_index/images/hot.gif')}}"/></a></li>
             </ul>
             <div class="nav-extra">

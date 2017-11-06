@@ -30,6 +30,10 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('active/index/{id}','ActiveController@index')->where('id','[0-9]+');
     Route::get('search/category/{id}','SearchController@category')->where('id','[0-9]+');
     Route::get('search/brand/{id}','SearchController@brand')->where('id','[0-9]+');
+    Route::get('nav/recommend','NavController@recommend');
+    Route::get('collect/index','CollectController@index');
+    Route::post('collect/add','CollectController@add');
+    Route::post('collect/del','CollectController@del');
 });
 
 Route::group(['namespace'=>'Admin'],function(){

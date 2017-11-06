@@ -14,12 +14,12 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class NewPersonController extends Controller{
+class NewPersonController extends BaseController{
     public function index(Request $request){
-        $mid=$request->session()->get('mid');
-        $member=Member::find($mid);
+        //$mid=$request->session()->get('mid');
+        //$member=Member::find($mid);
         $list=Bargain::with('getGoods')->where('status',1)->limit(40)->get();
-        return view('index.newperson.index',['member'=>$member,'list'=>$list]);
+        return view('index.newperson.index',[/*'member'=>$member,*/'list'=>$list]);
     }
 
 }

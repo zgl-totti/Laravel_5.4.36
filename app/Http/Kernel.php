@@ -60,5 +60,6 @@ class Kernel extends HttpKernel
         //注册中间件
         'login'=>\App\Http\Middleware\LoginMiddleware::class,
         'admin'=>\App\Http\Middleware\AdminMiddleware::class,
+        'index'=>\App\Http\Middleware\IndexMiddleware::class,
     ];
 }

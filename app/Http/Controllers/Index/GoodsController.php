@@ -14,10 +14,8 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class GoodsController extends Controller{
+class GoodsController extends BaseController{
     public function index(Request $request,$gid,$status){
-        $mid=$request->session()->get('mid');
-        $member=Member::find($mid);
         $id=intval($gid);
         if($status==1){
             $info=Goods::where('id',$id)->with('getPic')
@@ -46,7 +44,7 @@ class GoodsController extends Controller{
         $num['num3']=Comment::where('gid',$gid)->where('sid',3)->count();
 
         return view('index.goods.index',[
-            'member'=>$member,'info'=>$info,
+            'info'=>$info,
             'status'=>$status,'similar'=>$similar,
             'like'=>$like,'num'=>$num
         ]);

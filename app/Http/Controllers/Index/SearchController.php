@@ -8,18 +8,14 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class SearchController extends Controller{
+class SearchController extends BaseController{
     public function category(Request $request,$id){
-        $mid=$request->session()->get('mid');
-        $member=Member::find($mid);
         $id=intval($id);
         $info=Category::find($id);
         $category=Category::where('path','like',$info['path'].'%')->get(['id']);
         $list=Goods::whereIn('cid',$category)->paginate(8);
         $brand=Brand::where('hidden',1)->get();
-        //print_r($list);
         return view('index.search.category',[
-            'member'=>$member,
             'list'=>$list,
             'brand'=>$brand,
             'info'=>$info

@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 
-class IndexController extends Controller{
+class IndexController extends BaseController{
     public function index(Request $request){
         $mid=$request->session()->get('mid');
         $info=Member::find($mid);
@@ -58,13 +58,13 @@ class IndexController extends Controller{
     }
 
     public function promotion(Request $request,$id){
-        $mid=$request->session()->get('mid');
-        $member=Member::find($mid);
+        /*$mid=$request->session()->get('mid');
+        $member=Member::find($mid);*/
         $id=intval($id);
         $info=Advertise::where('id',$id)->with('getCategory')->first();
         $info['goods']=Goods::where('cid',$info['getCategory']['id'])->get();
         return view('index.index.promotion',[
-            'member'=>$member,
+            //'member'=>$member,
             'info'=>$info
         ]);
     }

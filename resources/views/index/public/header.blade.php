@@ -3,6 +3,7 @@
     <ul class="message-l">
         <div class="topMessage">
             <div class="menu-hd">
+                <input type="hidden" id="mid" name="mid" value="{{$member['mid']}}">
                 @if($member['mid']>0)
                     <li>
                         亲爱的{{$member['username']}}，欢迎光临优惠易购

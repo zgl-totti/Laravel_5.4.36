@@ -10,10 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class OrderController extends Controller{
+class OrderController extends BaseController{
     public function index(Request $request){
-        $mid=$request->session()->get('mid');
-        $member=Member::find($mid);
         $status=$request->input('status');
         $gid=$request->input('gid');
         $data['id']=$gid;
@@ -40,7 +38,7 @@ class OrderController extends Controller{
             $data['price']=$info['price'];
             $data['orderprice']=$info['price']*$info['buynum'];
         }
-        return view('index.order.index',['member'=>$member,'data'=>$data]);
+        return view('index.order.index',['data'=>$data]);
     }
 
     public function add(Request $request){
