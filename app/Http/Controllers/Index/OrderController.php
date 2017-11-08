@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Index;
 use App\Models\Bargain;
 use App\Models\Goods;
 use App\Models\Integral;
+use App\Models\Jorder;
 use App\Models\Member;
+use App\Models\Order;
+use App\Models\OrderGoods;
 use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -73,6 +76,70 @@ class OrderController extends BaseController{
                 }
             }else {
                 return response(['code' => 2, 'info' => $validator->messages()]);
+            }
+        }
+    }
+
+    public function order(Request $request){
+        $goodsname=trim($request->input('goodsname'));
+        $mid=$request->session()->get('mid');
+        $status=$request->input('orderstatus');
+        if(! empty($status)){
+            $where['status']=$status;
+        }
+        if($status==1){
+            $od1='待付款';
+        }elseif ($status==2){
+            $od1='待发货';
+        }elseif ($status==3){
+            $od1='待收货';
+        }elseif ($status==4){
+            $od1='待评价';
+        }else{
+            $od1='全部订单';
+        }
+        $where['mid']=$mid;
+        if($goodsname){
+            $goods=Goods::where('goodsname','like',$goodsname.'%')->get();
+            foreach ($goods as $k=>$v){
+                $condition['gid']=$v['id'];
+                $oid[]=OrderGoods::where($condition)->get(['oid']);
+            }
+        }else{
+            $oid=[];
+        }
+        $list=Order::with('getOrderGoods')
+            ->with('getStatus')
+            ->where($where)
+            ->where(function($query) use($goodsname,$oid){
+                $goodsname && $query->whereIn('id',$oid);
+            })->orderBy('addtime desc')->paginate(10);
+        return view('index.order.order',['list'=>$list,'od1'=>$od1]);
+    }
+
+    public function del(Request $request){
+        if($request->ajax()){
+            $mid=$request->session()->get('mid');
+            $ordersyn=$request->input('ordersyn');
+            $where['mid']=$mid;
+            $where['ordersyn']=$ordersyn;
+            $info=Order::where($where)->first();
+            if (empty($info)){
+                $row=Jorder::where($where)->delete();
+                if($row){
+                    return response(['code'=>1,'info'=>'删除成功！']);
+                }else{
+                    return response(['code'=>5,'info'=>'删除失败！']);
+                }
+            }else{
+                $condition['oid']=$info['id'];
+                $row1=OrderGoods::where($condition)->delete();
+                $row2=Order::where($where)->delete();
+                if($row1 && $row2){
+                    return response(['code'=>1,'info'=>'删除成功！']);
+                }else{
+                    return response(['code'=>5,'info'=>'删除失败！']);
+                }
             }
         }
     }
@@ -150,8 +217,8 @@ class OrderController extends BaseController{
         $data=$site1->where($data)->order('active desc,addtime desc')->select();
         if($data){
             $this->assign('data',$data);
+        }
     }
-}
     public function add1(){
         if(IS_AJAX){
             $site1=M('Site');
@@ -253,7 +320,7 @@ class OrderController extends BaseController{
         $this->xs();
         $this->display('index1');
     }
-    public function order(){
+    public function order1(){
         $sel5=trim(I('get.goodsname'));
         $order_goods=M('Order_goods');
         $data4['mid']=session('mid');
@@ -409,7 +476,7 @@ class OrderController extends BaseController{
             }
         }
     }
-    public function del(){
+    public function del1(){
         if(IS_AJAX){
             $data['mid']=session('mid');
             $data['ordersyn']=I('post.ordersyn');

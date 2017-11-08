@@ -34,6 +34,10 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('collect/index','CollectController@index');
     Route::post('collect/add','CollectController@add');
     Route::post('collect/del','CollectController@del');
+    Route::get('cart/index','CartController@index');
+    Route::get('cart/myCart','CartController@myCart');
+    Route::post('cart/bargain','CartController@bargain');
+    Route::post('cart/del','CartController@delGoodsByCart');
 });
 
 Route::group(['namespace'=>'Admin'],function(){

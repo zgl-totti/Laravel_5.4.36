@@ -40,7 +40,6 @@
     </script>
 </head>
 <body>
-
 <header>
     <article>
         <!--<div class="mt-logo">-->
@@ -55,7 +54,7 @@
         <img src="{{asset('asset_index/images/header.jpg')}}" alt=""/>
     </div>
     <div class="hotsale">
-        <img src=" {{asset('asset_index/images/hotsale.jpg')}}" alt=""/>
+        <img src="{{asset('asset_index/images/hotsale.jpg')}}" alt=""/>
     </div>
     <div class="content_list">
         <ul class="content_ul">
