@@ -6,41 +6,38 @@
     <meta name="keywords"  />
     <meta name="description"  />
     <title>联系我们</title>
-    <link href="__STATIC__/css/demo.css" rel="stylesheet" type="text/css">
-    <link href="__STATIC__/css/amazeui.css" rel="stylesheet" type="text/css">
-    <link href="__STATIC__/css/personal.css" rel="stylesheet" type="text/css">
-    <link href="__STATIC__/css/a.css" rel="stylesheet" type="text/css">
-    <link href="__STATIC__/css/hmstyle.css" rel="stylesheet" type="text/css"/>
-    <link href="__STATIC__/css/iconfont/iconfont.css" rel="stylesheet" type="text/css" />
-
-    <script src="__STATIC__/js/jQuery-1.8.2.min.js"></script>
-    <script src="__STATIC__/layer/layer.js"></script>
+    <link href="{{asset('asset_index/css/demo.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('asset_index/css/amazeui.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('asset_index/css/personal.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('asset_index/css/a.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('asset_index/css/hmstyle.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('asset_index/css/iconfont/iconfont.css')}}" rel="stylesheet" type="text/css" />
+    <script src="{{asset('asset_index/js/jQuery-1.8.2.min.js')}}"></script>
+    <script src="{{asset('asset_index/layer/layer.js')}}"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
     <!--引用百度地图API-->
     <style type="text/css">
         html,body{margin:0;padding:0;}
         .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
         .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
-    </style>
-    <style>
         .content{
             width: 700px;
             margin: 0 auto;
         }
         .nr{
-           height: 150px;
+            height: 150px;
             font-weight: 300 ;
             line-height:20px;
             margin-top: 20px;
         }
-             .nr ul li{
-                 color: #B5621B;
-             }
-           form{
-              width: 700px;
-               color: #B5621B;
-               font-weight: 300 ;
-           }
+        .nr ul li{
+            color: #B5621B;
+        }
+        form{
+            width: 700px;
+            color: #B5621B;
+            font-weight: 300 ;
+        }
         #ibangkf{
             width: 100px;
             color: #000000;
@@ -51,10 +48,10 @@
 <body >
 <header>
     <article>
-        <include file='Public/header'/>
+        @include('index.public.header')
     </article>
 </header>
-<include file='Public/nav'/>
+@include('index.public.nav')
 <b class="line" ></b>
 <div class="content" >
     <div style="text-align: center;color: orangered;font-size: 20px;margin-top: 10px">联系我们</div>
@@ -79,20 +76,20 @@
         公交换乘查询<input type="radio" name="k" value="pp" onclick="fbuschange(1)">公交路线查询
         <input type="radio" name="k" value="p" onclick="fbuschange(2)">公交站点查询</div></form>
     <!--公交搜索框结束-->
-<!--百度地图容器-->
+    <!--百度地图容器-->
     <div style="text-align: center;color: orangered;font-size: 20px;">地图展示</div>
     <div style="width:697px;height:300px;border:2px solid#B5621B;margin-top: 20px" id="dituContent"></div>
 </div>
-<include file="Public/tip"/>
-<include file="Public/footer"/>
+@include('index.public.tip')
+@include('index.public.footer')
 <a id="ibangkf" href="http://www.ibangkf.com">在线客服系统</a>
 <script language="javascript" src="http://c.ibangkf.com/i/c-cpp123.js"></script>
-
 </body>
 <script>
-    var fbuschange =
-            function(n)
-            {var a = ["起点+空格+终点(例如:高新区郑州大学 高新区电子商务产业园云和数据)","路线名称(例如:1路)","站点名称(例如:高新区电子商务产业园云和数据)"];document.getElementById("bus_act").innerHTML="公交站点输入格式为："+a[n];}
+    var fbuschange = function(n) {
+        var a = ["起点+空格+终点(例如:高新区郑州大学 高新区电子商务产业园云和数据)","路线名称(例如:1路)","站点名称(例如:高新区电子商务产业园云和数据)"];
+        document.getElementById("bus_act").innerHTML="公交站点输入格式为："+a[n];
+    }
 </script>
 <script type="text/javascript">
 
@@ -189,11 +186,9 @@
         var icon = new BMap.Icon("/Public/Home/images/dtu0.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
         return icon;
     }
-
     initMap();//创建和初始化地图
     type="text/javascript"
 </script>
-
 </html>
 
 

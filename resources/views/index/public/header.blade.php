@@ -30,7 +30,7 @@
             <div class="menu-hd"><a href="{:U('Collection/index')}" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
     </div>
         <div class="topMessage favorite">
-            <div class="menu-hd"><a href="{:U('Location/index')}" target="_top"><i class=""></i><span>联系我们</span></a></div>
+            <div class="menu-hd"><a href="{{url('index/location')}}" target="_top"><i class=""></i><span>联系我们</span></a></div>
 
         </div>
     </ul>

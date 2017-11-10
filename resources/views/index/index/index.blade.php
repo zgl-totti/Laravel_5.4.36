@@ -240,7 +240,7 @@
 
             </div>
             <div class="topMessage dz">
-                <div class="menu-hd"><a href="{:U('Location/index')}" target="_blank"><i class=""></i><span>联系我们</span></a></div>
+                <div class="menu-hd"><a href="{{url('index/location')}}" target="_blank"><i class=""></i><span>联系我们</span></a></div>
             </div>
         </ul>
     </div>

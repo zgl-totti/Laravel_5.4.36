@@ -68,4 +68,8 @@ class IndexController extends BaseController{
             'info'=>$info
         ]);
     }
+
+    public function location(){
+        return view('index.index.location');
+    }
 }
