@@ -3,9 +3,9 @@ namespace App\Http\Controllers\Index;
 
 
 use App\Models\Account;
-use App\Models\Cj;
-use App\Models\Cjlog;
 use App\Models\Dhlog;
+use App\Models\Draw;
+use App\Models\DrawLog;
 use App\Models\Jshop;
 use App\Models\Letter;
 use App\Models\Member;
@@ -19,13 +19,13 @@ class JshopController extends BaseController {
         $list_zd=Jshop::with('getGoods')->where('zd',1)->limit(4)->get();
         $list_xn=Jshop::with('getGoods')->where('status',0)->paginate(8);
         $list_sw=Jshop::with('getGoods')->where('status',1)->paginate(8);
-        $jf=Member::find($mid);
-        $list_integral=Jshop::with('getGoods')->where('needJF','lt',intval($jf))->paginate(8);
+        $info=Member::find($mid);
+        $list_integral=Jshop::with('getGoods')->where('needJF','lt',intval($info['jf']))->paginate(8);
         $list_all=Jshop::with('getGoods')->paginate(8);
         //获取奖项信息
-        $jinfo=Cj::limit(11)->get();
+        $jinfo=Draw::limit(11)->get();
         //获取抽奖记录
-        $log=Cjlog::with('getMember')->orderBy('addtime desc')->limit(6)->get();
+        $log=DrawLog::with('getMember')->orderBy('addtime desc')->limit(6)->get();
         foreach($log as $k=>$v){
             $log[$k]['username']=mb_substr($v['username'],0,2,'utf-8').'***'.mb_substr($v['username'],-2,2,'utf-8');
         }
@@ -37,7 +37,7 @@ class JshopController extends BaseController {
                 ->orderBy('addtime desc')
                 ->paginate(5);
             //查询用户抽奖记录
-            $cjls=Cjlog::where('mid',$mid)->orderBy('addtime desc')->paginate(5);
+            $cjls=DrawLog::where('mid',$mid)->orderBy('addtime desc')->paginate(5);
         }else{
             $dhls=[];
             $cjls=[];
@@ -49,7 +49,7 @@ class JshopController extends BaseController {
            'list_sw'=>$list_sw,'list_integral'=>$list_integral,
            'list_all'=>$list_all,'jinfo'=>$jinfo,
            'log'=>$log,'dhls'=>$dhls,
-           'cjls'=>$cjls
+           'cjls'=>$cjls,'info'=>$info
         ]);
     }
 
@@ -135,7 +135,7 @@ class JshopController extends BaseController {
             $data['prize_site'] = $prize_site;  //前端奖项从-1开始
             $data['prize_id'] = $prize_id;
             //更新用户信息,查询奖项信息
-            $info=Cj::where('id',$prize_id)->first();
+            $info=Draw::where('id',$prize_id)->first();
             $transaction=DB::beginTransaction();
             try {
                 if ($info['lx'] == 1) {
@@ -148,7 +148,7 @@ class JshopController extends BaseController {
                     $row1 = Member::where('id', $mid)->increment('balance', intval($info['num']));
                 }
                 //更新抽奖记录表
-                $cjlog = new Cjlog();
+                $cjlog = new DrawLog();
                 $cjlog->price = $data['prize'];
                 $cjlog->mid = $mid;
                 $cjlog->addtime = time();
@@ -188,7 +188,7 @@ class JshopController extends BaseController {
     }
 
     public function refreshLog(){
-        $list=Cjlog::orderBy('addtime desc')->limit(6)->offset(0)->get();
+        $list=DrawLog::orderBy('addtime desc')->limit(6)->offset(0)->get();
         foreach ($list as $k=>$v){
             $info=Member::where('id',$v['mid'])->first();
             $info['username']=mb_substr($info['username'],0,2,'utf-8').'***'.mb_substr($info['username'],-2,2,'utf-8');

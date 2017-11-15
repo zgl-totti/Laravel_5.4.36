@@ -211,21 +211,21 @@
     <div style="width: 100%;border-bottom: 3px solid red;height: 1px"></div>
     <div class="Jmain">
         <div class="wdjf">
-            <span class="wd1">我的积分：{$wdjf}</span>
+            <span class="wd1">我的积分：{{$info['jf']}}</span>
             <span class="ls">兑换历史</span>
             <div class="lsxq">
-                <volist name="dhls" id="valls" empty="$emptyls">
+                @foreach($dhls as $val)
                     <div class="jl">
-                        <span style="margin: 0">您在{:date('Y-m-d H:i:s',$valls['addtime'])}消耗了{$valls['jinfo']['needjf']}积分,兑换了</span>
+                        <span style="margin: 0">您在{{date('Y-m-d H:i:s)',$val['addtime']}}消耗了{{$val['jinfo']['needjf']}}积分,兑换了</span>
                         <if condition="$valls['jinfo']['status'] eq 0">
                             <span>{$valls['jinfo']['getub']}U币</span>
                             <else/>
                             <a href="{:U('Goods/goodsDetail',array('gid'=>$valls['ginfo']['id']))}">{$valls['ginfo']['goodsname']}</a>
                         </if>
                     </div>
-                </volist>
+                @endforeach
                 <div class="listpage">
-                    {$page5}
+                    {{$dhls->links()}}
                 </div>
             </div>
         </div>
@@ -235,7 +235,7 @@
                 <volist name="listZd" id="val">
                     <if condition="$val['status'] eq 0">
                         <li>
-                            <img style="position: absolute;width: 100px;top:50px" src="{{asset('asset_index/images/tjl.gif" alt=""/>
+                            <img style="position: absolute;width: 100px;top:50px" src="{{asset('asset_index/images/tjl.gif')}}" alt=""/>
                             <div class="jf">{$val.needjf}积分</div>
                             <div class="hotUl_main xuni">
                                 <span class="ubb">{$val.getub}</span>
@@ -535,7 +535,6 @@
             return false;
         }
     };
-
     function roll() {
         lottery.times += 1;
         lottery.roll();
@@ -553,7 +552,6 @@
             lottery.prize = -1;
             lottery.times = 0;
             click = false;
-
         } else {
             if (lottery.times < lottery.cycle) {
                 lottery.speed -= 10;
@@ -574,9 +572,7 @@
         }
         return false;
     }
-
     var click = false;
-
     $(function() {
         lottery.init('lottery');
         $("#lottery a").click(function() {
@@ -630,7 +626,6 @@
                 layer.msg('请登录后再来查看')
             }
         });
-
     })
 </script>
 </html>

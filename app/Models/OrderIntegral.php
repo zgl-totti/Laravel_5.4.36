@@ -11,6 +11,9 @@ class OrderIntegral extends Model{
     /*指定是否模型应该被戳记时间*/
     public $timestamps = false;
 
+    /*可以被批量赋值的属性*/
+    protected $fillable=['ordersyn','mid','scid','orderprice','orderstatus','addtime','gid','msg'];
+
     public function getGoods(){
         return $this->hasOne('App\Models\Goods','id','gid');
     }
