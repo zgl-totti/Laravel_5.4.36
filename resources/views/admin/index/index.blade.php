@@ -4,7 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>超优惠电商系统管理后台</title>
 </head>
-
 <frameset rows="88,*,31" cols="*" frameborder="no" border="0" framespacing="0">
     <frame src="{{url('admin/top')}}" name="topFrame" scrolling="No" noresize="noresize" id="topFrame" title="topFrame" />
     <frameset cols="187,*" frameborder="no" border="0" framespacing="0">
@@ -18,5 +17,4 @@
         </body>
     </noframes>
 </frameset>
-
 </html>

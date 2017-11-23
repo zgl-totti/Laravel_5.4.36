@@ -173,7 +173,7 @@
                 <li class="active">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Goods/index')}}" target="rightFrame">商品列表</a>
+                        <a href="{{url('admin/goods_index')}}" target="rightFrame">商品列表</a>
                         <i></i>
                     </div>
                 </li>
@@ -181,7 +181,7 @@
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Goods/add')}}" target="rightFrame">添加商品</a>
+                        <a href="{{url('admin/goods_add')}}" target="rightFrame">添加商品</a>
                         <i></i>
                     </div>
                 </li>
@@ -189,7 +189,7 @@
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Echarts/index')}}" target="rightFrame">销量分析</a>
+                        <a href="{{url('admin/goods_analyze')}}" target="rightFrame">销量分析</a>
                         <i></i>
                     </div>
                 </li>
@@ -205,7 +205,7 @@
                 <li class="active">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Member/memberList')}}" target="rightFrame">会员列表</a>
+                        <a href="{{url('admin/member_index')}}" target="rightFrame">会员列表</a>
                         <i></i>
                     </div>
                 </li>
@@ -277,7 +277,7 @@
                 <li class="">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Comment/index')}}" target="rightFrame">评价列表</a>
+                        <a href="{{url('admin/comment_index')}}" target="rightFrame">评价列表</a>
                         <i></i>
                     </div>
                 </li>

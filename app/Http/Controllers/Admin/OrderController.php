@@ -40,6 +40,17 @@ class OrderController extends BaseController{
                 ($username || $phone) && $query->whereIn('scid',$arr);
             })->paginate(10);
 
+
+        /*$list=Order::with('getStatus')->with('getSite')
+            ->with(['getOrderGoods'=>function($query){
+                $query->join('goods as g','g.id','=','order_goods.gid')->select('order_goods.oid','g.goodsname');
+            }])
+            ->where(function($query) use($ordersyn,$orderstatus,$username,$phone,$arr){
+                $ordersyn && $query->where('ordersyn','like',$ordersyn.'%');
+                $orderstatus && $query->where('orderstatus',$orderstatus);
+                ($username || $phone) && $query->whereIn('scid',$arr);
+            })->paginate(10);*/
+
         /*$list=Order::with('getStatus')->with('getSite')->with('getOrderGoods')
             ->where(function($query) use($ordersyn,$orderstatus,$arr){
                 $ordersyn && $query->where('ordersyn','like',$ordersyn.'%');

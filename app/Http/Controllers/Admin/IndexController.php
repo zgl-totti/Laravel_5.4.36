@@ -83,17 +83,4 @@ class IndexController extends BaseController{
         }
         return $list;
     }
-
-    /*public function getGoods($num=5){
-        $list=M('Goods')->field('goodsname,salenum as num')->order('salenum desc')->limit("0,$num")->select();
-        return $list;
-    }
-    public function getCollect($num=5){
-        $list=M()->table('yhyg_goods g,yhyg_collect c')->where('g.id=c.gid')->field('g.goodsname,COUNT(c.id) as num')->group('gid')->order('num desc')->limit("0,$num")->select();
-        return $list;
-    }
-    public function getLiuLan($num=5){
-        $list=M()->table('yhyg_goods g,yhyg_zuji z')->where('g.id=z.gid')->field('g.goodsname,COUNT(z.id) as num')->group('gid')->order('num desc')->limit("0,$num")->select();
-        return $list;
-    }*/
 }
