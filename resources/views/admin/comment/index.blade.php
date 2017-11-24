@@ -107,9 +107,9 @@
                         <td>{{date('Y-m-d H:i:s',$v['edittime'])}}</td>
                         <td>
                             @if(!empty($v['response']))
-                                已回复&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{url('admin/comment_comment',['id'=>$v['id']])}}" class="tablelink">查看评价</a>
+                                <a href="{{url('admin/comment_comment',['id'=>$v['id']])}}" class="tablelink">查看评价</a>
                             @elseif(empty($v['response']) && $v['sid']!=0)
-                                <a href="{{url('admin/comment_response',['id'=>$v['id']])}}" class="tablelink">去回复</a>&nbsp;&nbsp;&nbsp;&nbsp;查看评价
+                                <a href="{{url('admin/comment_response',['id'=>$v['id']])}}" class="tablelink">去回复</a>
                             @endif
                         </td>
                     </tr>

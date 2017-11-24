@@ -100,4 +100,13 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/comment_index','CommentController@index');
     Route::get('admin/comment_comment/{id}','CommentController@comment')->where('id','[0-9]+');
     Route::get('admin/comment_response/{id}','CommentController@response')->where('id','[0-9]+');
+    Route::get('admin/newperson_index','NewpersonController@index');
+    Route::get('admin/newperson_add','NewpersonController@add');
+    Route::post('admin/newperson_add','NewpersonController@add');
+    Route::post('admin/newperson_addGoods','NewpersonController@addGoods');
+    Route::post('admin/newperson_bargain','NewpersonController@bargain');
+    Route::get('admin/newperson_exclusive','NewpersonController@exclusive');
+    Route::post('admin/newperson_batch','NewpersonController@batch');
+    Route::post('admin/newperson_reset','NewpersonController@reset');
+    Route::post('admin/newperson_resetAll','NewpersonController@resetAll');
 });

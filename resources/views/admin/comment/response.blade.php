@@ -20,7 +20,6 @@
         KindEditor.ready(function(K) {
             K.create('#content7', {
                 allowFileManager : true,
-
                 afterBlur: function(){  //利用该方法处理当富文本编辑框失焦之后，立即同步数据
                     this.sync("#content") ;
                 }
@@ -37,8 +36,15 @@
             });
             $('#lookForm').submit(function(){
                 $.post("{:U('LookOver')}",$('#lookForm').serialize(),function(response){
-                    if(response){
-                        layer.alert(response.res);
+                    if(response.status){
+                        layer.msg('回复成功',{
+                                icon:1,
+                                time:600
+                            },
+                            function (){
+                                location="{:U('index')}";
+                            }
+                        )
                     }
                 },'json');
                 return false;
@@ -58,19 +64,20 @@
 <div class="formbody">
     <div id="usual1" class="usual">
         <div id="tab1" class="tabson">
-            <form action="#" method="post" id="lookForm" >
+            <form action="{:U('lookver')}" method="post" id="lookForm" >
                 <ul class="forminfo">
-                    <li><label>会员名称:</label><input name="" type="text" class="dfinput" value="{$username}"  style="width:150px;"/></li>
-                    <input name="gid" type="hidden" class="dfinput" value="{$gid}"  style="width:150px;"/></li>
-                    <li><label>商品名称:</label><input name="goodsname" type="text" class="dfinput" value="{$goodsname}"  style="width:150px;"/></li>
-                    <li><label>评价时间:</label><input name="edittime" type="text" class="dfinput" value="{$edittime|date='Y-m-d H:i:s',###}"  style="width:150px;"/></li>
-                    <li><label>订&nbsp;单&nbsp;号:</label><input id="ordersyn" name="ordersyn" type="text" class="dfinput" value="{$ordersyn}"  style="width:258px;"/></li>
+                    <li><label>会员名称:</label><input name="" type="text" class="dfinput" value="{{$info['member']['username']}}"  style="width:150px;"/></li>
+                    <input name="gid" type="hidden" class="dfinput" value="{{$info['gid']}}"  style="width:150px;"/></li>
+                    <li><label>商品名称:</label><input name="goodsname" type="text" class="dfinput" value="{{$info['goods']['goodsname']}}"  style="width:150px;"/></li>
+                    <li><label>评价时间:</label><input name="edittime" type="text" class="dfinput" value="{{date('Y-m-d H:i:s',$info['edittime'])}}"  style="width:150px;"/></li>
+                    <li><label>订&nbsp;单&nbsp;号:</label><input id="ordersyn" name="ordersyn" type="text" class="dfinput" value="{{$info['order']['ordersyn']}}"  style="width:258px;"/></li>
                     <li><label>评价内容:</label>
-                        <textarea name="content" disabled id="" cols="113" rows="7" style="border:2px solid #e1e1e1;border-radius: 5px">{$content}</textarea>
+                        <textarea name="content" id="" cols="113" rows="7" style="border:2px solid #ccc;border-radius: 5px">{{str_limit($info['content'],50)}}</textarea>
                     </li>
                     <li><label>回复内容:</label>
-                        <textarea disabled name="response" id="" cols="113" rows="7" style="border:2px solid #ccc;border-radius: 5px">{$response}</textarea>
+                        <textarea id="content7" name="response" style="width:700px;height:250px;visibility:hidden;"></textarea>
                     </li>
+                    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="立即回复"/></li>
                 </ul>
             </form>
         </div>

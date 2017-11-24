@@ -3,19 +3,18 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>首单专享</title>
-    <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="__STATIC__/css/select.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="__STATIC__/js/jQuery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/js/jquery.idTabs.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/js/select-ui.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/kindeditor/kindeditor-all-min.js"></script>
-    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+    <link href="{{asset('asset_admin/css/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('asset_admin/css/select.css')}}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{asset('asset_admin/js/jQuery-1.8.2.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('asset_admin/js/jquery.idTabs.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('asset_admin/js/select-ui.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('asset_admin/kindeditor/kindeditor-all-min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('asset_admin/layer/layer.js')}}"></script>
     <!--分页样式-->
-    <style>
+    <style type="text/css">
         .paginList a, .paginList span{display: inline-block;width:18px;height:18px ;padding: 5px;margin: 2px;text-decoration: none;text-align: center;line-height: 18px;background: #cccccc;  color:#000000;  border: 1px solid #c2d2d7;border-radius: 5px  }
         .paginList a:hover{background: #666666;color:#fff;  }
         .paginList span{background: #666666;color: #fff;font-weight: bold;}
-
         #cutprice:focus{
             outline: none;
         }
@@ -87,7 +86,6 @@
             });
         });
     </script>
-
     <script type="text/javascript">
         $(document).ready(function(e) {
             $(".select1").uedSelect({
@@ -99,23 +97,10 @@
             $(".select3").uedSelect({
                 width : 100
             });
-
-            $('#Warncomment').click(function(){
-                $.post("{:U('index')}",function(res){
-                    if(res){
-                        layer.msg(res,{
-                            time:1000
-                        });
-                    }
-                })
-
-            })
         });
     </script>
 </head>
-
 <body>
-
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
@@ -124,14 +109,12 @@
     </ul>
 </div>
 <div class="formbody">
-
     <div id="usual1" class="usual">
-
         <div id="tab2" class="tabson">
-            <form action="{:U('Newperson/barlist')}" method="get" id="queryform">
+            <form action="{{url('admin/newperson_exclusive')}}" method="get" id="queryform">
                 <ul class="seachform" style="height:60px;">
                     <li style="width: 70px;height: 34px;font-size: 16px;margin: 0;line-height: 34px;">品牌名:</li>
-                    <li style="margin-left: -8px;"><input id="bname" name="bname" value="{:I('get.bname')}" type="text" class="scinput" placeholder="请输入品牌名" /></li>
+                    <li style="margin-left: -8px;"><input id="bname" name="bname" value="{{$bname}}" type="text" class="scinput" placeholder="请输入品牌名" /></li>
                     <li style="height: 34px;"><input style="display: block;width: 65px;height: 32px;margin-top: 0;font-size: 16px;" name="query" type="submit" class="scbtn" value="查&nbsp;询"/></li>
                     <li style="height: 34px;"><a href="javascript:;" id="resets">批量重置</a></li>
                 </ul>
@@ -139,7 +122,7 @@
             <table class="tablelist">
                 <thead>
                 <tr>
-                    <th style="width: 50px;text-align: center">编号<i class="sort"><img src="__STATIC__/images/px.gif" /></i></th>
+                    <th style="width: 50px;text-align: center">编号<i class="sort"><img src="{{asset('asset_admin/images/px.gif')}}" /></i></th>
                     <th>商品图片</th>
                     <th style="width: 450px;">商品名称</th>
                     <th>品牌名称</th>
@@ -153,74 +136,61 @@
                 </thead>
                 <form action="" method="post" id="searchform">
                     <tbody>
-                    <volist name="goods" id="val" empty="$empty">
+                    @foreach($list as $k=>$val)
                         <tr style="height:80px;">
-                            <td>{$i+$first}</td>
-                            <td><img src="/Uploads/{:mb_substr($val['pic'],0,11)}thumb100_{:mb_substr($val['pic'],11)}" style="width: 80px;height: 80px;"/></td>
-                            <td style="width: 450px;">{$val['goodsname']}</td>
-                            <td>{$val['bname']}</td>
-                            <td>{$val['price']}</td>
-                            <td>{$val['cutprice']}</td>
-                            <td>{$val['cut']}</td>
-                            <td>{$val['num']}</td>
-                            <td>{$val['salenum']}</td>
-                            <td><a href="javascript:;" gid="{$val['gid']}" class="reset">重置</a></td>
+                            <td>{{$k+1+$firstRow}}</td>
+                            <td><img src="{{url('uploads')}}/{{mb_substr($val['getGoods']['pic'],0,11)}}thumb100_{{mb_substr($val['getGoods']['pic'],11)}}" style="width: 80px;height: 80px;"/></td>
+                            <td style="width: 450px;">{{str_limit($val['getGoods']['goodsname'],50)}}</td>
+                            <td>{{$val['bname']}}</td>
+                            <td>{{$val['price']}}</td>
+                            <td>{{$val['cutprice']}}</td>
+                            <td>{{$val['cut']}}</td>
+                            <td>{{$val['getGoods']['num']}}</td>
+                            <td>{{$val['getGoods']['salenum']}}</td>
+                            <td><a href="javascript:;" id="{{$val['id']}}" class="reset">重置</a></td>
                         </tr>
-                    </volist>
+                    @endforeach
                     </tbody>
                 </form>
             </table>
-            <empty name="goods">
-                <else/>
-                <div class="pagin">
-                    <div class="message">共<i class="blue">{$count}</i>条记录，当前显示第&nbsp;<i class="blue">{:I('get.p',1)}&nbsp;</i>页</div>
-                    <ul class="paginList">
-                        {$show}
-                    </ul>
-                </div>
-            </empty>
+            <div class="pagin">
+                <div class="message">共<i class="blue">{{$list->total()}}</i>条记录，当前显示第&nbsp;<i class="blue">{{$list->currentPage()}}&nbsp;</i>页</div>
+                <ul class="paginList">
+                    {{$list->links()}}
+                </ul>
+            </div>
         </div>
-
     </div>
 </div>
 </body>
 </html>
-<script>
+<script type="text/javascript">
     $(function() {
         $('.reset').click(function () {
             re = $(this);
-            $.post("{:U('Newperson/barlist')}", {gid: re.attr('gid')}, function (res) {
-                if (res.status) {
-                    layer.msg(res.info, {
-                                time: 800,
-                                icon: 1
-                            },
-                            function () {
-                                re.parents('tr').hide();
-                            }
-                    );
-                } else {
-                    layer.msg(res.info, {
-                        time: 800,
-                        icon: 2
+            var id=re.attr('id');
+            var token="{{csrf_token()}}";
+            $.post("{{url('admin/newperson_reset')}}", {id:id,_token:token}, function (res) {
+                if (res.code==1) {
+                    layer.msg(res.info, {time: 800, icon: 1}, function () {
+                        re.parents('tr').hide();
                     });
+                } else {
+                    layer.msg(res.info, {time: 800, icon: 2});
                 }
-            })
+            },'json')
         });
         //批量重置
         $('#resets').click(function () {
-            bname = $('input[name="bname"]').val();
-            $.post("{:U('Newperson/barlist?query=set')}", {bname: bname}, function (res) {
-                if (res.status) {
-                    layer.msg(res.info, {
-                        time: 600
-                    })
+            var bname = $('input[name="bname"]').val();
+            var token="{{csrf_token()}}";
+            $.post("{{url('admin/newperson_resetAll')}}", {bname: bname,_token:token}, function (res) {
+                if (res.code==1) {
+                    layer.msg(res.info, {time: 600})
                 } else {
-                    layer.msg(res.info, {
-                        time: 600
-                    })
+                    layer.msg(res.info, {time: 600})
                 }
-            });
+            },'json');
             return false;
         })
     })

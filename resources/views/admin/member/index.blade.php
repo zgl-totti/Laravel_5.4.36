@@ -54,7 +54,7 @@
                         <td class="username">{{$vo->username}}</td>
                         <td>
                             @if($vo['touxiang'] && file_exists($vo['touxiang']))
-                                <img src="{{$vo['touxiang']}}" style="border-radius: 999px;width: 60px"/>
+                                <img src="{{url($vo['touxiang'])}}" style="border-radius: 999px;width: 60px"/>
                             @else
                                 <img src="{{asset('asset_index/images/get.jpg')}}" style="border-radius: 999px;width: 60px"/>
                             @endif

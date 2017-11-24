@@ -3,12 +3,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>无标题文档</title>
-    <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="__STATIC__/css/select.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="__STATIC__/js/jQuery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/js/jquery.idTabs.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/js/select-ui.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+    <link href="{{asset('asset_admin/css/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('asset_admin/css/select.css')}}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{asset('asset_admin/js/jQuery-1.8.2.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('asset_admin/js/jquery.idTabs.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('asset_admin/js/select-ui.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('asset_admin/layer/layer.js')}}"></script>
     <style type="text/css">
         #d1,#d2{
             width: 165px;
@@ -43,41 +43,43 @@
                     res.prev().attr('name','');
                     res.attr('name','bid');
                 }
+                var bid=res.val();
+                var token="{{csrf_token()}}";
                 res.nextAll().remove();
-                $.post("{:U('Newperson/add?check=add')}",val,function(response){
-                    if(response.status) {
+                $.post("{{url('admin/newperson_addGoods')}}",{bid:bid,_token:token},function(response){
+                    if(response.code) {
                         if(response.info){
                             var str = "<select class='select' name='gid' id='goods'><option value='0'>请选择商品</option>";
                             for (var i in response.info) {
                                 str += "<option value=" + response.info[i].id + ">" + response.info[i].goodsname + "</option>"
                             }
                             str += "</select>"
-                            res.after(str)
-                            res.next().css('left', res.prevAll().length * 120 + 'px')
+                            res.after(str);
+                            res.next().css('left', res.prevAll().length * 120 + 'px');
                         }
                     }
                 },'json');
             });
 
             $('#form1').submit(function(){
-                if($('#goods').val()!=0&&$('#brand').val()!=0){
-                    $.post("{:U('Newperson/add?check=sub')}", $('#form1').serialize(), function (res) {
-                        if (res.status) {
+                if($('#goods').val()!=0 && $('#brand').val()!=0){
+                    $.post("{{url('admin/newperson_add')}}", $('#form1').serialize(), function (res) {
+                        if (res.code==1) {
                             layer.confirm(res.info,{
                                     btn: ['继续添加', '设置专享']
                                 },
                                 function () {
-                                    location = "{:U('add')}"
+                                    location = "{{url('admin/newperson_add')}}"
                                 },
                                 function () {
-                                    parent.window.location.href="{:U('index')}";
+                                    parent.window.location.href="{{url('admin/newperson_index')}}";
                                     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                                     parent.layer.close(index);
                                 });
                         }else{
                             layer.msg(res.info);
                         }
-                    });
+                    },'json');
                 }else{
                     layer.tips('你还没有选择商品呢?',$('#goods'),{tips:[2,'red']});
                 }
@@ -90,18 +92,18 @@
 <div class="formbody">
     <div id="usual1" class="usual">
         <div id="tab1" class="tabson">
-            <form action="{:U('Newperson/add')}" method="post" id="form1">
+            <form action="#" method="post" id="form1">
+                <input name="_token" value="{{csrf_token()}}" type="hidden"/>
                 <ul class="forminfo">
                     <li><label style="width: 58px;margin: 0;padding: 0">商品名称<b>*</b></label>
                         <div class="vocation">
                             <select class="select1" name="bid" id="brand">
                                 <option value="0">请选择品牌</option>
-                                <volist name="list" id="val">
-                                    <option value="{$val['id']}">{$val['brandname']}</option>
-                                </volist>
+                                @foreach($brand as $val)
+                                    <option value="{{$val['id']}}">{{$val['brandname']}}</option>
+                                @endforeach
                             </select>
                         </div>
-
                     </li>
                     <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="添加专享商品"/></li>
                 </ul>

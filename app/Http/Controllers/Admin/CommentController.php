@@ -32,12 +32,16 @@ class CommentController extends BaseController{
         return view('admin.comment.index',compact('list','firstRow','ordersyn','goodsname','status'));
     }
 
-    public function comment(){
-        return view('admin.comment.comment');
+    public function comment($id){
+        $id=intval($id);
+        $info=Comment::where('id',$id)->with(['member','order','goods'])->first();
+        return view('admin.comment.comment',compact('info'));
     }
 
-    public function response(){
-        return view('admin.comment.response');
+    public function response($id){
+        $id=intval($id);
+        $info=Comment::where('id',$id)->with(['member','order','goods'])->first();
+        return view('admin.comment.response',compact('info'));
     }
 
 

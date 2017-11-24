@@ -292,18 +292,17 @@
                 <li class="">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Newperson/index')}}" target="rightFrame">设置专享</a>
+                        <a href="{{url('admin/newperson_index')}}" target="rightFrame">设置专享</a>
                         <i></i>
                     </div>
                 </li>
                 <li class="">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Newperson/barlist')}}" target="rightFrame">专享列表</a>
+                        <a href="{{url('admin/newperson_exclusive')}}" target="rightFrame">专享列表</a>
                         <i></i>
                     </div>
                 </li>
-
             </ul>
         </dd>
         <dd>
