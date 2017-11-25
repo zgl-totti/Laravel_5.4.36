@@ -313,14 +313,14 @@
                 <li class="">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Active/ActiveList')}}" target="rightFrame">活动列表</a>
+                        <a href="{{url('admin/active_index')}}" target="rightFrame">活动列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li class="">
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Active/add')}}" target="rightFrame">添加活动</a>
+                        <a href="{{url('admin/active_add')}}" target="rightFrame">添加活动</a>
                         <i></i>
                     </div>
                 </li>
@@ -334,14 +334,14 @@
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Ad/AdminList')}}" target="rightFrame">广告列表</a>
+                        <a href="{{url('admin/advertise_index')}}" target="rightFrame">广告列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Ad/add')}}" target="rightFrame">添加广告</a>
+                        <a href="{{url('admin/advertise_add')}}" target="rightFrame">添加广告</a>
                         <i></i>
                     </div>
                 </li>
@@ -356,21 +356,21 @@
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Jshop/gifList')}}" target="rightFrame">礼品列表</a>
+                        <a href="{{url('admin/integral_index')}}" target="rightFrame">礼品列表</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Jshop/add')}}" target="rightFrame">添加礼品</a>
+                        <a href="{{url('admin/integral_add')}}" target="rightFrame">添加礼品</a>
                         <i></i>
                     </div>
                 </li>
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('Jshop/cj')}}" target="rightFrame">奖品设置</a>
+                        <a href="{{url('admin/integral_set')}}" target="rightFrame">奖品设置</a>
                         <i></i>
                     </div>
                 </li>

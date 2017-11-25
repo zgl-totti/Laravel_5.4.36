@@ -109,4 +109,14 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::post('admin/newperson_batch','NewpersonController@batch');
     Route::post('admin/newperson_reset','NewpersonController@reset');
     Route::post('admin/newperson_resetAll','NewpersonController@resetAll');
+    Route::get('admin/active_index','ActiveController@index');
+    Route::get('admin/active_add','ActiveController@add');
+    Route::post('admin/active_add','ActiveController@add');
+    Route::get('admin/active_edit/{id}','ActiveController@edit')->where('id','[0-9]+');
+    Route::post('admin/active_del','ActiveController@del');
+
+    Route::get('admin/advertise_index','AdvertiseController@index');
+
+    Route::get('admin/integral_index','IntegralController@index');
+
 });
