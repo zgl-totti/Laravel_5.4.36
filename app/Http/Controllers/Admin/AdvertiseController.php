@@ -1,9 +1,107 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Advertise;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
 class AdvertiseController extends BaseController{
     public function index(){
-        return view('admin.advertise.index');
+        $content=trim(\request()->input('content'));
+        $time=strtotime(\request()->input('time'));
+        $list=Advertise::where(function($query) use ($content,$time){
+            $content && $query->where('content','like',$content.'%');
+            $time && $query->where('addtime','<=',$time);
+        })->paginate(10);
+        $firstRow=($list->currentPage()-1)*$list->perPage();
+        return view('admin.advertise.index',compact('list','firstRow','content','time'));
+    }
+
+    public function operate(Request $request){
+        if($request->ajax()){
+            $id=intval($request->input('id'));
+            $info=Advertise::find($id);
+            $info->status=$info['status']==0?1:0;
+            $row=$info->save();
+            if(empty($row)){
+                return response(['code'=>2,'info'=>'操作失败！']);
+            }else{
+                return response(['code'=>1,'info'=>'操作成功！']);
+            }
+        }
+    }
+
+    public function del(Request $request){
+        if($request->ajax()){
+            $id=intval($request->input('id'));
+            $row=Advertise::find($id)->delete();
+            if(empty($row)){
+                return response(['code'=>2,'info'=>'删除失败！']);
+            }else{
+                return response(['code'=>1,'info'=>'删除成功！']);
+            }
+        }
+    }
+
+    public function add(Request $request){
+        if($request->isMethod('post')){
+
+
+
+
+        }else{
+            return view('admin.advertise.add');
+        }
+    }
+
+    public function edit(Request $request,$id){
+        if($request->isMethod('post')){
+
+
+
+
+
+        }else {
+            $id = intval($id);
+            $info=Advertise::find($id);
+            return view('admin.advertise.edit',compact('info'));
+        }
+    }
+
+    public function out($a,$b){
+        $content=trim($a);
+        if($b){
+            $time=strtotime($b);
+        }else{
+            $time='';
+        }
+        $list=Advertise::where(function($query) use ($content,$time){
+            $content && $query->where('content','like',$content.'%');
+            $time && $query->where('addtime','<=',$time);
+        })->get();
+        foreach($list as $k=>$v) {
+            $arr[$k]['id'] = $k+1;
+            $arr[$k]['aid'] = $v['id'];
+            $arr[$k]['title'] = $v['title'];
+            $arr[$k]['location'] = $v['location'];
+            $arr[$k]['addtime'] = date('Y-m-d H:i:s', $v['addtime']);
+            $arr[$k]['overtime'] = date('Y-m-d H:i:s', $v['overtime']);
+            $arr[$k]['content'] = $v['content'];
+            $arr[$k]['status'] = $v['status']==0?'下架':'上架';
+            $arr[$k]['images'] = "{{url('uploads')}}/{{$v['images']}}";
+        }
+        $time=date('Y/m/d/H/i',time());
+        Excel::create('广告列表_'.$time, function($excel) use($arr) {
+            $excel->sheet('Excel sheet', function($sheet) use($arr) {
+                $sheet->setOrientation('landscape');
+                $sheet->fromArray($arr);
+                $sheet->cell('A1','编号')->cell('B1','ID')->cell('C1','广告标题')
+                    ->cell('D1','广告位置')->cell('E1','开始时间')->cell('F1','结束时间')
+                    ->cell('G1','广告内容')->cell('H1','广告状态')->cell('I1','图片');
+                //设置单元格大小
+                $sheet->setSize('G1', 50);
+            });
+        })->export('xls');
     }
 
 
@@ -33,9 +131,8 @@ class AdvertiseController extends BaseController{
 
 
 
-    public function index_(){
-        $this->display();
-    }
+
+
 
     public function add_()
     {

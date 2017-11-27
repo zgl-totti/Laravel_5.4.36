@@ -36,7 +36,7 @@
             background: blue;
             color: #fff;
         }
-        .tablelink1,.tablelink2,.tablelink3{
+        .tablelink1,.tablelink2{
             color: #056dae;
             margin-right: 10px;
         }
@@ -57,8 +57,9 @@
                 <thead>
                 <tr>
                     <th>编号<i class="sort"><img src="{{asset('asset_admin/images/px.gif')}}" /></i></th>
-                    <th>所需积分</th>
-                    <th>兑换U币/商品</th>
+                    <th>奖项名称</th>
+                    <th>奖品</th>
+                    <th>中奖率</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -66,24 +67,23 @@
                 @foreach($list as $k=>$val)
                     <tr>
                         <td>{{$k+1+$firstRow}}</td>
-                        <td class="aname">{{$val['needJF']}}</td>
-                        @if($val['status']==0)
-                            <td class="aname">{{$val['getUB']}}</td>
+                        <td>{{$val['prize']}}</td>
+                        @if($val['lx']==2)
+                            <td>{{$val['num']}}U币</td>
+                        @elseif($val['lx']==1)
+                            <td>{{$val['num']}}积分</td>
                         @else
-                            <td style="position: relative;height: 100px;" class="aname">{{$val['getGoods']['goodsname']}}<img style="position: absolute;bottom: 0" width="100" src="{{url('uploads')}}/{{$val['getGoods']['pic']}}" alt=""/></td>
+                            <td>无</td>
                         @endif
-                        <td><a href="{{url('admin/integral_edit',['id'=>$val['id']])}}" class="tablelink1">编辑</a>&nbsp;&nbsp;&nbsp;
-                            <a id="{{$val['id']}}" href="javascript:;" class="tablelink2">删除</a>&nbsp;&nbsp;&nbsp;
-                            <a id="{{$val['id']}}" href="javascript:;" class="tablelink3">{{$val['zd']?'取消置顶':'置顶'}}</a>
+                        <td>{{round($val['v']/$count*100,2)}}%</td>
+                        <td>
+                            <a href="{{url('admin/integral_trophy_edit',['id'=>$val['id']])}}" class="tablelink1">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a class="tablelink1 del" id="{{$val['id']}}">删除</a>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            <div class="pagin">
-                <div class="message">共<i class="blue">{{$list->total()}}</i>条记录，当前显示第&nbsp;<i class="blue">{{$list->currentPage()}}&nbsp;</i>页</div>
-                <div class="page">{{$list->links()}}</div>
-            </div>
         </div>
     </div>
     <script type="text/javascript">
@@ -91,25 +91,17 @@
     </script>
     <script type="text/javascript">
         $(function(){
-            $('.tablelink2').click(function(){
+            $('.del').click(function(){
                 var id=$(this).attr('id');
-                var a=$(this);
                 var token="{{csrf_token()}}";
-                layer.confirm('确定删除?',{btn:['确定','取消'],title:'提示'},function(){
-                    $.post("{{url('admin/integral_del')}}",{id:id,_token:token},function(res){
-                        layer.msg(res.info);
-                        a.parents('tr').hide();
-                    },'json')
-                })
-            });
-            $('.tablelink3').click(function(){
-                var id=$(this).attr('id');
-                var a=$(this);
-                var token="{{csrf_token()}}";
-                $.post("{{url('admin/integral_operate')}}",{id:id,_token:token},function(res){
-                    layer.msg(res.info,{icon:6},function(){
-                        location.reload();
-                    });
+                $.post("{{url('admin/integral_trophy_del')}}",{id:id,_token:token},function(res){
+                    if(res.code==1){
+                        layer.msg(res.info,{icon:6},function () {
+                            location="{{url('admin/integral_trophy')}}";
+                        })
+                    }else{
+                        layer.msg(res.info,{icon:5});
+                    }
                 },'json')
             })
         })

@@ -370,11 +370,10 @@
                 <li>
                     <div class="header">
                         <cite></cite>
-                        <a href="{{url('admin/integral_set')}}" target="rightFrame">奖品设置</a>
+                        <a href="{{url('admin/integral_trophy')}}" target="rightFrame">奖品设置</a>
                         <i></i>
                     </div>
                 </li>
-
             </ul>
         </dd>
         <dd>

@@ -1,10 +1,152 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+
+use App\Models\Draw;
+use App\Models\Integral;
+use Illuminate\Http\Request;
+
 class IntegralController extends BaseController{
     public function index(){
-        return view('admin.integral.index');
+        $list=Integral::with('getGoods')->paginate(10);
+        $firstRow=($list->currentPage()-1)*$list->perPage();
+        return view('admin.integral.index',compact('list','firstRow'));
     }
+
+    public function operate(Request $request){
+        if($request->ajax()){
+            $id=intval($request->input('id'));
+            $count=Integral::count('zd');
+            if($count>=4){
+                return response(['code'=>2,'info'=>'最多只能置顶4件商品！']);
+            }
+            $info=Integral::find($id);
+            $info->zd=$info['zd']==0?1:0;
+            $row=$info->save();
+            if(empty($row)){
+                return response(['code'=>2,'info'=>'操作失败！']);
+            }else{
+                return response(['code'=>1,'info'=>'操作成功！']);
+            }
+        }
+    }
+
+    public function del(Request $request){
+        if($request->ajax()){
+            $id=intval($request->input('id'));
+            $row=Integral::find($id)->delete();
+            if(empty($row)){
+                return response(['code'=>2,'info'=>'删除失败！']);
+            }else{
+                return response(['code'=>1,'info'=>'删除成功！']);
+            }
+        }
+    }
+
+    public function edit(Request $request,$id){
+        if($request->isMethod('post')){
+            $id=intval($request->input('id'));
+            $needJF=trim($request->input('needJF'));
+            $getUB=trim($request->input('getUB'));
+            if(empty($needJF)){
+                return response(['code'=>5,'info'=>'所需积分不能为空！']);
+            }
+            if($getUB==0){
+                return response(['code'=>5,'info'=>'兑换U币值不能为空！']);
+            }
+            $info=Integral::find($id);
+            $info->needJF=$needJF;
+            if(!empty($getUB)){
+                $info->getUB=$getUB;
+            }
+            $row=$info->save();
+            if(empty($row)){
+                return response(['code'=>2,'info'=>'编辑失败！']);
+            }else{
+                return response(['code'=>1,'info'=>'编辑成功！']);
+            }
+        }else {
+            $id = intval($id);
+            $info=Integral::find($id);
+            return view('admin.integral.edit',compact('info'));
+        }
+    }
+
+    public function add(Request $request){
+        if($request->isMethod('post')){
+
+
+
+        }else{
+            return view('admin.integral.add');
+        }
+    }
+
+    //奖品设置
+    public function trophy(){
+        $list=Draw::paginate(10);
+        $count=Draw::sum('v');
+        $firstRow=($list->currentPage()-1)*$list->perPage();
+        return view('admin.integral.trophy',compact('list','firstRow','count'));
+    }
+
+    public function del_trophy(Request $request){
+        if($request->ajax()){
+            $id=intval($request->input('id'));
+            $row=Draw::find($id)->delete();
+            if(empty($row)){
+                return response(['code'=>2,'info'=>'删除失败！']);
+            }else{
+                return response(['code'=>1,'info'=>'删除成功！']);
+            }
+        }
+    }
+
+    public function edit_trophy(Request $request,$id){
+        if($request->ajax()){
+            $id=intval($request->input('id'));
+            $prize=trim($request->input('prize'));
+            $num=trim($request->input('num'));
+            $lx=trim($request->input('lx'));
+            $v=trim($request->input('v'));
+            $info=Draw::find($id);
+            $info->prize=$prize;
+            $info->num=$num;
+            $info->lx=$lx;
+            $info->v=$v;
+            $row=$info->save();
+            if(empty($row)){
+                return response(['code'=>2,'info'=>'编辑失败！']);
+            }else{
+                return response(['code'=>1,'info'=>'编辑成功！']);
+            }
+        }else{
+            $id=intval($id);
+            $info=Draw::find($id);
+            $count=Draw::sum('v');
+            $condition=round($info['v']/$count*100,2);
+            return view('admin.integral.edit_trophy',compact('info','condition'));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

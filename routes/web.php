@@ -114,9 +114,23 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::post('admin/active_add','ActiveController@add');
     Route::get('admin/active_edit/{id}','ActiveController@edit')->where('id','[0-9]+');
     Route::post('admin/active_del','ActiveController@del');
-
     Route::get('admin/advertise_index','AdvertiseController@index');
-
+    Route::get('admin/advertise_add','AdvertiseController@add');
+    Route::post('admin/advertise_add','AdvertiseController@add');
+    Route::get('admin/advertise_edit/{id}','AdvertiseController@edit')->where('id','[0-9]+');
+    Route::post('admin/advertise_edit/{id}','AdvertiseController@edit')->where('id','[0-9]+');
+    Route::post('admin/advertise_operate','AdvertiseController@operate');
+    Route::post('admin/advertise_del','AdvertiseController@del');
+    Route::post('admin/advertise_out/{a}/{b}','AdvertiseController@out');
     Route::get('admin/integral_index','IntegralController@index');
-
+    Route::get('admin/integral_add','IntegralController@add');
+    Route::post('admin/integral_add','IntegralController@add');
+    Route::get('admin/integral_edit/{id}','IntegralController@edit')->where('id','[0-9]+');
+    Route::post('admin/integral_edit/{id}','IntegralController@edit')->where('id','[0-9]+');
+    Route::post('admin/integral_operate','IntegralController@operate');
+    Route::post('admin/integral_del','IntegralController@del');
+    Route::get('admin/integral_trophy','IntegralController@trophy');
+    Route::get('admin/integral_trophy_edit/{id}','IntegralController@edit_trophy')->where('id','[0-9]+');
+    Route::post('admin/integral_trophy_edit/{id}','IntegralController@edit_trophy')->where('id','[0-9]+');
+    Route::post('admin/integral_trophy_del','IntegralController@del_trophy');
 });
