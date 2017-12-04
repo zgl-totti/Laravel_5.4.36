@@ -22,13 +22,15 @@
                 width : 200
             });
             $('#form1').submit(function(){
-                $.post("{:U('Jshop/add')}",$('#form1').serialize(),function(res){
-                    if(res.status){
-                        layer.msg(res.info);
+                $.post("{{url('admin/integral_add')}}",$('#form1').serialize(),function(res){
+                    if(res.code==1){
+                        layer.msg(res.info,{icon:6},function () {
+                            location="{{url('admin/integral_index')}}";
+                        });
                     }else{
-                        layer.msg(res.info);
+                        layer.msg(res.info,{icon:5});
                     }
-                });
+                },'json');
                 return false;
             })
         });
@@ -45,7 +47,8 @@
 <div class="formbody">
     <div id="usual1" class="usual">
         <div id="tab1" class="tabson">
-            <form action="{:U('Jshop/add')}" id="form1" method="post">
+            <form action="#" id="form1" method="post">
+                <input name="_token" value="{{csrf_token()}}" type="hidden"/>
                 <ul class="forminfo">
                     <li><label>所需积分<b>*</b></label><input name="needJF" type="text" class="dfinput" style="width:200px;"/></li>
                     <li><label>礼品类型<b>*</b></label>
@@ -57,9 +60,9 @@
                     <li style="position: relative;display: none" class="shiwu"><label>实物礼品<b>*</b></label>
                         <select style="width: 200px;height: 30px;opacity: 1;border: 1px solid #ccc" name="gid" id="goods">
                             <option value="">请选择商品</option>
-                            <volist name="goods" id="val">
-                                <option value="{$val['id']}">{$val['goodsname']}</option>
-                            </volist>
+                            @foreach($goods as $val)
+                                <option value="{{$val['id']}}">{{$val['goodsname']}}</option>
+                            @endforeach
                         </select>
                         <span class="info" style="display: none">商品售价：￥<span class="price" style="display:inline-block"></span>&nbsp;预览图：<img class="gimg" width="200" style="position: absolute;bottom: -100px" src="" alt=""/></span>
                     </li>
@@ -84,14 +87,15 @@
         });
         $('#goods').change(function(){
             var id=$(this).val();
+            var token="{{csrf_token()}}";
             if(id){
-                $.post("{:U('getGoodsInfo')}",{id:id},function(res){
-                    if(res.status){
+                $.post("{{url('admin/integral_getGoodsInfo')}}",{id:id,_token:token},function(res){
+                    if(res.code==1){
                         $('.info').css('display','inline-block');
                         $('.price').text(res.info['price']);
-                        $('.gimg').attr('src','/Uploads/'+res.info['pic'])
+                        $('.gimg').attr('src',"{{url('uploads')}}/"+res.info.pic);
                     }
-                })
+                },'json')
             }else{
                 $('.info').hide();
             }

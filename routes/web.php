@@ -133,4 +133,5 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/integral_trophy_edit/{id}','IntegralController@edit_trophy')->where('id','[0-9]+');
     Route::post('admin/integral_trophy_edit/{id}','IntegralController@edit_trophy')->where('id','[0-9]+');
     Route::post('admin/integral_trophy_del','IntegralController@del_trophy');
+    Route::post('admin/integral_getGoodsInfo','IntegralController@getGoodsInfo');
 });
