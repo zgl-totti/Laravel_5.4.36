@@ -43,6 +43,11 @@ Route::group(['namespace'=>'Index'],function(){
     Route::post('foot/add','FootController@add');
     Route::post('foot/del','FootController@del');
     Route::get('foot/detail/{date}','FootController@detail');
+    Route::get('login/index','LoginController@index');
+    Route::post('login/index','LoginController@index');
+    Route::get('login/captcha/{id}','LoginController@captcha')->where('id','[0-9]+');
+    Route::get('login/register','LoginController@register');
+    Route::post('login/register','LoginController@register');
 });
 
 Route::group(['namespace'=>'Admin'],function(){

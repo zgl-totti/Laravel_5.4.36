@@ -55,7 +55,7 @@ class LoginController extends Controller{
 
     public function captcha(){
         $captcha= new CaptchaBuilder();
-        $captcha->build(150,32);
+        $captcha->build(148,51);
         $verify=$captcha->getPhrase();
         Session::put('verify',$verify);
         ob_clean();

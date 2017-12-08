@@ -7,6 +7,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    protected $table='member';
+
+    /*指定是否模型应该被戳记时间*/
+    public $timestamps = false;
     use Notifiable;
 
     /**

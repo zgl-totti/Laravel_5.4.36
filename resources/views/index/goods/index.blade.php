@@ -20,6 +20,58 @@
     <script type="text/javascript" src="{{asset('asset_index/js/layer/layer.js')}}"></script>
     <script type="text/javascript" src="{{asset('asset_index/js/jquery.validate.js')}}"></script>
     <script type="text/javascript" src="{{asset('asset_index/js/linkage.js')}}"></script>
+
+
+    {{--<link rel="stylesheet" href="{{asset('css/share.css')}}" type="text/css" />
+    <script src="{{asset('js/jquery-2.1.4.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/share.js')}}" type="text/javascript"></script>
+    <script>
+        $(function() {
+            var user_id=$('').val();
+            var news_id=$('').val();
+            var a="{{url('index/news')}}/"+user_id+'/'+news_id;
+
+            var url=document.URL;
+            $("#socialShare").socialShare({
+                content: $("p").text().trim(),
+                //url: "http://blog.csdn.net/libin_1/article/details/51935944",
+                //url:"https://www.baidu.com",
+                url:url,
+                titile: $("h1").text().trim()
+            });
+            $(".msb_main").trigger('click');
+        });
+
+        $("#shareQQ").on("click", function() {
+            $(this).socialShare("tQQ");
+        })
+
+        $("#main").click(function() {
+            var openUrl = "https://www.baidu.com"; //弹出窗口的url
+            var iWidth = 630; //弹出窗口的宽度;
+            var iHeight = 580; //弹出窗口的高度;
+            var iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
+            var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
+            window.open(openUrl, "", "height=" + iHeight + ", width=" + iWidth + ", top=" + iTop + ", left=" + iLeft + "" + ",toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+            //window.open('page.html', 'newwindow', 'height=580, width=650, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+        });
+        $(function() {
+            function autocenter() {
+                var bodyW = parseInt(document.documentElement.clientWidth);
+                var bodyH = parseInt(document.documentElement.clientHeight);
+                var elW = $("#weixin").width();
+                var elH = $("#weixin").height();
+                console.log((bodyW - elW) / 2);
+                $("#weixin").css("left", (bodyW - elW) / 2);
+                $("#weixin").css("top", (bodyH - elH) / 2);
+            }
+            window.onresize = function() {
+                autocenter();
+            };
+        });
+    </script>--}}
+
+
     <style type="text/css">
         .pagin{margin-top: 15px;}
         .paginList{display:block;float: right}
@@ -253,17 +305,15 @@
                                         </div>
                                         <div class="theme-options">
                                             <div class="cart-title number">数量</div>
-                                            <dd>
-                                                @if($status==1)
-                                                    <input id="text_box" name="buynum" type="text" readonly value="1" style="width:30px;text-align: center" />
-                                                @else
-                                                    <input id="min" class="am-btn am-btn-default" name="" type="button" value="-" />
-                                                    <input readonly id="text_box" name="buynum" type="text" value="1" style="width:30px;text-align: center" />
-                                                    <input id="add" class="am-btn am-btn-default" name="" type="button" value="+" />
-                                                @endif
-                                                    <span id="stock" class="tb-hidden">库存<span class="stock">{{$info['num']}}</span>件</span>
-                                                    <a href="javascript:;" class="collBtn">收藏宝贝</a>
-                                            </dd>
+                                            @if($status==1)
+                                                <input id="text_box" name="buynum" type="text" readonly value="1" style="width:30px;text-align: center" />
+                                            @else
+                                                <input id="min" class="am-btn am-btn-default" name="" type="button" value="-" />
+                                                <input readonly id="text_box" name="buynum" type="text" value="1" style="width:30px;text-align: center" />
+                                                <input id="add" class="am-btn am-btn-default" name="" type="button" value="+" />
+                                            @endif
+                                            <span id="stock" class="tb-hidden">库存<span class="stock">{{$info['num']}}</span>件</span>
+                                            <a href="javascript:;" class="collBtn">收藏宝贝</a>
                                         </div>
                                         <div class="clear"></div>
                                     </div>
@@ -303,6 +353,7 @@
             <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
             <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
         </div>
+        {{--<div id="socialShare"></div>--}}
     </div>
     <!-- introduce-->
     <hr/>

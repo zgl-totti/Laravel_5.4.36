@@ -215,8 +215,8 @@
                             <a id="out" class="red" style=" cursor: pointer">退出</a>
                         </li>
                     @else
-                        亲，请<a id="en" href="{:U('Login/login')}" target="_blank" class="h">登录</a>
-                        免费<a id="re" href="{:U('Login/register')}" target="_blank">注册</a>
+                        亲，请<a id="en" href="{{url('login/index')}}" target="_blank" class="h">登录</a>
+                        免费<a id="re" href="{{url('login/register')}}" target="_blank">注册</a>
                     @endif
                 </div>
             </div>
@@ -229,7 +229,7 @@
                 @if($info['mid']>0)
                     <div class="menu-hd MyShangcheng"><a href="{:U('MemberCenter/index')}" target="_blank"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                 @else
-                    <div class="menu-hd MyShangcheng"><a href="{:U('Login/login')}" target="_blank"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                    <div class="menu-hd MyShangcheng"><a href="{{url('login/index')}}" target="_blank"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                 @endif
             </div>
             <div class="topMessage mini-cart">
@@ -326,7 +326,6 @@
                 </div>
             </div>
         </div>
-
         <!--轮播-->
         <script type="text/javascript">
             $(function() {
@@ -367,7 +366,6 @@
                 </a>
             </div>
         </div>
-
         <!--走马灯 -->
         <div class="marqueen" >
             <span class="marqueen-title">商城头条</span>
@@ -385,7 +383,6 @@
                         @endforeach
                     </div>
                 </div>
-
                 <!--品牌开始-->
                 <div id=link_logo style="OVERFLOW: hidden; WIDTH: 175px; HEIGHT: 275px;margin-top: 10px;">
                     <div id=link_logo1 style="OVERFLOW: hidden">
