@@ -60,7 +60,6 @@ class AdminController extends BaseController{
             }
             $data=$request->all();
             $file=$data['pic'];
-            print_r($file);die;
             $status=2;
             $this->post($data,$status);
         } else {
