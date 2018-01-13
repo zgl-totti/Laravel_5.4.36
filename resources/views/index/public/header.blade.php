@@ -3,15 +3,15 @@
     <ul class="message-l">
         <div class="topMessage">
             <div class="menu-hd">
-                <input type="hidden" id="mid" name="mid" value="{{$member['mid']}}">
-                @if($member['mid']>0)
+                <input type="hidden" id="mid" name="mid" value="{{$member['id']}}">
+                @if($member['id']>0)
                     <li>
                         亲爱的{{$member['username']}}，欢迎光临优惠易购
-                        <a id="out" class="red" style="cursor: pointer">，退出</a></li>
+                        <a id="out" class="red" style="cursor: pointer">，退出</a>
                     </li>
                 @else
-                    亲，请<a href="{:U('Login/login')}" target="_top" class="h">登录</a>
-                    免费<a href="{:U('Login/register')}" target="_top">注册</a>
+                    亲，请<a href="{{url('login/index')}}" target="_top" class="h">登录</a>
+                    免费<a href="{{url('login/register')}}" target="_top">注册</a>
                 @endif
             </div>
         </div>
@@ -21,7 +21,13 @@
             <div class="menu-hd"><a href="{{url('index/index')}}" target="_top" class="h">商城首页</a></div>
         </div>
         <div class="topMessage my-shangcheng">
-            <div class="menu-hd MyShangcheng"><a href="{:U('MemberCenter/index')}" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+            <div class="menu-hd MyShangcheng">
+                @if($info['id']>0)
+                    <a href="{{url('member/index')}}" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
+                @else
+                    <a href="{{url('login/index')}}" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
+                @endif
+            </div>
         </div>
         <div class="topMessage mini-cart">
             <div class="menu-hd"><a id="mc-menu-hd" href="{:U('Cart/index')}" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h" style="color:red;">({$cartnum?$cartnum:0})</strong></a></div>

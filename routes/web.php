@@ -48,9 +48,23 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('login/captcha/{id}','LoginController@captcha')->where('id','[0-9]+');
     Route::get('login/register','LoginController@register');
     Route::post('login/register','LoginController@register');
+    Route::get('member/index','MemberController@index');
+    Route::get('member/show','MemberController@show');
+    Route::get('member/changeInfo','MemberController@changeInfo');
+    Route::post('member/changeInfo','MemberController@changeInfo');
+    Route::get('member/safety','MemberController@safety');
+    Route::get('site/index','SiteController@index');
+    Route::get('site/edit','SiteController@edit');
+    Route::post('site/edit','SiteController@edit');
+    Route::get('money/index','MoneyController@index');
+    Route::get('money/recharge','MoneyController@recharge');
+    Route::post('money/recharge','MoneyController@recharge');
+    Route::get('money/disburse/{id}','MoneyController@disburse')->where('id','[0-4]');
+    Route::get('money/income/{id}','MoneyController@income')->where('id','[0-4]');
 });
 
 Route::group(['namespace'=>'Admin'],function(){
+    Route::get('admin','LoginController@index');
     Route::get('admin/login','LoginController@index');
     Route::get('admin/captcha/{id}','LoginController@captcha')->where('id','[0-9]+');
     Route::post('admin/create','LoginController@index');

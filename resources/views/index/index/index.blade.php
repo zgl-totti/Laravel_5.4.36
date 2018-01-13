@@ -209,7 +209,7 @@
         <ul class="message-l">
             <div class="topMessage">
                 <div class="menu-hd">
-                    @if($info['mid']>0)
+                    @if($info['id']>0)
                         <li>
                             亲爱的{{$info['username']}}，欢迎光临优惠易购，
                             <a id="out" class="red" style=" cursor: pointer">退出</a>
@@ -226,8 +226,8 @@
                 <div class="menu-hd"><a href="{{url('index/index')}}" target="_blank" class="h">商城首页</a></div>
             </div>
             <div class="topMessage my-shangcheng">
-                @if($info['mid']>0)
-                    <div class="menu-hd MyShangcheng"><a href="{:U('MemberCenter/index')}" target="_blank"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                @if($info['id']>0)
+                    <div class="menu-hd MyShangcheng"><a href="{{url('member/index')}}" target="_blank"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                 @else
                     <div class="menu-hd MyShangcheng"><a href="{{url('login/index')}}" target="_blank"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                 @endif

@@ -10,4 +10,8 @@ class OrderGoods extends Model{
 
     /*指定是否模型应该被戳记时间*/
     public $timestamps = false;
+
+    public function getGoods(){
+        return $this->hasOne(Goods::class,'id','gid');
+    }
 }
