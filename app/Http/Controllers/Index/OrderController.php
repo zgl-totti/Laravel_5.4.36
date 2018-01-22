@@ -1,16 +1,23 @@
 <?php
 namespace App\Http\Controllers\Index;
 
+use App\Models\Account;
+use App\Models\After;
+use App\Models\AfterPics;
 use App\Models\Bargain;
+use App\Models\Dhlog;
 use App\Models\Goods;
 use App\Models\Integral;
-use App\Models\Jorder;
+use App\Models\Jshop;
+use App\Models\Letter;
 use App\Models\Member;
 use App\Models\Order;
 use App\Models\OrderGoods;
+use App\Models\OrderIntegral;
 use App\Models\Site;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends BaseController{
@@ -80,59 +87,130 @@ class OrderController extends BaseController{
         }
     }
 
-    public function order(Request $request){
+    public function order(Request $request,$status){
         $goodsname=trim($request->input('goodsname'));
         $mid=$request->session()->get('mid');
-        $status=$request->input('orderstatus');
-        if(! empty($status)){
-            $where['status']=$status;
+        if(!empty($status)){
+            $where['orderstatus']=$status;
         }
         if($status==1){
-            $od1='待付款';
+            $title='待付款';
         }elseif ($status==2){
-            $od1='待发货';
+            $title='待发货';
         }elseif ($status==3){
-            $od1='待收货';
+            $title='待收货';
         }elseif ($status==4){
-            $od1='待评价';
+            $title='待评价';
+        }elseif ($status==5){
+            $title='积分订单';
         }else{
-            $od1='全部订单';
+            $title='全部订单';
         }
         $where['mid']=$mid;
+        if($status==5){
+            if($goodsname){
+                $goods=Goods::where('goodsname','like',$goodsname.'%')->get();
+                foreach ($goods as $v){
+                    $order[]=OrderIntegral::where('gid',$v['id'])->pluck('id');
+                }
+                if(!empty($order)){
+                    foreach ($order as $v1){
+                        foreach ($v1 as $v2) {
+                            $oid[] = $v2;
+                        }
+                    }
+                }else{
+                    $oid=[];
+                }
+            }else{
+                $oid=[];
+            }
+            $list=OrderIntegral::where('mid',$mid)
+                ->where(function($query) use ($goodsname,$oid){
+                    $goodsname && $oid && $query->whereIn('id',$oid);
+                })
+                ->with('getGoods')
+                ->with('getStatus')
+                ->orderBy('addtime','desc')
+                ->paginate(10);
+            return view('index.order.integral',compact('title','list','goodsname','status'));
+        }else{
+            if($goodsname){
+                $goods=Goods::where('goodsname','like',$goodsname.'%')->get();
+                foreach ($goods as $v){
+                    $order_goods[]=OrderGoods::where('gid',$v['id'])->pluck('oid');
+                }
+                if(!empty($order_goods)) {
+                    foreach ($order_goods as $v1) {
+                        foreach ($v1 as $v2) {
+                            $oid[] = $v2;
+                        }
+                    }
+                }else{
+                    $oid=[];
+                }
+            }else{
+                $oid=[];
+            }
+            $list=Order::with(['getOrderGoods'=>function($query){
+                $query->join('goods','goods.id','=','order_goods.gid');
+            }])->with('getStatus')
+                ->where($where)
+                ->where(function($query) use($goodsname,$oid){
+                    $goodsname && $oid && $query->whereIn('id',$oid);
+                })->orderBy('addtime','desc')->paginate(10);
+            return view('index.order.order',compact('title','list','status','goodsname'));
+        }
+    }
+
+    //退款订单
+    public function refund_order(Request $request){
+        $mid=$request->session()->get('mid');
+        $goodsname=trim($request->input('goodsname'));
         if($goodsname){
             $goods=Goods::where('goodsname','like',$goodsname.'%')->get();
-            foreach ($goods as $k=>$v){
-                $condition['gid']=$v['id'];
-                $oid[]=OrderGoods::where($condition)->get(['oid']);
+            foreach ($goods as $v){
+                $order[]=After::where('gid',$v['id'])->pluck('id');
+            }
+            if(!empty($order)){
+                foreach ($order as $v1){
+                    foreach ($v1 as $v2) {
+                        $oid[] = $v2;
+                    }
+                }
+            }else{
+                $oid=[];
             }
         }else{
             $oid=[];
         }
-        $list=Order::with('getOrderGoods')
-            ->with('getStatus')
-            ->where($where)
-            ->where(function($query) use($goodsname,$oid){
-                $goodsname && $query->whereIn('id',$oid);
-            })->orderBy('addtime desc')->paginate(10);
-        return view('index.order.order',['list'=>$list,'od1'=>$od1]);
+        $list=After::where('mid',$mid)
+            ->where(function($query) use ($goodsname,$oid){
+                $goodsname && $oid && $query->whereIn('id',$oid);
+            })->with('getGoods')
+            ->with('getAfterStatus')
+            ->orderBy('addtime','desc')
+            ->paginate(5);
+        return view('index.order.refund_order',compact('list','goodsname'));
     }
 
+    //删除订单
     public function del(Request $request){
         if($request->ajax()){
             $mid=$request->session()->get('mid');
-            $ordersyn=$request->input('ordersyn');
+            $oid=intval($request->input('oid'));
             $where['mid']=$mid;
-            $where['ordersyn']=$ordersyn;
+            $where['id']=$oid;
             $info=Order::where($where)->first();
             if (empty($info)){
-                $row=Jorder::where($where)->delete();
+                $row=OrderIntegral::where($where)->delete();
                 if($row){
                     return response(['code'=>1,'info'=>'删除成功！']);
                 }else{
                     return response(['code'=>5,'info'=>'删除失败！']);
                 }
             }else{
-                $condition['oid']=$info['id'];
+                $condition['oid']=$oid;
                 $row1=OrderGoods::where($condition)->delete();
                 $row2=Order::where($where)->delete();
                 if($row1 && $row2){
@@ -143,6 +221,283 @@ class OrderController extends BaseController{
             }
         }
     }
+
+    //确认收货
+    public function receiving(Request $request){
+        if($request->ajax()) {
+            $mid = $request->session()->get('mid');
+            $oid = intval($request->input('oid'));
+            $info = Order::find($oid);
+            $after = After::where('mid', $mid)->where('oid', $info->ordersyn)->first();
+            if (empty($after)) {
+                if ($info) {
+                    $info->orderstatus = 4;
+                    $row = $info->save();
+                    if ($row) {
+                        $member = Member::find($mid);
+                        $member->expense = $info->orderprice + $member['expense'];
+                        $member->integral = $info->orderprice + $member['expense'];
+                        $member->save();
+                    }
+                } else {
+                    $row = OrderIntegral::where('mid', $mid)->where('ordersyn', $info->ordesyn)->update(['orderstatus' => 4]);
+                }
+                if ($row) {
+                    $res['status'] = 1;
+                    $res['info'] = '确认收货成功！';
+                    return response()->json($res);
+                } else {
+                    $res['status'] = 5;
+                    $res['info'] = '确认收货失败！';
+                    return response()->json($res);
+                }
+            } else {
+                $res['status'] = 5;
+                $res['info'] = '该订单中有商品申请售后,正在处理中！';
+                return response()->json($res);
+            }
+        }
+    }
+
+    //支付
+    public function pay(Request $request){
+        if($request->ajax()){
+            $mid=$request->session()->get('mid');
+            $paypwd=md5(trim($request->input('paypwd')));
+            $status=intval($request->input('status'));
+            $oid=intval($request->input('oid'));
+            $info=Member::find($mid);
+            if(empty($info->paypwd)){
+                $res['status']=5;
+                $res['info']='支付密码不存在，请到个人中心-安全设置中设置！';
+                return response()->json($res);
+            }
+            if($paypwd!=$info['paypwd']){
+                $res['status']=5;
+                $res['info']='支付密码错误！';
+                return response()->json($res);
+            }
+            if($status==1){
+                $order=Order::find($oid);
+                $money=$info->blance-$order->orderprice;
+                if($money>=0){
+                    $transaction=DB::beginTransaction();
+                    try{
+                        $account= new Account();
+                        $account->mid=$mid;
+                        $account->money=$order->orderprice;
+                        $account->addtime=time();
+                        $row1=$account->save();
+                        $info->blance=$money;
+                        if($request->session()->get('isnew')){
+                            $info->isnew=1;
+                        }
+                        $row2=$info->save();
+                        $order->orderstatus=2;
+                        $row3=$order->save();
+                        if(empty($row1) || empty($row2) || empty($row3)){
+                            throw new QueryException('支付失败！');
+                        }
+                        $transaction->commit();
+                        $res['status']=1;
+                        $res['info']='支付成功！';
+                        return response()->json($res);
+                    }catch (QueryException $e){
+                        $transaction->rollBack();
+                        $res['status']=5;
+                        $res['info']=$e->getMessage();
+                        return response()->json($res);
+                    }
+                }else{
+                    $res['status']=5;
+                    $res['info']='余额不足,请充值！';
+                    return response()->json($res);
+                }
+            }else{
+                $order=OrderIntegral::where('id',$oid)->with('getGoods')->first();
+                $money=$info->integral-$order->orderprice;
+                if($money>=0){
+                    $transaction=DB::beginTransaction();
+                    try{
+                        //更新兑换记录表
+                        $jid=Jshop::where('needJF',$order->orderprice)->first();
+                        $dhlog= new Dhlog();
+                        $dhlog->mid=$mid;
+                        $dhlog->Jid=$jid['id'];
+                        $dhlog->addtime=time();
+                        $row1=$dhlog->save();
+                        //写信
+                        $letter= new Letter();
+                        $letter->mid=$mid;
+                        $letter->addtime=time();
+                        $letter->content='在积分商城中使用'.$order->orderprice.'积分兑换了'.$order['getGoods']['goodsname'];
+                        $row2=$letter->save();
+                        $info->integral=$money;
+                        $row3=$info->save();
+                        $order->orderstatus=2;
+                        $row4=$order->save();
+                        if(empty($row1) || empty($row2) || empty($row3) || empty($row4)){
+                            throw new QueryException('支付失败！');
+                        }
+                        $transaction->commit();
+                        $res['status']=1;
+                        $res['info']='支付成功！';
+                        return response()->json($res);
+                    }catch (QueryException $exception){
+                        $transaction->rollBack();
+                        $res['status']=5;
+                        $res['info']=$exception->getMessage();
+                        return response()->json($res);
+                    }
+                }else{
+                    $res['status']=5;
+                    $res['info']='积分不足,支付失败！';
+                    return response()->json($res);
+                }
+            }
+        }
+    }
+
+    //订单详情
+    public function info(Request $request,$oid){
+        $oid=intval($oid);
+        $info=Order::where('id',$oid)
+            ->with(['getOrderGoods'=>function($query){
+                $query->join('goods','goods.id','=','order_goods.gid');
+            }])->with('getStatus')
+            ->with('getSite')
+            ->first();
+        return view('index.order.orderinfo',compact('info'));
+    }
+
+    //退款申请
+    public function refund(Request $request,$oid,$gid){
+        if($request->isMethod('post')){
+            $mid=$request->session()->get('mid');
+            $orderprice=intval($request->input('orderprice'));
+            $o_id=intval($request->input('oid'));
+            $g_id=intval($request->input('gid'));
+            $scid=intval($request->input('scid'));
+            $money=trim($request->input('money'));
+            $reason=trim($request->input('reason'));
+            $mess=trim($request->input('mess'));
+            if(empty($money) || empty($reason) || empty($mess)){
+                $res['status']=5;
+                $res['info']='必填项不能为空！';
+                return response()->json($res);
+            }
+            $after= new After();
+            $after->mid=$mid;
+            $after->gid=$g_id;
+            $after->oid=$o_id;
+            $after->money=$money;
+            $after->orderprice=$orderprice;
+            $after->reason=$reason;
+            $after->mess=$mess;
+            $after->scid=$scid;
+            $after->afterstatus=1;
+            $after->aftersyn=substr(str_shuffle(time()),0);
+            $after->addtime=time();
+            if($after->save()){
+                $afid=$after->id;
+                if($request->hasFile('pic')){
+                    $files=$request->file('pic');
+                    foreach ($files as $file){
+                        if($file->isValid()){
+                            if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','jpeg','png'])){
+                                $path = $file->store('uploads/refund/');
+                                $after_pic= new AfterPics();
+                                $after_pic->afid=$afid;
+                                $after_pic->pic=$path;
+                                if($after_pic->save()){
+                                    return response(['code'=>2,'info'=>'提交申请成功']);
+                                }else{
+                                    return response(['code'=>2,'info'=>'提交申请失败']);
+                                }
+                            }else{
+                                return response(['code'=>2,'info'=>'图片不合法']);
+                            }
+                        }else{
+                            return response(['code'=>2,'info'=>$file->getErrorMessage()]);
+                        }
+                    }
+                }else{
+                    $res['status']=1;
+                    $res['info']='提交申请失败！';
+                    return response()->json($res);
+                }
+            }else{
+                $res['status']=5;
+                $res['info']='提交申请失败！';
+                return response()->json($res);
+            }
+        }else{
+            $oid=intval($oid);
+            $gid=intval($gid);
+            $info=Order::find($oid);
+            $goods=Goods::find($gid);
+            $order_goods=OrderGoods::where('oid',$oid)->where('gid',$gid)->first();
+            $info['gid']=$gid;
+            $info['goodsname']=$goods['goodsname'];
+            $info['pic']=$goods['pic'];
+            $info['buynum']=$order_goods['buynum'];
+            $info['price']=$order_goods['gidprice'];
+            $info['money']=$order_goods['buynum']*$order_goods['gidprice'];
+            return view('index.order.refund',compact('info'));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -410,7 +765,7 @@ class OrderController extends BaseController{
         $this->assign('page',$show);// 赋值分页输出*/
         $this->display('Order/order');
     }
-    public function pay(){
+    public function pay_(){
         if(IS_AJAX){
             $member=M('Member');
             $data['mid']=session('mid');
@@ -514,9 +869,9 @@ class OrderController extends BaseController{
             $a=$after->where($data)->field('afterstatus')->find();
            if($a['afterstatus']==1){
                     $this->success('确认收货失败,该订单中有商品申请售后,正在处理中');
-            }else{
-                $order=M('Order');
-                $syn=$order->where($data)->getField('ordersyn');
+                }else{
+                    $order=M('Order');
+                    $syn=$order->where($data)->getField('ordersyn');
                if($syn){
                    $member=M('Member');
                    $sel=$order->where($data)->getField('orderprice');
@@ -529,13 +884,13 @@ class OrderController extends BaseController{
                    $jorder=M('Jorder');
                    $t=$jorder->where($data)->setField('orderstatus','4');
                }
-                if($t){
-                    $this->success('确认收货成功');
-                }else{
-                    $this->error('确认收货失败');
-                }
-            }
-       }
+               if($t){
+                   $this->success('确认收货成功');
+               }else{
+                   $this->error('确认收货失败');
+               }
+           }
+        }
     }
     public function jfdd(){
         $sel5=trim(I('get.goodsname'));

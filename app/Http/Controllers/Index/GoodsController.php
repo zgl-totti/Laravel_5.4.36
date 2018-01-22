@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class GoodsController extends BaseController{
-    public function index(Request $request,$gid,$status){
+    public function index($gid,$status){
         $id=intval($gid);
         if($status==1){
             $info=Goods::where('id',$id)->with('getPic')

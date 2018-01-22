@@ -3,9 +3,12 @@ namespace App\Http\Controllers\Index;
 
 
 use App\Models\Account;
+use App\Models\Letter;
 use App\Models\Member;
 use App\Models\Order;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MoneyController extends BaseController{
     public function index(Request $request){
@@ -30,13 +33,48 @@ class MoneyController extends BaseController{
     //充值
     public function recharge(Request $request){
         if($request->ajax()){
-            $ub=intval($request->input('Ub'));
+            $ub=trim($request->input('Ub'));
+            if(!is_numeric($ub) || $ub<=0){
+                $res['status']=5;
+                $res['info']='充值金额有误！';
+                return response()->json($res);
+            }
             $paypwd=md5(trim($request->input('paypwd')));
-
-
-
-
-
+            $mid=$request->session()->get('mid');
+            $info=Member::where('id',$mid)->where('paypwd',$paypwd)->first();
+            if(empty($info)){
+                $res['status']=5;
+                $res['info']='支付密码错误！';
+                return response()->json($res);
+            }
+            $transaction=DB::beginTransaction();
+            try{
+                $row1=Member::where('id',$mid)->increment('balance',$ub);
+                $account= new Account();
+                $account->money=$ub;
+                $account->action=2;
+                $account->addtime=time();
+                $account->mid=$mid;
+                $row2=$account->save();
+                $letter= new Letter();
+                $letter->addtime=time();
+                $letter->mid=$mid;
+                $letter->title='充值U币';
+                $letter->content='充值'.$ub.'U币';
+                $row3=$letter->save();
+                if(empty($row1) || empty($row2) || empty($row3)){
+                    throw new QueryException('充值失败！');
+                }
+                $transaction->commit();
+                $res['status']=1;
+                $res['info']='充值成功！';
+                return response()->json($res);
+            }catch (QueryException $e){
+                $transaction->rollBack();
+                $res['status']=5;
+                $res['info']=$e->getMessage();
+                return response()->json($res);
+            }
         }else {
             $mid = $request->session()->get('mid');
             $info = Member::find($mid);
@@ -102,209 +140,5 @@ class MoneyController extends BaseController{
             })
             ->paginate(10);
         return view('index.money.income',compact('info','list','time'));
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function bill_(){
-        //获取导航信息
-        $categoryListOne=A('Common')->getNav();
-        $this->assign('categoryListOne',$categoryListOne);
-        $nums=A('Common')->getcartnum();
-        $this->assign('cartnum',$nums);
-        //查询该用户的订单ID
-        $id=M('Order')->where(array('mid'=>session('mid')))->order('addtime desc')->select();
-        $idStr='';
-        foreach($id as $v){
-            $idStr.=$v['id'].',';
-        }
-        $idStr=substr($idStr,0,-1);
-        //获取商品列表
-        if($idStr) {
-            $where['oid'] = array('in', $idStr);
-            $gList = M('Order_goods')->where($where)->limit(0, 6)->select();
-            $goodsList = array();
-            foreach ($gList as $k => $v1) {
-                $goodsInfo = M('Goods')->where(array('id' => $v1['gid']))->find();
-                //获取时间
-                $info = M('Order')->where(array('id' => $v1['oid']))->find();
-                $goodsInfo['Otime'] = $info['addtime'];
-                $goodsList[$k] = $goodsInfo;
-            }
-        }else{
-            $goodsList='';
-        }
-        //获取用户充值记录
-        $cList=M('Account')->where(array('mid'=>session('mid'),'action'=>array('in','2,3')))->limit(0,6)->order('addtime desc')->select();
-        //获取用户充值金额
-        $cMoney=M('Account')->where(array('mid'=>session('mid'),'action'=>array('in','2,3')))->Sum('money');
-        //查询用户消费金额
-        $expense=M('Member')->field('expense')->where(array('id'=>session('mid')))->find();
-        //查询用户余额
-        $balance=M('Member')->field('balance')->where(array('id'=>session('mid')))->find();
-        $this->assign('goodsList',$goodsList);
-        $this->assign('cList',$cList);
-        $this->assign('expense',$expense['expense']);
-        $this->assign('balance',$balance['balance']);
-        $this->assign('cMoney',$cMoney);
-        $this->assign('empty',"<h1>你还没有任何消费记录！赶紧去购物吧！</h1>");
-        $this->assign('empty1',"<h1>你还没有任何充值记录！赶紧去充值吧！</h1>");
-        $this->display();
-    }
-    public function billList_(){
-        //获取导航信息
-        $categoryListOne=A('Common')->getNav();
-        $this->assign('categoryListOne',$categoryListOne);
-        $nums=A('Common')->getcartnum();
-        $this->assign('cartnum',$nums);
-        //查询该用户的订单ID
-        switch(I('get.where')){
-            case 1:
-                $where1['addtime']=array('between',array(strtotime('today'),strtotime('today')+86400));
-                break;
-            case 2:
-                $where1['addtime']=array('between',array(strtotime('-1 week',strtotime('today')),time()));
-                break;
-            case 3:
-                $where1['addtime']=array('between',array(strtotime('-1 month',strtotime('today')),time()));
-                break;
-            case 4:
-                $where1['addtime']=array('between',array(strtotime('-3 months',strtotime('today')),time()));
-                break;
-            default :
-                $w='';
-        }
-        $where1['mid']=session('mid');
-        $id=M('Order')->where($where1)->order('addtime desc')->select();
-        if($id) {
-            $idStr = '';
-            foreach ($id as $v) {
-                $idStr .= $v['id'] . ',';
-            }
-            $idStr = substr($idStr, 0, -1);
-            //获取商品列表
-            $where['oid'] = array('in', $idStr);
-            $count = M('Order_goods')->where($where)->count();
-            //分页
-            $page = new Page($count, 6);
-            $show = $page->show();
-            $gList = M('Order_goods')->where($where)->limit($page->firstRow . ',' . $page->listRows)->select();
-            $goodsList = array();
-            foreach ($gList as $k => $v1) {
-                $goodsInfo = M('Goods')->where(array('id' => $v1['gid']))->find();
-                //获取时间
-                $info = M('Order')->where(array('id' => $v1['oid']))->find();
-                $goodsInfo['Otime'] = $info['addtime'];
-                $goodsList[$k] = $goodsInfo;
-            }
-            $this->assign('goodsList', $goodsList);
-            $this->assign('page', $show);
-        }else{
-            $this->assign('goodsList',false);
-        }
-            $this->assign('empty', "<h1>没有找到相关信息！</h1>");
-            $this->display();
-
-    }
-    public function recharge_(){
-        //获取导航信息
-        $categoryListOne=A('Common')->getNav();
-        $this->assign('categoryListOne',$categoryListOne);
-        $nums=A('Common')->getcartnum();
-        $member=M('Member');
-        $this->assign('cartnum',$nums);
-        if(IS_POST){
-            $where['paypwd']=md5(I('post.paypwd'));
-            $where['id']=session('mid');
-            $where['username']=I('post.username');
-//            print_r($where);
-            if($member->where($where)->find()){
-                //更新用户余额
-                $status=$member->where($where)->setInc('balance',I('post.Ub'));
-                if($status){
-                    //更新账单表
-                    $data['money']=I('post.Ub');
-                    $data['action']=2;
-                    $data['addtime']=time();
-                    $data['mid']=session('mid');
-                    M('Account')->add($data);
-                    //写信
-                    $dataL['addtime']=time();
-                    $dataL['mid']=session('mid');
-                    $dataL['title']='充值U币';
-                    $dataL['content']='充值'.I('post.Ub').'U币';
-                    M('letter')->add($dataL);
-                    $this->success('充值成功');
-                }else{
-                    $this->error('充值失败');
-                }
-            }else{
-                $this->error('支付密码错误！');
-            }
-
-        }else {
-            $this->display();
-        }
-    }
-    public function cList_(){
-        //获取导航信息
-        $categoryListOne=A('Common')->getNav();
-        $this->assign('categoryListOne',$categoryListOne);
-        $nums=A('Common')->getcartnum();
-        $this->assign('cartnum',$nums);
-        switch(I('get.where')){
-            case 1:
-                $where1['addtime']=array('between',array(strtotime('today'),strtotime('today')+86400));
-                break;
-            case 2:
-                $where1['addtime']=array('between',array(strtotime('-1 week',strtotime('today')),time()));
-                break;
-            case 3:
-                $where1['addtime']=array('between',array(strtotime('-1 month',strtotime('today')),time()));
-                break;
-            case 4:
-                $where1['addtime']=array('between',array(strtotime('-3 months',strtotime('today')),time()));
-                break;
-            default :
-                $w='';
-        }
-        $where1['mid']=session('mid');
-        $where1['action']=array('in','2,3');
-        $count=M('Account')->where($where1)->count();
-        //分页
-        $page = new Page($count,8);
-        $show = $page->show();
-        $cList = M('Account')->where($where1)->limit($page->firstRow . ',' . $page->listRows)->order('addtime desc')->select();
-        $this->assign('cList',$cList);
-        $this->assign('page', $show);
-        $this->assign('empty', "<h1>没有找到相关信息！</h1>");
-        $this->display();
     }
 }

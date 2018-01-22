@@ -22,7 +22,7 @@
         </div>
         <div class="topMessage my-shangcheng">
             <div class="menu-hd MyShangcheng">
-                @if($info['id']>0)
+                @if($member['id']>0)
                     <a href="{{url('member/index')}}" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
                 @else
                     <a href="{{url('login/index')}}" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>

@@ -14,13 +14,13 @@
         <li class="person">
             <a href="javascript:;">我的交易</a>
             <ul>
-                <li><a href="{:U('Order/order')}">全部订单</a></li>
-                <li><a href="{:U('Home/Order/order/orderstatus/1')}" target="_blank">待付款</a></li>
-                <li><a href="{:U('Home/Order/order/orderstatus/2')}">待发货</a></li>
-                <li><a href="{:U('Home/Order/order/orderstatus/3')}" target="_blank">待收货</a></li>
-                <li><a href="{:U('Home/Order/order/orderstatus/4')}">待评价</a></li>
-                <li><a href="{:U('Home/Order/jfdd')}" target="_blank">积分订单</a></li>
-                <li><a href="{:U('Refund/index')}" target="_blank">退款售后</a></li>
+                <li><a href="{{url('order/order',['status'=>0])}}">全部订单</a></li>
+                <li><a href="{{url('order/order',['status'=>1])}}" target="_blank">待付款</a></li>
+                <li><a href="{{url('order/order',['status'=>2])}}">待发货</a></li>
+                <li><a href="{{url('order/order',['status'=>3])}}" target="_blank">待收货</a></li>
+                <li><a href="{{url('order/order',['status'=>4])}}">待评价</a></li>
+                <li><a href="{{url('order/order',['status'=>5])}}" target="_blank">积分订单</a></li>
+                <li><a href="{{url('order/refund_order')}}" target="_blank">退款售后</a></li>
             </ul>
         </li>
         <li class="person">
@@ -40,7 +40,7 @@
             <ul>
                 <li class="active"> <a href="{:U('Collection/index')}">收藏</a></li>
                 <li> <a href="{:U('Foot/index')}">足迹</a></li>
-                <li> <a href="{:U('Comment/index')}">评价</a></li>
+                <li> <a href="{{url('comment/reviews')}}">评价</a></li>
                 <li> <a href="{:U('Msg/index')}">消息</a></li>
             </ul>
         </li>

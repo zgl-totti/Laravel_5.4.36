@@ -108,7 +108,7 @@ class BrandController extends BaseController{
             if($request->hasFile('logo')){
                 $file=$request->file('logo');
                 if($file->isValid()){
-                    if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','gpeg','png'])){
+                    if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','jpeg','png'])){
                         $path = $file->store('uploads/brand/');
                         $info->pic=$path;
                         unlink('uploads/logo/'.$info['logo']);

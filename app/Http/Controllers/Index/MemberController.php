@@ -1,29 +1,27 @@
 <?php
 namespace App\Http\Controllers\Index;
 
-
 use App\Models\Letter;
-use App\Models\Member;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use phpspider\core\requests;
 
-class MemberController extends BaseController{
+class MemberController extends BaseController {
+    public function __construct(){
+        $this->middleware('member');
+    }
+
     public function index(Request $request){
         $mid=$request->session()->get('mid');
-        $info=Member::find($mid);
         $letter=Letter::where('mid',$mid)->where('status',0)->count();
         $num1=Order::where('id',$mid)->where('orderstatus',1)->count();
         $num2=Order::where('id',$mid)->where('orderstatus',2)->count();
         $num3=Order::where('id',$mid)->where('orderstatus',3)->count();
         $num4=Order::where('id',$mid)->where('orderstatus',4)->count();
-        return view('index.member.index',compact('info','letter','num1','num2','num3','num4'));
+        return view('index.member.index',compact('letter','num1','num2','num3','num4'));
     }
 
-    public function show(Request $request){
-        $mid=$request->session()->get('mid');
-        $info=Member::find($mid);
-        return view('index.member.information',compact('info'));
+    public function show(){
+        return view('index.member.information');
     }
 
     public function changeInfo(Request $request){
@@ -34,19 +32,18 @@ class MemberController extends BaseController{
 
 
         }else{
-            $mid=$request->session()->get('mid');
-            $info=Member::find($mid);
-            return view('index.member.addinfo',compact('info'));
+            return view('index.member.addinfo');
         }
     }
 
     public function safety(Request $request){
         if($request->ajax()){
 
+
+
+
         }else{
-            $mid=$request->session()->get('mid');
-            $info=Member::find($mid);
-            return view('index.member.safety',compact('info'));
+            return view('index.member.safety');
         }
     }
 

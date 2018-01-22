@@ -22,7 +22,7 @@ class Comment extends Model{
     }
 
     public function status(){
-        return $this->hasOne(OrderStatus::class,'id','sid');
+        return $this->hasOne(CommentStatus::class,'id','sid');
     }
 
 }

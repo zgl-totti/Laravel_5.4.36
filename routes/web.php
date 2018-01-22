@@ -28,6 +28,14 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('integral/index','IntegralController@index');
     Route::get('newperson/index','NewPersonController@index');
     Route::get('order/index','OrderController@index');
+    Route::get('order/order/{id}','OrderController@order')->where('id','[0-5]');
+    Route::get('order/refund_order','OrderController@refund_order');
+    Route::post('order/del','OrderController@del');
+    Route::post('order/receiving','OrderController@receiving');
+    Route::post('order/pay','OrderController@pay');
+    Route::get('order/info/{id}','OrderController@info')->where('id','[0-9]+');
+    Route::get('order/refund/{oid}/{gid}','OrderController@refund')->where('oid','[0-9]+')->where('gid','[0-9]+');
+    Route::post('order/refund/{oid}/{gid}','OrderController@refund')->where('oid','[0-9]+')->where('gid','[0-9]+');
     Route::get('active/index/{id}','ActiveController@index')->where('id','[0-9]+');
     Route::get('search/category/{id}','SearchController@category')->where('id','[0-9]+');
     Route::get('search/brand/{id}','SearchController@brand')->where('id','[0-9]+');
@@ -61,6 +69,9 @@ Route::group(['namespace'=>'Index'],function(){
     Route::post('money/recharge','MoneyController@recharge');
     Route::get('money/disburse/{id}','MoneyController@disburse')->where('id','[0-4]');
     Route::get('money/income/{id}','MoneyController@income')->where('id','[0-4]');
+    Route::get('comment/index/{oid}/{gid}','CommentController@index')->where('oid','[0-9]+')->where('gid','[0-9]+');
+    Route::post('comment/comment','CommentController@comment');
+    Route::get('comment/reviews','CommentController@reviews');
 });
 
 Route::group(['namespace'=>'Admin'],function(){
