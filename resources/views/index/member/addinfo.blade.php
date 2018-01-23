@@ -71,7 +71,8 @@
 		<div class="main-wrap">
 			<div class="user-info">
 				<!--标题 -->
-				<form action="{:U('Login/addInfo')}" class="am-form am-form-horizontal" enctype="multipart/form-data" method="post" id="form1">
+				<form action="{{url('member/changeInfo')}}" class="am-form am-form-horizontal" enctype="multipart/form-data" method="post" id="form1">
+					<input type="hidden" name="mid" value="{{$info->id}}">
 					<div class="am-cf am-padding">
 						<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">完善信息</strong> / <small>Complete&nbsp;information</small></div>
 					</div>

@@ -61,6 +61,12 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('member/changeInfo','MemberController@changeInfo');
     Route::post('member/changeInfo','MemberController@changeInfo');
     Route::get('member/safety','MemberController@safety');
+    Route::get('member/setPay','MemberController@setPay');
+    Route::post('member/setPay','MemberController@setPay');
+    Route::get('member/changePay','MemberController@changePay');
+    Route::post('member/changePay','MemberController@changePay');
+    Route::get('member/changePwd','MemberController@changePwd');
+    Route::post('member/changePwd','MemberController@changePwd');
     Route::get('site/index','SiteController@index');
     Route::get('site/edit','SiteController@edit');
     Route::post('site/edit','SiteController@edit');
@@ -72,6 +78,10 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('comment/index/{oid}/{gid}','CommentController@index')->where('oid','[0-9]+')->where('gid','[0-9]+');
     Route::post('comment/comment','CommentController@comment');
     Route::get('comment/reviews','CommentController@reviews');
+    Route::get('message/index','MessageController@index');
+    Route::get('message/detail/{id}','MessageController@detail')->where('id','[0-9]+');
+    Route::post('message/operate','MessageController@operate');
+    Route::post('message/del','MessageController@del');
 });
 
 Route::group(['namespace'=>'Admin'],function(){

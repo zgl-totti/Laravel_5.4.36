@@ -54,7 +54,7 @@
             $('.am-btn').click(function(){
                 //表单提交之前判断前端验证是否通过，只有通过时才提交表单
                 if(validate.form()){      //第28行，validate函数
-                    $.post("{:U('Login/changePwd')}",$('#form1').serialize(),function(res){
+                    $.post("{{url('member/changePwd')}}",$('#form1').serialize(),function(res){
                         //异步提交，提交到LoginController控制器“login”方法中    串行化数据，到控制器       function(res)来接收数据      （上行解释）
                         if(res.status==1){
                             layer.msg(res.info,{
@@ -101,7 +101,7 @@
 								<div class="fore2"><small>为保证您购物安全，建议您定期更改密码以保护账户安全。</small></div>
 							</div>
 							<div class="fore3">
-								<a href="{:U('Login/changePwd')}">
+								<a href="{{url('member/changePwd')}}">
 									<div class="am-btn am-btn-secondary">修改</div>
 								</a>
 							</div>
@@ -113,44 +113,38 @@
 								<div class="fore2"><small>启用支付密码功能，为您资产账户安全加把锁。</small></div>
 							</div>
 							<div class="fore3">
-								<if condition="$list['paypwd'] eq ''">
+								@if(empty($info['paypwd']))
 									<div>
-										<a href="{:U('Login/setPay')}">
+										<a href="{{url('member/setPay')}}">
 											<div class="am-btn am-btn-secondary">立即启用</div>
 										</a>
 									</div>
-									<else/>
+								@else
 									<div>
-										<a href="{:U('Login/changePay')}">
+										<a href="{{url('member/changePay')}}">
 											<div class="am-btn am-btn-secondary">修改</div>
 										</a>
 									</div>
-								</if>
+								@endif
 							</div>
 						</li>
 						<li>
 							<i class="i-safety-iphone"></i>
 							<div class="m-left">
 								<div class="fore1">手机验证</div>
-								<if condition="$list['mobile'] eq ''">
+								@if(empty($info['mobile']))
 									<div class="fore2"><small>您还没验证手机，快去验证吧</small></div>
-									<else/>
-									<div class="fore2"><small>您验证的手机：{$list['mobile']} 可用于找回登录密码</small></div>
-								</if>
+								@else
+									<div class="fore2"><small>您验证的手机：{{$info['mobile']}} 可用于找回登录密码</small></div>
+								@endif
 							</div>
-							<if condition="$list['mobile'] eq ''">
+							@if(empty($info['mobile']))
 								<div class="fore3">
-									<a href="{:U('Login/addinfo')}">
+									<a href="{{url('member/changeInfo')}}">
 										<div class="am-btn am-btn-secondary">验证</div>
 									</a>
 								</div>
-								<else/>
-								<!--<div class="fore3">
-                                    <a href="{:U('Login/addinfo')}">
-                                        <div class="am-btn am-btn-secondary">更换</div>
-                                    </a>
-                                </div>-->
-							</if>
+							@endif
 						</li>
 						<!--<li>
                             <i class="i-safety-mail"></i>

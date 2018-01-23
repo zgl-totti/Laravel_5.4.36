@@ -41,7 +41,7 @@
                 <li class="active"> <a href="{:U('Collection/index')}">收藏</a></li>
                 <li> <a href="{:U('Foot/index')}">足迹</a></li>
                 <li> <a href="{{url('comment/reviews')}}">评价</a></li>
-                <li> <a href="{:U('Msg/index')}">消息</a></li>
+                <li> <a href="{{url('message/index')}}">消息</a></li>
             </ul>
         </li>
     </ul>

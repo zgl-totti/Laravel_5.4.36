@@ -2,8 +2,10 @@
 namespace App\Http\Controllers\Index;
 
 use App\Models\Letter;
+use App\Models\Member;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class MemberController extends BaseController {
     public function __construct(){
@@ -25,27 +27,169 @@ class MemberController extends BaseController {
     }
 
     public function changeInfo(Request $request){
-        if($request->ajax()){
-
-
-
-
-
+        if($request->isMethod('post')){
+            $mid=$request->input('mid');
+            $info=Member::find($mid);
+            $avator=$info->touxiang;
+            $data['name']=trim($request->input('name'));
+            $data['sex']=trim($request->input('sex'));
+            $data['birthday']=$request->input('birthday');
+            $data['mobile']=$request->input('mobile');
+            $data['email']=$request->input('email');
+            $rules=[
+                'name'=>'required',
+                'sex'=>'required',
+                'birthday'=>'required',
+                'mobile'=>'required',
+                'email'=>'required|email',
+            ];
+            $messages=[
+                'required'=>':attribute不能为空！',
+                'email'=>'邮箱格式不正确！',
+            ];
+            $attributeNames=[
+                'name'=>'用户名',
+                'sex'=>'性别',
+                'birthday'=>'生日',
+                'mobile'=>'手机号',
+                'email'=>'邮箱'
+            ];
+            $validator=Validator::make($data,$rules,$messages,$attributeNames);
+            if($validator->passes()){
+                $info->name=$data['name'];
+                $info->sex=$data['sex'];
+                $info->birthday=$data['birthday'];
+                $info->mobile=$data['mobile'];
+                $info->email=$data['email'];
+                if($info->save()){
+                    if($request->hasFile('file')){
+                        $file=$request->file('file');
+                        if($file->isValid()){
+                            if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','jpeg','png'])){
+                                $path = $file->store('uploads/member/');
+                                $info->touxiang=$path;
+                                if($info->save()){
+                                    unlink('uploads/member/'.$avator);
+                                    $res['status']=1;
+                                    $res['info']='修改成功！';
+                                    return response()->json($res);
+                                }else{
+                                    $res['status']=2;
+                                    $res['info']='修改失败！';
+                                    return response()->json($res);
+                                }
+                            }else{
+                                return response(['status'=>2,'info'=>'图片不合法']);
+                            }
+                        }else{
+                            return response(['status'=>2,'info'=>$file->getErrorMessage()]);
+                        }
+                    }else{
+                        $res['status']=1;
+                        $res['info']='修改成功！';
+                        return response()->json($res);
+                    }
+                }else{
+                    $res['status']=5;
+                    $res['info']='修改失败！';
+                    return response()->json($res);
+                }
+            }else{
+                $res['status']=5;
+                $res['info']=$validator->getMessage();
+                return response()->json($res);
+            }
         }else{
             return view('index.member.addinfo');
         }
     }
 
     public function safety(Request $request){
+        $mid=$request->session()->get('mid');
+        $info=Member::find($mid);
+        return view('index.member.safety',compact('info'));
+    }
+
+    public function setPay(Request $request){
         if($request->ajax()){
 
 
 
 
-        }else{
-            return view('index.member.safety');
+        }else {
+            return view('index.member.set_pay');
         }
     }
+
+    public function changePay(Request $request){
+        if($request->ajax()){
+
+
+
+        }else{
+            return view('index.member.change_pay');
+        }
+    }
+
+    public function changePwd(Request $request){
+        if($request->ajax()){
+            $password=trim($request->input('password'));
+            $pwd=trim($request->input('pwd'));
+            $repwd=trim($request->input('repwd'));
+            if(empty($password) || empty($pwd) || empty($repwd)){
+                $res['status']=5;
+                $res['info']='必填项不能为空！';
+                return response()->json($res);
+            }
+            if($pwd != $repwd){
+                $res['status']=5;
+                $res['info']='两次密码输入不一致！';
+                return response()->json($res);
+            }
+            $mid=$request->session()->get('mid');
+            $info=Member::find($mid);
+            if(md5($password) != $info['password']){
+                $res['status']=5;
+                $res['info']='原始密码错误！';
+                return response()->json($res);
+            }
+            $info->password=md5($pwd);
+            if($info->save()){
+                $res['status']=1;
+                $res['info']='修改成功！';
+                return response()->json($res);
+            }else{
+                $res['status']=5;
+                $res['info']='修改失败！';
+                return response()->json($res);
+            }
+        }else{
+            return view('index.member.change_pwd');
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
