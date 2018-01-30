@@ -68,6 +68,7 @@ class AdvertiseController extends BaseController{
         }
     }
 
+    //导出Excel
     public function out($a,$b){
         $content=trim($a);
         if($b){

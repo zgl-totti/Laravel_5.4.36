@@ -16,6 +16,7 @@ use Illuminate\Routing\Controller;
 
 class IndexController extends Controller {
     public function index(Request $request){
+        echo 66;die;
         $result['code']=500;
         $result['body']='非法操作！';
         return response()->json($result);
