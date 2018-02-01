@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>无标题文档</title>
     <link href="{{asset('asset_admin/css/style.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('asset_admin/css/select.css')}}'" rel="stylesheet" type="text/css" />
+    <link href="{{asset('asset_admin/css/select.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('webupload/webuploader.css')}}" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="{{asset('asset_admin/js/jQuery-1.8.2.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('asset_admin/layer/layer.js')}}"></script>
@@ -78,7 +78,7 @@
     </div>
 </div>
 </body>
-<script>
+<script type="text/javascript">
     //图片上传预览    IE是用了滤镜。
     function previewImage(file,pre,imag)
     {

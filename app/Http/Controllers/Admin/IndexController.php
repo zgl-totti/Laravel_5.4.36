@@ -13,6 +13,7 @@ use App\Models\Admin;
 use App\Models\Collect;
 use App\Models\Goods;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IndexController extends BaseController{
     public function index(){
@@ -62,7 +63,11 @@ class IndexController extends BaseController{
     }
 
     public function getGoods(){
-        $list=Goods::orderBy('salenum','desc')->limit(5)->get(['goodsname','salenum as num'])->toArray();
+        //$list=Goods::orderBy('salenum','desc')->limit(5)->get(['goodsname','salenum as num'])->toArray();
+        $list=Goods::select(DB::raw('count(*) as goods_count,goodsname,salenum as num'))
+            ->orderBy('salenum','desc')
+            ->limit(5)
+            ->get()->toArray();
         return $list;
     }
 

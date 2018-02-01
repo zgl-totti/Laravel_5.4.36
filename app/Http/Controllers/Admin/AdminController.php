@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends BaseController{
     public function index(Request $request){
-        $list=Admin::with('access')->where(function($query) use($request){
-            $request->input('keywords') && $query->where('username','like','%'.$request->input('keywords').'%');
+        $keywords=$request->input('keywords');
+        $list=Admin::with('access')->where(function($query) use($keywords){
+            $keywords && $query->where('username','like','%'.$keywords.'%');
         })->paginate(10);
         $firstRow=($list->currentPage()-1)*$list->perPage();
-        return view('admin.admin.index',['list'=>$list,'firstRow'=>$firstRow,'keywords'=>$request->input('keywords')]);
+        //return view('admin.admin.index',['list'=>$list,'firstRow'=>$firstRow,'keywords'=>$request->input('keywords')]);
+        return view('admin.admin.index',compact('list','firstRow','keywords'));
     }
 
     public function del(Request $request){
@@ -174,7 +176,7 @@ class AdminController extends BaseController{
     public function uploadPic($file){
         if($file->isValid()){
             if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','gpeg','png'])){
-                $path = $file->photo->store('uploads/admin');
+                $path = $file->store('admin','public');
                 return $path;
             }else{
                 return false;

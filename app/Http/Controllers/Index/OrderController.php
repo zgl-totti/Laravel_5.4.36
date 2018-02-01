@@ -63,12 +63,12 @@ class OrderController extends BaseController{
             $validator=Validator::make($data,$rules);
             if($validator->passes()){
                 $site= new Site();
-                $site->username=trim($data['username']);
-                $site->phone=trim($data['phone']);
-                $site->ps=trim($data['ps']);
-                $site->qs=trim($data['qs']);
-                $site->ws=trim($data['ws']);
-                $site->xyd=trim($data['xyd']);
+                $site->username=$data['username'];
+                $site->phone=$data['phone'];
+                $site->ps=$data['ps'];
+                $site->qs=$data['qs'];
+                $site->ws=$data['ws'];
+                $site->xyd=$data['xyd'];
                 $arr=Site::where('mid',$mid)->first();
                 if($arr){
                     $site->active=0;
@@ -88,7 +88,7 @@ class OrderController extends BaseController{
     }
 
     public function order(Request $request,$status){
-        $goodsname=trim($request->input('goodsname'));
+        $goodsname=$request->input('goodsname');
         $mid=$request->session()->get('mid');
         if(!empty($status)){
             $where['orderstatus']=$status;
@@ -263,7 +263,7 @@ class OrderController extends BaseController{
     public function pay(Request $request){
         if($request->ajax()){
             $mid=$request->session()->get('mid');
-            $paypwd=md5(trim($request->input('paypwd')));
+            $paypwd=md5($request->input('paypwd'));
             $status=intval($request->input('status'));
             $oid=intval($request->input('oid'));
             $info=Member::find($mid);
@@ -378,9 +378,9 @@ class OrderController extends BaseController{
             $o_id=intval($request->input('oid'));
             $g_id=intval($request->input('gid'));
             $scid=intval($request->input('scid'));
-            $money=trim($request->input('money'));
-            $reason=trim($request->input('reason'));
-            $mess=trim($request->input('mess'));
+            $money=$request->input('money');
+            $reason=$request->input('reason');
+            $mess=$request->input('mess');
             if(empty($money) || empty($reason) || empty($mess)){
                 $res['status']=5;
                 $res['info']='必填项不能为空！';

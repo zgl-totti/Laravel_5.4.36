@@ -16,12 +16,7 @@ use Illuminate\Routing\Controller;
 
 class IndexController extends Controller {
     public function index(Request $request){
-        echo 66;die;
-        $result['code']=500;
-        $result['body']='非法操作！';
-        return response()->json($result);
-
-        //if($request->isMethod('post')){
+        if($request->isMethod('post')){
             $token=trim($request->input('token'));
             $username=trim($request->input('username'));
             $password=trim($request->input('password'));
@@ -57,7 +52,7 @@ class IndexController extends Controller {
             $result['body']='登录成功！';
             $result['info']=$info->id;
             return response()->json($result);
-        //}
+        }
     }
 
     public function roma($user_id,$news_id){
@@ -90,5 +85,11 @@ class IndexController extends Controller {
         $res['code']=1;
         $res['info']=$data;
         return response()->json($res);
+    }
+
+    public function totti(){
+        $res['status']=1;
+        //return response()->json($res);
+        return $res;
     }
 }

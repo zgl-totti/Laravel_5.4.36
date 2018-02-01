@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class CommentController extends BaseController{
     public function index(Request $request){
-        $ordersyn=trim($request->input('ordersyn'));
-        $goodsname=trim($request->input('goodsname'));
-        $status=trim($request->input('status'));
+        $ordersyn=$request->input('ordersyn');
+        $goodsname=$request->input('goodsname');
+        $status=$request->input('status');
         if($ordersyn){
             $order=Order::where('ordersyn','like',$ordersyn.'%')->get(['id']);
         }else{
@@ -43,6 +43,23 @@ class CommentController extends BaseController{
         $info=Comment::where('id',$id)->with(['member','order','goods'])->first();
         return view('admin.comment.response',compact('info'));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

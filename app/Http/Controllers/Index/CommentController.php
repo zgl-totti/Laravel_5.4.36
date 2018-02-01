@@ -28,8 +28,8 @@ class CommentController extends BaseController{
         $mid=$request->session()->get('mid');
         $oid=intval($request->input('oid'));
         $gid=intval($request->input('gid'));
-        $content=trim($request->input('content'));
-        $sunphoto=trim($request->input('sunphoto'));
+        $content=$request->input('content');
+        $sunphoto=$request->input('sunphoto');
         if($sunphoto=='好评'){
             $sid=1;
         }elseif ($sunphoto=='中评'){

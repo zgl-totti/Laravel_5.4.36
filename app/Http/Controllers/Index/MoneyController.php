@@ -33,7 +33,7 @@ class MoneyController extends BaseController{
     //充值
     public function recharge(Request $request){
         if($request->ajax()){
-            $ub=trim($request->input('Ub'));
+            $ub=$request->input('Ub');
             if(!is_numeric($ub) || $ub<=0){
                 $res['status']=5;
                 $res['info']='充值金额有误！';

@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class NewpersonController extends BaseController{
     public function index(Request $request){
-        $startprice=trim($request->input('startprice'));
-        $endprice=trim($request->input('endprice'));
-        $brand=trim($request->input('brand'));
+        $startprice=$request->input('startprice');
+        $endprice=$request->input('endprice');
+        $brand=$request->input('brand');
         $list=Bargain::with('getGoods')
             ->where(function ($query) use($startprice,$endprice,$brand){
                 $startprice && $endprice && $query->whereBetween('price',[$startprice,$endprice]);
@@ -60,7 +60,7 @@ class NewpersonController extends BaseController{
     public function bargain(Request $request){
         if($request->ajax()){
             $id=intval($request->input('id'));
-            $cutprice=trim($request->input('cutprice'));
+            $cutprice=$request->input('cutprice');
             if(is_numeric($cutprice) && $cutprice>0){
                 $info=Bargain::find($id);
                 if(empty($info)){
@@ -83,10 +83,10 @@ class NewpersonController extends BaseController{
 
     public function batch(Request $request){
         if($request->ajax()){
-            $startprice=trim($request->input('startprice'));
-            $endprice=trim($request->input('endprice'));
-            $brand=trim($request->input('brand'));
-            $cutprice=trim($request->input('cutprice'));
+            $startprice=$request->input('startprice');
+            $endprice=$request->input('endprice');
+            $brand=$request->input('brand');
+            $cutprice=$request->input('cutprice');
             if(is_numeric($cutprice) && $cutprice>0) {
                 $list = Bargain::where(function ($query) use ($startprice, $endprice, $brand) {
                     $startprice && $endprice && $query->whereBetween('price', [$startprice, $endprice]);
@@ -106,7 +106,7 @@ class NewpersonController extends BaseController{
     }
 
     public function exclusive(Request $request){
-        $bname=trim($request->input('bname'));
+        $bname=$request->input('bname');
         $list=Bargain::with('getGoods')
             ->where('cut','>',0)
             ->where('bname','like',$bname.'%')
@@ -136,7 +136,7 @@ class NewpersonController extends BaseController{
 
     public function resetAll(Request $request){
         if($request->ajax()){
-            $bname=trim($request->input('bname'));
+            $bname=$request->input('bname');
             $row=Bargain::where('cut','>',0)
                 ->where('bname','like',$bname.'%')
                 ->update(['status'=>0,'cut'=>0,'cutprice'=>0]);

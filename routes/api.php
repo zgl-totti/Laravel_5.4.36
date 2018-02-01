@@ -17,3 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['namespace'=>'Api'],function (){
+    Route::post('index','IndexController@index');
+    Route::get('roma','IndexController@roma');
+    Route::get('totti','IndexController@totti');
+});
+

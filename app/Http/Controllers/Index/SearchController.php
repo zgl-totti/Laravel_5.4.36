@@ -42,6 +42,46 @@ class SearchController extends BaseController{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //通过商品名称搜索
     public function name1(){
         $nums=A('Common')->getcartnum();

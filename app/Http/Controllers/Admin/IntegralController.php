@@ -48,8 +48,8 @@ class IntegralController extends BaseController{
     public function edit(Request $request,$id){
         if($request->isMethod('post')){
             $id=intval($request->input('id'));
-            $needJF=trim($request->input('needJF'));
-            $getUB=trim($request->input('getUB'));
+            $needJF=$request->input('needJF');
+            $getUB=$request->input('getUB');
             if(empty($needJF)){
                 return response(['code'=>5,'info'=>'所需积分不能为空！']);
             }
@@ -76,10 +76,10 @@ class IntegralController extends BaseController{
 
     public function add(Request $request){
         if($request->isMethod('post')){
-            $needJF=trim($request->input('needJF'));
-            $status=trim($request->input('status'));
-            $gid=trim($request->input('gid'));
-            $getUB=trim($request->input('getUB'));
+            $needJF=$request->input('needJF');
+            $status=$request->input('status');
+            $gid=$request->input('gid');
+            $getUB=$request->input('getUB');
             $integral= new Integral();
             if($status==0){
                 $info=Integral::where('getUB',$getUB)->first();
@@ -151,10 +151,10 @@ class IntegralController extends BaseController{
     public function edit_trophy(Request $request,$id){
         if($request->ajax()){
             $id=intval($request->input('id'));
-            $prize=trim($request->input('prize'));
-            $num=trim($request->input('num'));
-            $lx=trim($request->input('lx'));
-            $v=trim($request->input('v'));
+            $prize=$request->input('prize');
+            $num=$request->input('num');
+            $lx=$request->input('lx');
+            $v=$request->input('v');
             $info=Draw::find($id);
             $info->prize=$prize;
             $info->num=$num;

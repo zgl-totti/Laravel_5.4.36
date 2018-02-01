@@ -133,9 +133,9 @@ class MemberController extends BaseController {
 
     public function changePwd(Request $request){
         if($request->ajax()){
-            $password=trim($request->input('password'));
-            $pwd=trim($request->input('pwd'));
-            $repwd=trim($request->input('repwd'));
+            $password=$request->input('password');
+            $pwd=$request->input('pwd');
+            $repwd=$request->input('repwd');
             if(empty($password) || empty($pwd) || empty($repwd)){
                 $res['status']=5;
                 $res['info']='必填项不能为空！';

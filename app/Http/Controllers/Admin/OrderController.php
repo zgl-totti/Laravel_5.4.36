@@ -10,9 +10,9 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends BaseController{
     public function index(Request $request,$orderstatus){
-        $username=trim($request->get('username'));
-        $ordersyn=trim($request->get('ordersyn'));
-        $phone=trim($request->get('phone'));
+        $username=$request->get('username');
+        $ordersyn=$request->get('ordersyn');
+        $phone=$request->get('phone');
         if($username && $phone){
             $site = OrderSite::where('username', 'like', $username . '%')->where('phone', 'like', $phone . '%')->select('id')->get()->toArray();
         }elseif($username && !$phone){
@@ -73,9 +73,9 @@ class OrderController extends BaseController{
 
     //积分订单
     public function integral(Request $request){
-        $username=trim($request->get('username'));
-        $ordersyn=trim($request->get('ordersyn'));
-        $phone=trim($request->get('phone'));
+        $username=$request->get('username');
+        $ordersyn=$request->get('ordersyn');
+        $phone=$request->get('phone');
         if($username || $phone) {
             $site = OrderSite::where('username', 'like', $username . '%')->where('phone', 'like', $phone . '%')->select('id')->get()->toArray();
             foreach ($site as $v) {
@@ -95,9 +95,9 @@ class OrderController extends BaseController{
 
     //售后管理
     public function aftermarket(Request $request){
-        $username=trim($request->get('username'));
-        $aftersyn=trim($request->get('aftersyn'));
-        $phone=trim($request->get('phone'));
+        $username=$request->get('username');
+        $aftersyn=$request->get('aftersyn');
+        $phone=$request->get('phone');
         if($username || $phone) {
             $site = OrderSite::where('username', 'like', $username . '%')->where('phone', 'like', $phone . '%')->select('id')->get()->toArray();
             foreach ($site as $v) {
@@ -171,10 +171,10 @@ class OrderController extends BaseController{
 
     //Excel导出
     public function out($a,$b,$c,$d){
-        $username=trim($a);
-        $ordersyn=trim($b);
-        $phone=trim($c);
-        $orderstatus=trim($d);
+        $username=$a;
+        $ordersyn=$b;
+        $phone=$c;
+        $orderstatus=$d;
         if($username && $phone){
             $site = OrderSite::where('username', 'like', $username . '%')->where('phone', 'like', $phone . '%')->select('id')->get()->toArray();
         }elseif($username && !$phone){

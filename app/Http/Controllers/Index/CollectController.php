@@ -70,6 +70,30 @@ class CollectController extends BaseController{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function index1(){
         //获取导航信息
         $categoryListOne=A('Common')->getNav();

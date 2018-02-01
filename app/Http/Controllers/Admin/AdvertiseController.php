@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdvertiseController extends BaseController{
     public function index(){
-        $content=trim(\request()->input('content'));
+        $content=\request()->input('content');
         $time=strtotime(\request()->input('time'));
         $list=Advertise::where(function($query) use ($content,$time){
             $content && $query->where('content','like',$content.'%');
@@ -70,7 +70,7 @@ class AdvertiseController extends BaseController{
 
     //导出Excel
     public function out($a,$b){
-        $content=trim($a);
+        $content=$a;
         if($b){
             $time=strtotime($b);
         }else{

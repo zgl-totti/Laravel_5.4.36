@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ActiveController extends BaseController{
     public function index(Request $request){
-        $activityname=trim($request->input('activityname'));
-        $brandname=trim($request->input('brand'));
-        $time=strtotime(trim($request->input('time')));
+        $activityname=$request->input('activityname');
+        $brandname=$request->input('brand');
+        $time=strtotime($request->input('time'));
         $list=Activity::where(function ($query) use ($activityname,$brandname,$time){
             $activityname && $query->where('activityname','like',$activityname.'%');
             $brandname && $query->where('brand',$brandname);

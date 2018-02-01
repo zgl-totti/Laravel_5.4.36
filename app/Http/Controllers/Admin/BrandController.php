@@ -32,14 +32,14 @@ class BrandController extends BaseController{
             }
             $brand= new Brand();
             $brand->brandname=$brandname;
+            $file=$request->file('logo');
             if($brand->save()){
-                $file=$request->file('logo');
                 if($file->isValid()){
-                    if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','gpeg','png'])){
-                        $path = $file->store('uploads/brand/');
-                        $brand->pic=$path;
+                    if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','png'])){
+                        $path = $file->store('brand','public');
+                        $brand->logo=$path;
                         if($brand->save()){
-                            return response(['code'=>2,'info'=>'品牌添加成功']);
+                            return response()->json(['code'=>1,'info'=>'品牌添加成功']);
                         }else{
                             return response(['code'=>2,'info'=>'品牌添加失败']);
                         }

@@ -18,6 +18,9 @@
 Route::group(['namespace'=>'Wap','middleware'=>'login'],function(){
    Route::get('wap/index','BaseController@index');
 });
+/*Route::namespace('Wap')->group(function (){
+    Route::get('wap/index','BaseController@index');
+});*/
 
 Route::group(['namespace'=>'Index'],function(){
     Route::get('/','IndexController@index');

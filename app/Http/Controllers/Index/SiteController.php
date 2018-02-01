@@ -56,6 +56,29 @@ class SiteController extends BaseController{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function index_(){
         if (IS_AJAX) {
             $site1 = M('Site');
