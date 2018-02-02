@@ -13,6 +13,7 @@ use App\Models\Admin;
 use App\Models\Collect;
 use App\Models\Goods;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends BaseController{
@@ -40,7 +41,9 @@ class IndexController extends BaseController{
         $info=Admin::find($aid);
         return view('admin.index.main')->with('info',$info);*/
 
-        return view('admin.index.main');
+        //return view('admin.index.main');
+        $mid=Auth::user();
+        print_r($mid);
     }
 
     public function paiHang(Request $request,$id){

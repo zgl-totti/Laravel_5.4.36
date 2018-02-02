@@ -12,6 +12,9 @@ class BrandController extends BaseController{
         $list=Brand::where(function($query) use($keywords){
             $keywords && $query->where('brandname','like',$keywords.'%');
         })->paginate(10);
+        /*$list=Brand::when($keywords,function ($query) use ($keywords){
+            return $query->where('brandname','like',$keywords.'%');
+        })->paginate(10);*/
         $firstRow=($list->currentPage()-1)*$list->perPage();
         return view('admin.brand.index',['keywords'=>$keywords,'list'=>$list,'firstRow'=>$firstRow]);
     }
