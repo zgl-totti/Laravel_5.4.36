@@ -15,11 +15,11 @@
     return view('welcome');
 });*/
 //中间件
-Route::group(['namespace'=>'Wap','middleware'=>'login'],function(){
-   Route::get('wap/index','BaseController@index');
-});
+/*Route::group(['namespace'=>'Wap','middleware'=>'login'],function(){
+   Route::get('wap/base','BaseController@index');
+});*/
 /*Route::namespace('Wap')->group(function (){
-    Route::get('wap/index','BaseController@index');
+    Route::get('wap/base','BaseController@index');
 });*/
 
 Route::group(['namespace'=>'Index'],function(){
@@ -178,3 +178,7 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::post('admin/integral_trophy_del','IntegralController@del_trophy');
     Route::post('admin/integral_getGoodsInfo','IntegralController@getGoodsInfo');
 });
+
+Auth::routes();
+
+Route::get('/home', 'Wap\HomeController@index')->name('home');

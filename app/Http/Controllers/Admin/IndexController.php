@@ -41,9 +41,7 @@ class IndexController extends BaseController{
         $info=Admin::find($aid);
         return view('admin.index.main')->with('info',$info);*/
 
-        //return view('admin.index.main');
-        $mid=Auth::user();
-        print_r($mid);
+        return view('admin.index.main');
     }
 
     public function paiHang(Request $request,$id){
