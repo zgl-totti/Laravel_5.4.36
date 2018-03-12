@@ -21,5 +21,7 @@ Route::group(['namespace'=>'Api'],function (){
     Route::post('index','IndexController@index');
     Route::get('roma','IndexController@roma');
     Route::get('totti','IndexController@totti');
+    Route::get('goods_index/{id}','GoodsController@index')->where(['id','[0-9]+']);
+    Route::post('goods_all','GoodsController@all');
 });
 

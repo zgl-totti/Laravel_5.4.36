@@ -88,8 +88,8 @@ class IndexController extends Controller {
     }
 
     public function totti(){
-        $res['status']=1;
-        //return response()->json($res);
-        return $res;
+        $res['code']=1;
+        $res['body']='haha';
+        return response()->json($res);
     }
 }
