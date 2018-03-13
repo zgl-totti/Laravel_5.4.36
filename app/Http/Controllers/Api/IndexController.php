@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Admin;
 use App\Models\News;
+use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -91,5 +92,19 @@ class IndexController extends Controller {
         $res['code']=1;
         $res['body']='haha';
         return response()->json($res);
+    }
+
+    //hashids加密
+    public function hash(){
+        $hashids= new Hashids();
+        $res['body']=$hashids->encode(1);
+        $res['info']=$hashids->encode(1,2,3,4,5);
+        $res['code']=400;
+        $token=$hashids->encode(1,2,3,4,5);
+        $res['content']=$hashids->decode($token);
+        $hash= new Hashids('ROMA_TOTTI');
+        $res['token']=$hash->encode(1);
+        $res['factor']=$hash->decode($hash->encode(1));
+        return $res;
     }
 }
