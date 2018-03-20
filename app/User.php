@@ -8,10 +8,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    protected $table='member';
 
-    /*指定是否模型应该被戳记时间*/
-    public $timestamps = false;
     use Notifiable;
     use HasApiTokens,Notifiable;
 
@@ -21,8 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        //'name', 'email', 'password',
-        'username','password',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -31,7 +27,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        //'password', 'remember_token',
-        'password',
+        'password', 'remember_token',
+    ];
+
+    public static $rules=[
+        'username'=>'required',
+        'password'=>'required',
+    ];
+
+    public static $messages=[
+        'required'=>':attribute不能为空！',
+    ];
+
+    public static $attributeNames=[
+        'username'=>'用户名',
+        'password'=>'密码',
     ];
 }

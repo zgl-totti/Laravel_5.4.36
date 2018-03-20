@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -25,7 +29,10 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = 'auth/index';
+
+    /*// 认证失败后跳转地址
+    protected $redirectAfter = 'login';*/
 
     /**
      * Create a new controller instance.
@@ -35,5 +42,22 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function login(Request $request)
+    {
+        $data=$request->all();
+        $validator=Validator::make($data,User::$rules,User::$messages,User::$attributeNames);
+        if($validator->fails()){
+            //$error=$validator->messages();
+            return redirect($this->redirectAfter)->withErrors($validator);
+        }
+        $info=Auth::attempt(['name'=>$data['username'],'password'=>$data['password']]);
+        if(empty($info)){
+            //return redirect()->intended($this->redirectAfter);
+            return redirect()->back();
+        }
+        //return redirect()->intended($this->redirectTo);
+        return redirect($this->redirectTo);
     }
 }

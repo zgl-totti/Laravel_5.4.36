@@ -15,9 +15,9 @@
     return view('welcome');
 });*/
 //中间件
-/*Route::group(['namespace'=>'Wap','middleware'=>'login'],function(){
-   Route::get('wap/base','BaseController@index');
-});*/
+Route::group(['namespace'=>'Wap','prefix'=>'wap','middleware'=>'login'],function(){
+   Route::get('base','BaseController@index');
+});
 /*Route::namespace('Wap')->group(function (){
     Route::get('wap/base','BaseController@index');
 });*/
@@ -180,5 +180,20 @@ Route::group(['namespace'=>'Admin'],function(){
 });
 
 Auth::routes();
+Route::group(['middleware'=>'auth'],function (){
+    Route::get('auth/index','Auth\IndexController@index');
+});
+
 
 Route::get('/home', 'Wap\HomeController@index')->name('home');
+Route::get('/roma', 'Wap\RomaController@index');
+Route::get('/totti', 'Wap\RomaController@add');
+Route::get('/spurs','Wap\SpursController@index');
+Route::get('/nba','Wap\SpursController@nba');
+Route::get('/nba_ball','Wap\SpursController@nba_ball');
+Route::get('/queue','Wap\WelcomeController@index');
+
+
+
+
+

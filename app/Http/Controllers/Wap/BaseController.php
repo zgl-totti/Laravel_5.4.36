@@ -18,5 +18,4 @@ Class BaseController extends Controller{
         //Mail::to(['724249769@qq.com'])->send($message);
         echo 666;
     }
-
 }

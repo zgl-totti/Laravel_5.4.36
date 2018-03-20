@@ -27,5 +27,7 @@ Route::group(['namespace'=>'Api'],function (){
     Route::post('cates','CategoryController@cates');
     Route::get('cateByPid/{id}','CategoryController@cateByPid')->where(['id','[0-9]+']);
     Route::post('order','GoodsController@order');
+
+    Route::resource('order_index',OrderController::class);
 });
 

@@ -115,6 +115,21 @@ class GoodsController extends BaseController{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //根据父ID查询分类列表
     public function getCateByPid_(){
         $pid=I('post.pid')?I('post.pid'):0;
