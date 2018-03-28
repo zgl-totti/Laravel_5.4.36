@@ -50,14 +50,24 @@ class LoginController extends Controller
         $validator=Validator::make($data,User::$rules,User::$messages,User::$attributeNames);
         if($validator->fails()){
             //$error=$validator->messages();
-            return redirect($this->redirectAfter)->withErrors($validator);
+            return redirect()->back()->withErrors($validator);
         }
         $info=Auth::attempt(['name'=>$data['username'],'password'=>$data['password']]);
         if(empty($info)){
             //return redirect()->intended($this->redirectAfter);
             return redirect()->back();
         }
+
         //return redirect()->intended($this->redirectTo);
         return redirect($this->redirectTo);
+    }
+
+    public function logout(Request $request){
+        $this->guard()->logout();
+
+        $request->session()->flush();
+        $request->session()->regenerate();
+
+        return redirect('/login');
     }
 }

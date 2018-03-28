@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Member;
 use Illuminate\Http\Request;
 
-header("Content-type: text/html; charset=utf-8");   //防止中文乱码
-
 class MemberController extends BaseController{
     public function index(Request $request){
         $username=$request->input('username');

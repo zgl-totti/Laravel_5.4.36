@@ -5,9 +5,17 @@ use App\Models\Access;
 use App\Models\Admin;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends BaseController{
+    /**
+     * 后台首页
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
+     * @author totti_zgl
+     * @date 2018/3/28 10:32
+     */
     public function index(Request $request){
         $keywords=$request->input('keywords');
         /*$list=Admin::with('access')->where(function($query) use($keywords){
@@ -22,6 +30,13 @@ class AdminController extends BaseController{
         return view('admin.admin.index',compact('list','firstRow','keywords'));
     }
 
+    /**
+     * 删除管理员
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response|\think\Response
+     * @author totti_zgl
+     * @date 2018/3/28 10:32
+     */
     public function del(Request $request){
         if($request->ajax()){
             $id=intval($request->get('id'));
@@ -34,6 +49,13 @@ class AdminController extends BaseController{
         }
     }
 
+    /**
+     * 状态更改
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response|\think\Response
+     * @author totti_zgl
+     * @date 2018/3/28 10:31
+     */
     public function operate(Request $request){
         if($request->ajax()){
             $id=intval($request->get('id'));
@@ -48,6 +70,13 @@ class AdminController extends BaseController{
         }
     }
 
+    /**
+     * 添加管理员
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
+     * @author totti_zgl
+     * @date 2018/3/28 16:46
+     */
     public function add(Request $request){
         if($request->isMethod('post')) {
             $data=$request->all();
@@ -59,6 +88,14 @@ class AdminController extends BaseController{
         }
     }
 
+    /**
+     * 编辑管理员
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Symfony\Component\HttpFoundation\Response|\think\Response|\think\response\View
+     * @author totti_zgl
+     * @date 2018/3/28 10:30
+     */
     public function edit(Request $request,$id){
         if ($request->isMethod('post')) {
             if(empty($id)){
@@ -79,6 +116,14 @@ class AdminController extends BaseController{
         }
     }
 
+    /**
+     * 发送
+     * @param $data
+     * @param $status
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response|\think\Response
+     * @author totti_zgl
+     * @date 2018/3/28 10:29
+     */
     public function post($data,$status){
         $rules1=['username'=>'required', 'password'=>'required','mail'=>'required'];
         $rules2=['username'=>'required', 'mail'=>'required'];
@@ -101,7 +146,7 @@ class AdminController extends BaseController{
                 $row=$admin->save();
                 if($row){
                     $id=$admin->id;
-                    if(!emptyArray($data['group_id'])){
+                    if(!empty($data['group_id'])){
                         Access::destroy(['uid'=>$id]);
                         foreach($data['group_id'] as $v){
                             $access['group_id']=$v;
@@ -148,7 +193,7 @@ class AdminController extends BaseController{
                 $info->mail=$data['mail'];
                 $row=$info->save();
                 if($row){
-                    if(!emptyArray($data['group_id'])){
+                    if(!empty($data['group_id'])){
                         Access::destroy(['uid'=>$id]);
                         foreach($data['group_id'] as $v){
                             $access['group_id']=$v;
@@ -177,6 +222,13 @@ class AdminController extends BaseController{
         }
     }
 
+    /**
+     * 图片上传
+     * @param $file
+     * @return bool
+     * @author totti_zgl
+     * @date 2018/3/28 16:47
+     */
     public function uploadPic($file){
         if($file->isValid()){
             if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','gpeg','png'])){
@@ -189,6 +241,33 @@ class AdminController extends BaseController{
             return false;
         }
     }
+
+    //图片上传
+    protected function image_upload($file){
+        if($file->isValid()){
+            //获取临时文件的绝对路径
+            $realPath=$file->getRealPath();
+            $newFileName=md5(microtime()).'.'.$file->getClientOriginalExtension();
+            Storage::fake(['disks'=>'pubic'])->put($newFileName,file_get_contents($realPath));
+            return $image_path='/uploads/'.$newFileName;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*public function uploadpic( $filename, $filepath){
         //1.首先检查文件是否存在
