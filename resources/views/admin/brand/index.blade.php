@@ -94,7 +94,15 @@
                         <tr>
                             <td>{{$k+1+$firstRow}}</td>
                             <td>{{$val->brandname}}</td>
-                            <td><img src="{{url('uploads/logo')}}/{{$val['logo']}}" style="width: 200px;height: 80px"/></td>
+                            @if(file_exists('uploads/logo/'.$val['logo']))
+                                <td><img src="{{url('uploads/logo')}}/{{$val['logo']}}" style="width: 200px;height: 80px"/></td>
+                            @else
+                                <td><img src="{{asset('storage')}}/{{$val['logo']}}" style="width: 200px;height: 80px"/></td>
+                            @endif
+
+                            {{--<td><img src="{{url('uploads/logo')}}/{{$val['logo']}}" style="width: 200px;height: 80px"/></td>--}}
+                            {{--<td><img src="{{asset('storage')}}/{{$val['logo']}}" style="width: 200px;height: 80px"/></td>--}}
+
                             <td>
                                 @if($val->hidden==1)
                                     <span style="color: green">展示</span>

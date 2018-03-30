@@ -68,7 +68,16 @@
                     <li>
                         <label>品牌logo<b>*</b></label>
                         <div class="usercity" style="border:3px dashed #e6e6e6;width:520px;height:300px;position: relative">
-                            <p id="preview1" ><img id="imghead1"  border=0 src="{{url('uploads/logo')}}/{{$info['logo']}}"></p><span></span>
+                            <p id="preview1" >
+                                @if(file_exists('uploads/logo/'.$info['logo']))
+                                    <img id="imghead1" border=0 src="{{url('uploads/logo')}}/{{$info['logo']}}">
+                                @else
+                                    <img id="imghead1" border=0 src="{{asset('storage')}}/{{$info['logo']}}">
+                                @endif
+                            </p><span></span>
+
+                            {{--<p id="preview1" ><img id="imghead1"  border=0 src="{{url('uploads/logo')}}/{{$info['logo']}}"></p><span></span>--}}
+
                             <input type="file" id="image1" name="logo" onchange="previewImage(this,'preview1','imghead1')" style="display:none;" >
                             <label for="image1"  style="margin:130px 180px;color:#fff;text-align:center;border-radius:4px;width:180px;height:26px;line-height:26px;font-size:18px;background:#00b7ee;padding:8px 16px;cursor:pointer;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);">点击重新选择品牌图片</label>
                         </div>
@@ -82,7 +91,7 @@
     </div>
 </div>
 </body>
-<script>
+<script type="text/javascript">
     //图片上传预览    IE是用了滤镜。
     function previewImage(file,pre,imag)
     {
