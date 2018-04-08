@@ -178,7 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class
+        Laravel\Passport\PassportServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class
 
     ],
 
@@ -231,6 +232,7 @@ return [
 
         //加载第三方类库
         'Excel' => Maatwebsite\Excel\ExcelServiceProvider::class,
+        'Socialite' => \Laravel\Socialite\SocialiteServiceProvider::class
 
     ],
 

@@ -195,5 +195,9 @@ Route::get('/queue','Wap\WelcomeController@index');
 
 
 
+//社会化登录
+Route::get('login/github', 'Wap\LoginController@redirectToProvider');
+Route::get('login/github/callback', 'Wap\LoginController@handleProviderCallback');
+
 
 
