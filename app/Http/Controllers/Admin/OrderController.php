@@ -219,7 +219,29 @@ class OrderController extends BaseController{
                 $arr[$k]['status'] = $v['getStatus']['statusname'];
             }
         }
-        $time=date('Y/m/d/H/i',time());
+
+        $filename='订单列表_'.date('Y/m/d');
+        $line=['A','B','C','D','E','F','G','H','I'];
+        $header=['编号','ID','订单号','订单总价','收货人','手机号','收货地址','订单时间','订单状态'];
+
+        Excel::create($filename, function($excel) use($arr,$line,$header) {
+            $excel->sheet('Excel sheet', function($sheet) use($arr,$line,$header) {
+
+                $sheet->setOrientation('landscape');
+                $sheet->fromArray($arr);
+
+                for($i=0;$i<count($line);$i++){
+                    $sheet->cell($line[$i].'1',$header[$i]);
+                }
+
+                //设置单元格大小
+                $sheet->setSize('G1', 50);
+
+            });
+        })->export('xls');
+
+
+        /*$time=date('Y/m/d/H/i',time());
         Excel::create('订单列表_'.$time, function($excel) use($arr) {
             $excel->sheet('Excel sheet', function($sheet) use($arr) {
                 $sheet->setOrientation('landscape');
@@ -230,7 +252,8 @@ class OrderController extends BaseController{
                 //设置单元格大小
                 $sheet->setSize('G1', 50);
             });
-        })->export('xls');
+        })->export('xls');*/
+
 
         /*->store($ext, $path = false, $returnInfo = false)或->save();
         ->store('xls', storage_path('excel/exports'));

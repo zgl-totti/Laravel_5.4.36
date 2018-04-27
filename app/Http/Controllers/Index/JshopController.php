@@ -62,7 +62,7 @@ class JshopController extends BaseController {
             $where['mid']=$mid;
             $info=Member::where($where)->first();
             if(intval($info['intrgral'])>intval($jf)){
-                $transaciton=DB::beginTransaction();
+                DB::beginTransaction();
                 try{
                     $row1=Member::where($where)->decrement('integral',$jf);
                     $row2=Member::where($where)->increment('integral',$ub);
@@ -86,10 +86,10 @@ class JshopController extends BaseController {
                     if(empty($row1) || empty($row2) || empty($row3) || empty($row4) || empty($row5)){
                         throw new Exception('更新失败！');
                     }
-                    $transaciton->commit();
+                    DB::commit();
                     return response(['code'=>1,'info'=>'恭喜你，兑换成功！']);
                 }catch (Exception $e){
-                    $transaciton->rollBack();
+                    DB::rollBack();
                     return response(['code'=>1,'info'=>$e->getMessage()]);
                 }
             }else{

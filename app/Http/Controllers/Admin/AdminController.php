@@ -18,9 +18,11 @@ class AdminController extends BaseController{
      */
     public function index(Request $request){
         $keywords=$request->input('keywords');
+
         /*$list=Admin::with('access')->where(function($query) use($keywords){
             $keywords && $query->where('username','like','%'.$keywords.'%');
         })->paginate(10);*/
+
         $list=Admin::with('access')
             ->when($keywords,function ($query) use ($keywords){
                 return $query->where('username','like','%'.$keywords.'%');
