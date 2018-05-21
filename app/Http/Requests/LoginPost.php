@@ -24,8 +24,24 @@ class LoginPost extends FormRequest
     public function rules()
     {
         return [
-            'username'=>'required|min:6|max:12',
-            'password'=>'required|min:6|max:12'
+            'username'=>'required',
+            'password'=>'required',
+            'verify'=>'required'
         ];
     }
+
+    public function messages(){
+        return [
+            'required'=>':attribute不能为空！',
+        ];
+    }
+
+    public function attributes(){
+        return [
+            'username'=>'用户名',
+            'password'=>'密码',
+            'verify'=>'验证码'
+        ];
+    }
+
 }

@@ -30,7 +30,7 @@ class LoginController extends Controller {
             return response()->json($res,401);
         }
         if(Auth::attempt($data)){
-            $res['token']=Auth::user()->createToken('MyApp')->accessToken;
+            $res['access_token']=Auth::user()->createToken('Totti')->accessToken;
             $res['status']=200;
             $res['info']='登录成功';
             $status=$this->successStatus;

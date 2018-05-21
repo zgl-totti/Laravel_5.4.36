@@ -169,7 +169,16 @@ class OrderController extends BaseController{
         }
     }
 
-    //Excel导出
+
+    /**
+     * Excel导出
+     * @param $a
+     * @param $b
+     * @param $c
+     * @param $d
+     * @author totti_zgl
+     * @date 2018/5/14 10:57
+     */
     public function out($a,$b,$c,$d){
         $username=$a;
         $ordersyn=$b;
@@ -259,5 +268,47 @@ class OrderController extends BaseController{
         ->store('xls', storage_path('excel/exports'));
         默认情况下，该文件将存储在storage/exports文件夹中，该文件夹已在export.php配置文件中定义
         如果要返回存储信息，请将第三个参数设置为true或更改其中的配置设置export.php*/
+    }
+
+    public function checkExcel(Request $request){
+        if($request->isMethod('post')){
+            $file=$request->file('file');
+            if($file->isValid()){
+                if(in_array(strtolower($file->extension()),['xls'])){
+                    $file_name=$file->store('public','excel');
+                    $this->excel_input($file_name);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Excel导入
+     * @param $file_name
+     * @author totti_zgl
+     * @date 2018/5/14 11:48
+     */
+    protected function excel_input($file_name){
+
+        Excel::load($file_name,function ($reader){
+
+            $list=[];
+            foreach ($reader as $sheet){
+                $arr=[];
+                $sheet->each(function ($row){
+
+                    $created_at = $row->created_at->format('Y-m-d');
+                    $order_sn=$row->order_sn;
+                    $arr['created_at']=$created_at;
+                    $arr['order_sn']=$order_sn;
+
+                });
+                $list[]=$arr;
+            }
+
+            return $list;
+
+        })->get();
     }
 }

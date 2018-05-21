@@ -23,8 +23,6 @@ class LoginController extends Controller{
 
     /**
      * 登录
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View|\Symfony\Component\HttpFoundation\Response|\think\Response|\think\response\View
      * @author totti_zgl
      * @date 2018/3/28 16:48
      */
@@ -77,6 +75,32 @@ class LoginController extends Controller{
     }
 
     /**
+     * 登录请求验证器
+     * @param LoginPost $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author totti_zgl
+     * @date 2018/5/21 16:54
+     */
+    public function store(LoginPost $request){
+        $data=$request->all();
+        $where['username']=$data['username'];
+        $where['password']=md5($data['password']);
+        $info=Admin::where($where)->first();
+        if(empty($info)){
+            return response()->json(['code'=>2,'info'=>'用户名或密码错误！'],200);
+
+        }
+        if($info['status'] != 1){
+            return response()->json(['code'=>2,'info'=>'用户被停权！']);
+        }
+        $request->session()->put('aid',$info['id']);
+        $info->lasttime=time();
+        $info->ip=$request->getClientIp();
+        $info->save();
+        return response()->json(['code'=>1,'info'=>'登录成功！']);
+    }
+
+    /**
      * 验证码
      * @return $this
      * @author totti_zgl
@@ -109,8 +133,6 @@ class LoginController extends Controller{
 
     /**
      * 退出
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\think\response\Redirect
      * @author totti_zgl
      * @date 2018/3/28 16:49
      */

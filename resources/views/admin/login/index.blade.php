@@ -13,7 +13,7 @@
     </style>--}}
     <link href="{{asset('/asset_admin/css/style.css')}}" rel="stylesheet" type="text/css" />
     <script language="JavaScript" src="{{asset('/asset_admin/js/jquery.js')}}"></script>
-    <script src="{{asset('/asset_admin/js/cloud.js')}}" type="text/javascript"></script>
+    {{--<script src="{{asset('asset_admin/js/cloud.js')}}" type="text/javascript"></script>--}}
     <script type="text/javascript" src="{{asset('/asset_admin/js/jQuery-1.8.2.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('/asset_admin/js/jquery.validate.js')}}"></script>
     <script src="{{asset('/asset_admin/js/jquery.form.js')}}"></script>

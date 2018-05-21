@@ -91,7 +91,10 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin','LoginController@index');
     Route::get('admin/login','LoginController@index');
     Route::get('admin/captcha/{id}','LoginController@captcha')->where('id','[0-9]+');
+
     Route::post('admin/create','LoginController@index');
+    //Route::post('admin/create','LoginController@store');
+
     Route::get('admin/logout','LoginController@logout');
     Route::get('admin/index','IndexController@index');
     Route::get('admin/top','IndexController@top');
