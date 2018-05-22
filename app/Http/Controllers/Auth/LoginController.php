@@ -44,6 +44,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+
+    //自定义实现用户认证的「guard」
+    protected function guard()
+    {
+        return Auth::guard('admin');
+    }
+
+    //Laravel默认使用email字段来认证,可以定义username进行其他字段认证
+    public function username()
+    {
+        return 'username';
+    }
+
+
     protected function login(Request $request)
     {
         $data=$request->all();

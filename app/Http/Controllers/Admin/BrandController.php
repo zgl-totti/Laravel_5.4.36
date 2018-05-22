@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Storage;
 class BrandController extends BaseController{
     /**
      * 品牌列表
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
      * @author totti_zgl
      * @date 2018/3/30 16:57
      */
