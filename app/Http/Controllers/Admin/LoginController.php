@@ -13,6 +13,7 @@ use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -44,7 +45,12 @@ class LoginController extends Controller{
                 if($info['status'] != 1){
                     return response()->json(['code'=>2,'info'=>'用户被停权！']);
                 }
+
                 $request->session()->put('aid',$info['id']);
+
+                //存入redis
+                Cache::store('redis')->put('aid',$info['id'],600);
+
                 $info->lasttime=time();
                 $info->ip=$request->getClientIp();
                 $info->save();
