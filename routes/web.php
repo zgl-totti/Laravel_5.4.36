@@ -85,6 +85,8 @@ Route::group(['namespace'=>'Index'],function(){
     Route::get('message/detail/{id}','MessageController@detail')->where('id','[0-9]+');
     Route::post('message/operate','MessageController@operate');
     Route::post('message/del','MessageController@del');
+
+    Route::get('site/roma','SiteController@roma');
 });
 
 Route::group(['namespace'=>'Admin'],function(){

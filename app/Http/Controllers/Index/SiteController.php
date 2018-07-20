@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\Index;
 
+use App\Models\Goods;
 use App\Models\Member;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class SiteController extends BaseController{
     public function index(Request $request){
@@ -31,6 +33,49 @@ class SiteController extends BaseController{
             return view('index.site.edit',compact('info','site'));
         }
     }
+
+    public function roma()
+    {
+        $redis= new Redis();
+        $a=$redis->lLen('aaaaaaa');
+
+        print_r($a);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
