@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use App\Jobs\SendPostEmail;
+use App\Post;
 
 class IndexController extends Controller
 {
@@ -54,13 +56,13 @@ class IndexController extends Controller
 
             $row2=$orderGoods->save();
 
-            if(empty($row1)){
-                throw new Exception('');
+            if(empty($row1) || empty($row2)){
+                throw new Exception('5555555555');
             }
 
             DB::commit();
 
-            Redis::incr('goods_'.$goods_id,$goods_number);
+            Redis::incrby('goods_'.$goods_id,$goods_number);
 
             $res=[
                 'status'=>1,
@@ -119,9 +121,9 @@ class IndexController extends Controller
 
         $skill=Skill::find($skill_id);
 
-        while (1){
+        while (true){
             //从队列左侧取数据
-            $arr=$redis->lpop($redis_name);
+            $arr=$redis->rpop($redis_name);
             if(empty($arr)){
                 continue;
             }
@@ -146,5 +148,23 @@ class IndexController extends Controller
         }
 
         $redis->close();
+    }
+
+
+    /**
+     * 发送邮件(走队列)
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title'=>'required|min:6',
+            'body'=> 'required|min:6',
+        ]);
+        $post = new Post;
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->save();
+        $this->dispatch(new SendPostEmail($post)); // 队列
+        return redirect()->back()->with('status', 'Your post has been submitted successfully');
     }
 }
