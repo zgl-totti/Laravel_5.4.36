@@ -1,10 +1,12 @@
 <?php
 namespace App\Http\Controllers\Index;
 
+use App\Jobs\QueuedTest;
 use App\Models\Goods;
 use App\Models\Member;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 
 class SiteController extends BaseController{
@@ -36,10 +38,38 @@ class SiteController extends BaseController{
 
     public function roma()
     {
-        $redis= new Redis();
-        $a=$redis->lLen('aaaaaaa');
+        //发布队列
 
-        print_r($a);
+        //dispatch(new QueuedTest());
+
+        QueuedTest::dispatch();
+    }
+
+
+    /**
+     * redis设置
+     */
+    public function totti()
+    {
+        //$user_id=Redis::set('user_id',666);
+        //$user_id=Redis::get('user_id');
+
+
+        $user=rand(10,50);
+        print_r($user);echo '<br>';
+
+        Redis::rpush('user',$user);
+
+        $num=Redis::llen('user');
+        print_r($num);echo '<br>';
+
+        if($num<100){
+            $user=Redis::lpop('user');
+            print_r($user);
+        }else{
+            echo '秒杀失败';
+        }
+
     }
 
 

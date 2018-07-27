@@ -28,7 +28,11 @@ class AdminController extends BaseController{
                 return $query->where('username','like','%'.$keywords.'%');
             })->paginate(10);
         $firstRow=($list->currentPage()-1)*$list->perPage();
+
+
+
         //return view('admin.admin.index',['list'=>$list,'firstRow'=>$firstRow,'keywords'=>$request->input('keywords')]);
+
         return view('admin.admin.index',compact('list','firstRow','keywords'));
     }
 

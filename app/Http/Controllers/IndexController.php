@@ -57,7 +57,7 @@ class IndexController extends Controller
             $row2=$orderGoods->save();
 
             if(empty($row1) || empty($row2)){
-                throw new Exception('5555555555');
+                throw new \Exception('5555555555');
             }
 
             DB::commit();

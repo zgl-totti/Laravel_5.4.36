@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller{
-    protected function guard(){
+    /*protected function guard(){
         return Auth::guard('admin');
-    }
+    }*/
 
     /**
      * 登录

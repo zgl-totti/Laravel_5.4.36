@@ -87,6 +87,7 @@ Route::group(['namespace'=>'Index'],function(){
     Route::post('message/del','MessageController@del');
 
     Route::get('site/roma','SiteController@roma');
+    Route::get('site/totti','SiteController@totti');
 });
 
 Route::group(['namespace'=>'Admin'],function(){
