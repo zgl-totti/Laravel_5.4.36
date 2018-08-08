@@ -42,7 +42,12 @@ class SiteController extends BaseController{
 
         //dispatch(new QueuedTest());
 
+        //队列
         QueuedTest::dispatch();
+
+        //延时队列
+        QueuedTest::dispatch()->delay(Carbon::now()->addMinutes(60));
+
     }
 
 
