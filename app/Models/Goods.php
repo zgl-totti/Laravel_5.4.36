@@ -9,6 +9,11 @@ class Goods extends Model{
 
     public $timestamps=false;
 
+    //应该被转换成原⽣类型的属性(options字段自动转换为array)
+    /*protected $casts = [
+        'options' => 'array',
+    ];*/
+
     public function getPic(){
         return $this->hasMany('App\Models\GoodsPic','gid','id');
     }

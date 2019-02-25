@@ -49,7 +49,7 @@ class LoginController extends Controller{
                 $request->session()->put('aid',$info['id']);
 
                 //存入redis
-                Cache::store('redis')->put('aid',$info['id'],600);
+                //Cache::store('redis')->put('aid',$info['id'],600);
 
                 $info->lasttime=time();
                 $info->ip=$request->getClientIp();

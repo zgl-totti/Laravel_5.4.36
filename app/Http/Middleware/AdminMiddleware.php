@@ -18,7 +18,7 @@ class AdminMiddleware {
         $aid=$request->session()->get('aid');
 
         //从redis中取缓存
-        $user_id=intval(Cache::store('redis')->get('aid'));
+        //$user_id=intval(Cache::store('redis')->get('aid'));
 
 
         if(is_int($aid) && $aid>0){

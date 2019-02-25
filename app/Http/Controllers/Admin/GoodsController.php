@@ -12,8 +12,19 @@ class GoodsController extends BaseController{
         $list=Goods::with('getCategory')
             ->with('getBrand')
             ->where(function ($query) use($keywords){
-            $keywords && $query->where('goodsname','like','%'.$keywords.'%');
+                $keywords && $query->where('goodsname','like','%'.$keywords.'%');
             })->paginate(10);
+
+        /*$list=Goods::with('getCategory')
+            ->with('getBrand')
+            ->where('id','<',0)
+            ->where(function ($query) use($keywords){
+            $keywords && $query->where('goodsname','like','%'.$keywords.'%');
+            })
+            ->get()
+            ->toArray();
+        print_r($list);die;*/
+
         $firstRow=($list->currentPage()-1)*$list->perPage();
         return view('admin.goods.index',compact('list','firstRow','keywords'));
     }

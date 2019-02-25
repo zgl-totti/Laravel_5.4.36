@@ -36,8 +36,8 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();
 
         //Laravel5.5中ORM结果集是数组
-        Event::listen(StatementPrepared::class, function ($event) {
+        /*Event::listen(StatementPrepared::class, function ($event) {
             $event->statement->setFetchMode(\PDO::FETCH_ASSOC);
-        });
+        });*/
     }
 }
