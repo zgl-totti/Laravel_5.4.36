@@ -17,6 +17,8 @@ class CreateTottiTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('club');
+            $table->integer('status')->default(1)->comment('状态:1为展示;2为下架');
+            $table->index(['name','status']);
             $table->timestamps();
         });
     }
