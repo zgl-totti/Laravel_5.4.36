@@ -45,9 +45,17 @@ class BrandController extends BaseController{
             $brand= new Brand();
             $brand->brandname=$brandname;
             $file=$request->file('logo');
+            //isValid() --> 检验一下上传的文件是否有效
             if($file->isValid()){
                 if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','png'])){
-                    $path = $file->store('brand','public');
+                    $path = $file->store('brand','public');//路径
+
+                    $clientName = $file -> getClientOriginalName();//获取原文件名
+                    $entension = $file -> getClientOriginalExtension(); //获取原文件的后缀
+                    $mime=$file->getClientMimeType();//获取原文件的MIME
+                    $realPath = $file -> getRealPath();//临时文件的绝对路径
+                    $tmpName = $file ->getFileName();//临时文件名
+
                     $brand->logo=$path;
                     if($brand->save()){
                         return response()->json(['code'=>1,'info'=>'品牌添加成功']);
