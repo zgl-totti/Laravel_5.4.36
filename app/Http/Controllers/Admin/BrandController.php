@@ -52,6 +52,7 @@ class BrandController extends BaseController{
 
                     $clientName = $file -> getClientOriginalName();//获取原文件名
                     $entension = $file -> getClientOriginalExtension(); //获取原文件的后缀
+                    $size=$file->getClientSize();//获取原文件的大小
                     $mime=$file->getClientMimeType();//获取原文件的MIME
                     $realPath = $file -> getRealPath();//临时文件的绝对路径
                     $tmpName = $file ->getFileName();//临时文件名

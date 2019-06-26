@@ -29,6 +29,11 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->command('command:test')->everyMinute();
+
+        $schedule->call(function (){
+            $notice = new Notice();
+            $notice->send();
+        })->everyMinute();
     }
 
     /**
