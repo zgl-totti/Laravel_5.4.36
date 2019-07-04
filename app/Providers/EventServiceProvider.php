@@ -18,12 +18,15 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
 
-
         //邮件发送事件监听器
         'Illuminate\Mail\Events\MessageSending' => [
             'App\Listeners\LogSentMessage',
         ],
 
+        //品牌删除事件
+        'App\Events\BrandDeleteEvent'=>[
+            'App\Listeners\BrandDeleteListener'
+        ]
     ];
 
     /**
