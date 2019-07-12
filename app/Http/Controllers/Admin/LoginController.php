@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\LoginPost;
 use App\Models\Admin;
 use Gregwar\Captcha\CaptchaBuilder;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
+    use ThrottlesLogins;
+
     /*protected function guard(){
         return Auth::guard('admin');
     }*/
@@ -31,6 +34,12 @@ class LoginController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            if($this->hasTooManyLoginAttempts($request)){
+                $request->session()->flash('login','登录次数过多,账号已被锁定！');
+
+                return response()->json(['code' => 2, 'info' => '登录次数过多,账号已被锁定！']);
+            }
+
             $data = $request->all();
             $validator = Validator::make($data, Admin::$rules, Admin::$messages, Admin::$attributeNames);
             if ($validator->passes()) {
@@ -38,13 +47,18 @@ class LoginController extends Controller
                 if (empty($check_captcha)) {
                     return response()->json(['code' => 2, 'info' => '验证码错误！']);
                 }
+
                 $where['username'] = $data['username'];
                 $where['password'] = md5($data['password']);
                 $info = Admin::where($where)->first();
                 if (empty($info)) {
+                    $this->incrementLoginAttempts($request);
+
                     return response()->json(['code' => 2, 'info' => '用户名或密码错误！']);
                 }
                 if ($info['status'] != 1) {
+                    $this->incrementLoginAttempts($request);
+
                     return response()->json(['code' => 2, 'info' => '用户被停权！']);
                 }
 
