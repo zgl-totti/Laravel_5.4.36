@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
-class LoginController extends Controller{
+class LoginController extends Controller
+{
     /*protected function guard(){
         return Auth::guard('admin');
     }*/
@@ -27,42 +28,43 @@ class LoginController extends Controller{
      * @author totti_zgl
      * @date 2018/3/28 16:48
      */
-    public function index(Request $request){
-        if($request->ajax()){
-            $data=$request->all();
-            $validator=Validator::make($data,Admin::$rules,Admin::$messages,Admin::$attributeNames);
-            if($validator->passes()){
-                $check_captcha=$this->checkCaptcha($data['verify']);
-                if(empty($check_captcha)){
-                    return response()->json(['code'=>2,'info'=>'验证码错误！']);
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            $validator = Validator::make($data, Admin::$rules, Admin::$messages, Admin::$attributeNames);
+            if ($validator->passes()) {
+                $check_captcha = $this->checkCaptcha($data['verify']);
+                if (empty($check_captcha)) {
+                    return response()->json(['code' => 2, 'info' => '验证码错误！']);
                 }
-                $where['username']=$data['username'];
-                $where['password']=md5($data['password']);
-                $info=Admin::where($where)->first();
-                if(empty($info)){
-                    return response()->json(['code'=>2,'info'=>'用户名或密码错误！']);
+                $where['username'] = $data['username'];
+                $where['password'] = md5($data['password']);
+                $info = Admin::where($where)->first();
+                if (empty($info)) {
+                    return response()->json(['code' => 2, 'info' => '用户名或密码错误！']);
                 }
-                if($info['status'] != 1){
-                    return response()->json(['code'=>2,'info'=>'用户被停权！']);
+                if ($info['status'] != 1) {
+                    return response()->json(['code' => 2, 'info' => '用户被停权！']);
                 }
 
-                $request->session()->put('aid',$info['id']);
+                $request->session()->put('aid', $info['id']);
 
                 //存入redis
                 //Cache::store('redis')->put('aid',$info['id'],600);
 
-                $info->lasttime=time();
-                $info->ip=$request->getClientIp();
+                $info->lasttime = time();
+                $info->ip = $request->getClientIp();
                 $info->save();
-                return response()->json(['code'=>1,'info'=>'登录成功！']);
-            }else{
-                $error=$validator->messages()->toArray();
-                if(! empty($error['username'])){
-                    return response(['code'=>2,'info'=>$error['username'][0]]);
-                }elseif(! empty($error['password'])){
-                    return response(['code'=>2,'info'=>$error['password'][0]]);
-                }else{
-                    return response(['code'=>2,'info'=>$error['verify'][0]]);
+                return response()->json(['code' => 1, 'info' => '登录成功！']);
+            } else {
+                $error = $validator->errors()->messages();
+                if (isset($error['username'])) {
+                    return response(['code' => 2, 'info' => $error['username'][0]]);
+                } elseif (isset($error['password'])) {
+                    return response(['code' => 2, 'info' => $error['password'][0]]);
+                } else {
+                    return response(['code' => 2, 'info' => $error['verify'][0]]);
                 }
             }
 
@@ -75,7 +77,7 @@ class LoginController extends Controller{
             }*/
 
 
-        }else {
+        } else {
             return view('admin.login.index');
         }
     }
@@ -87,23 +89,24 @@ class LoginController extends Controller{
      * @author totti_zgl
      * @date 2018/5/21 16:54
      */
-    public function store(LoginPost $request){
-        $data=$request->all();
-        $where['username']=$data['username'];
-        $where['password']=md5($data['password']);
-        $info=Admin::where($where)->first();
-        if(empty($info)){
-            return response()->json(['code'=>2,'info'=>'用户名或密码错误！'],200);
+    public function store(LoginPost $request)
+    {
+        $data = $request->all();
+        $where['username'] = $data['username'];
+        $where['password'] = md5($data['password']);
+        $info = Admin::where($where)->first();
+        if (empty($info)) {
+            return response()->json(['code' => 2, 'info' => '用户名或密码错误！'], 200);
 
         }
-        if($info['status'] != 1){
-            return response()->json(['code'=>2,'info'=>'用户被停权！']);
+        if ($info['status'] != 1) {
+            return response()->json(['code' => 2, 'info' => '用户被停权！']);
         }
-        $request->session()->put('aid',$info['id']);
-        $info->lasttime=time();
-        $info->ip=$request->getClientIp();
+        $request->session()->put('aid', $info['id']);
+        $info->lasttime = time();
+        $info->ip = $request->getClientIp();
         $info->save();
-        return response()->json(['code'=>1,'info'=>'登录成功！']);
+        return response()->json(['code' => 1, 'info' => '登录成功！']);
     }
 
     /**
@@ -112,13 +115,14 @@ class LoginController extends Controller{
      * @author totti_zgl
      * @date 2018/3/28 16:49
      */
-    public function captcha(){
-        $captcha= new CaptchaBuilder();
-        $captcha->build(148,51);
-        $verify=$captcha->getPhrase();
-        Session::put('verify',$verify);
+    public function captcha()
+    {
+        $captcha = new CaptchaBuilder();
+        $captcha->build(148, 51);
+        $verify = $captcha->getPhrase();
+        Session::put('verify', $verify);
         ob_clean();
-        return response($captcha->output())->header('Content-type','image/jpeg');
+        return response($captcha->output())->header('Content-type', 'image/jpeg');
     }
 
     /**
@@ -128,11 +132,12 @@ class LoginController extends Controller{
      * @author totti_zgl
      * @date 2018/3/28 16:49
      */
-    private function checkCaptcha($data){
-        $captcha=Session::get('verify');
-        if($captcha==$data){
+    private function checkCaptcha($data)
+    {
+        $captcha = Session::get('verify');
+        if ($captcha == $data) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -142,7 +147,8 @@ class LoginController extends Controller{
      * @author totti_zgl
      * @date 2018/3/28 16:49
      */
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $request->session()->forget('aid');
         return redirect('admin/login');
     }
