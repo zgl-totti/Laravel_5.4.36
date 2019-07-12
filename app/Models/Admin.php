@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-
 
 class Admin extends Model
 {
@@ -14,10 +11,6 @@ class Admin extends Model
 
     /*指定是否模型应该被戳记时间*/
     public $timestamps = false;
-
-    public $username='username';
-
-    public $maxAttempts=10;
 
     /*//可以批量赋值的属性
     protected $fillable=[];
@@ -44,13 +37,5 @@ class Admin extends Model
     public function access()
     {
         return $this->hasMany('App\Models\Access', 'uid', 'id');
-    }
-
-    /*
-     * 登录次数限制
-     */
-    protected function throttleKey(Request $request)
-    {
-        return Str::lower('admin_'.$request->input($this->username)).'|'.$request->ip();
     }
 }
