@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017/9/5
- * Time: 17:45
- */
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LoginPost;
@@ -17,10 +11,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
     use ThrottlesLogins;
+
+    public $username='username';
+
+    public $maxAttempts=10;
 
     /*protected function guard(){
         return Auth::guard('admin');
@@ -82,14 +81,12 @@ class LoginController extends Controller
                 }
             }
 
-
             /*$code=Auth::guard('admin')->attempt(['username'=>$data['username']]);
             if(empty($code)){
                 return response()->json(['code'=>2,'info'=>'用户名或密码错误！']);
             }else{
                 return response()->json(['code'=>1,'info'=>'登录成功！']);
             }*/
-
 
         } else {
             return view('admin.login.index');
@@ -165,6 +162,19 @@ class LoginController extends Controller
     {
         $request->session()->forget('aid');
         return redirect('admin/login');
+    }
+
+    /*
+     * 登录次数限制
+     */
+    protected function throttleKey(Request $request)
+    {
+        return Str::lower('admin_'.$request->input($this->username())).'|'.$request->ip();
+    }
+
+    protected function username()
+    {
+        return property_exists($this,'username') ? $this->username :  'email';
     }
 
     /*public function index(Request $request){
