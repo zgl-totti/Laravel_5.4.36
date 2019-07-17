@@ -72,6 +72,10 @@ class LoginController extends Controller
                 return response()->json(['code' => 1, 'info' => '登录成功！']);
             } else {
                 $error = $validator->errors()->messages();
+
+                //获取error中第一个
+                //$msg=current($error);
+
                 if (isset($error['username'])) {
                     return response(['code' => 2, 'info' => $error['username'][0]]);
                 } elseif (isset($error['password'])) {
