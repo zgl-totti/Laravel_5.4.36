@@ -189,6 +189,7 @@ class OrderController extends BaseController
     {
         //处理大数据量的导出
         set_time_limit(0);                                  #设置超时时间
+        ini_set('max_execution_time', '0');       #设置执行时间
         ini_set("memory_limit", "1024M");         #设置内存,防止内存溢出
         \PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip;  #单元格缓存为MemoryGZip
 
