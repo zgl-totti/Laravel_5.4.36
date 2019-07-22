@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class AdminController extends BaseController{
+class AdminController extends BaseController
+{
     /**
      * 后台首页
      * @param Request $request
@@ -16,24 +17,27 @@ class AdminController extends BaseController{
      * @author totti_zgl
      * @date 2018/3/28 10:32
      */
-    public function index(Request $request){
-        $keywords=$request->input('keywords');
+    public function index(Request $request)
+    {
+        //获取数据模型转换成数组
+        //$admin=Admin::find(1)->getAttributes();
+
+        $keywords = $request->input('keywords');
 
         /*$list=Admin::with('access')->where(function($query) use($keywords){
             $keywords && $query->where('username','like','%'.$keywords.'%');
         })->paginate(10);*/
 
-        $list=Admin::with('access')
-            ->when($keywords,function ($query) use ($keywords){
-                return $query->where('username','like','%'.$keywords.'%');
+        $list = Admin::with('access')
+            ->when($keywords, function ($query) use ($keywords) {
+                return $query->where('username', 'like', '%' . $keywords . '%');
             })->paginate(10);
-        $firstRow=($list->currentPage()-1)*$list->perPage();
-
+        $firstRow = ($list->currentPage() - 1) * $list->perPage();
 
 
         //return view('admin.admin.index',['list'=>$list,'firstRow'=>$firstRow,'keywords'=>$request->input('keywords')]);
 
-        return view('admin.admin.index',compact('list','firstRow','keywords'));
+        return view('admin.admin.index', compact('list', 'firstRow', 'keywords'));
     }
 
     /**
@@ -43,14 +47,15 @@ class AdminController extends BaseController{
      * @author totti_zgl
      * @date 2018/3/28 10:32
      */
-    public function del(Request $request){
-        if($request->ajax()){
-            $id=intval($request->get('id'));
-            $row=Admin::find($id)->delete();
-            if($row){
-                return response(['code'=>1,'body'=>'删除成功']);
-            }else{
-                return response(['code'=>2,'body'=>'删除失败']);
+    public function del(Request $request)
+    {
+        if ($request->ajax()) {
+            $id = intval($request->get('id'));
+            $row = Admin::find($id)->delete();
+            if ($row) {
+                return response(['code' => 1, 'body' => '删除成功']);
+            } else {
+                return response(['code' => 2, 'body' => '删除失败']);
             }
         }
     }
@@ -62,16 +67,17 @@ class AdminController extends BaseController{
      * @author totti_zgl
      * @date 2018/3/28 10:31
      */
-    public function operate(Request $request){
-        if($request->ajax()){
-            $id=intval($request->get('id'));
-            $info=Admin::find($id);
-            $info->status=($info['status']==0)?1:0;
-            $row=$info->save();
-            if($row){
-                return response(['code'=>1,'body'=>'状态更改成功']);
-            }else{
-                return response(['code'=>2,'body'=>'状态更改失败']);
+    public function operate(Request $request)
+    {
+        if ($request->ajax()) {
+            $id = intval($request->get('id'));
+            $info = Admin::find($id);
+            $info->status = ($info['status'] == 0) ? 1 : 0;
+            $row = $info->save();
+            if ($row) {
+                return response(['code' => 1, 'body' => '状态更改成功']);
+            } else {
+                return response(['code' => 2, 'body' => '状态更改失败']);
             }
         }
     }
@@ -83,14 +89,15 @@ class AdminController extends BaseController{
      * @author totti_zgl
      * @date 2018/3/28 16:46
      */
-    public function add(Request $request){
-        if($request->isMethod('post')) {
-            $data=$request->all();
-            $status=1;
-            $this->post($data,$status);
-        }else{
-            $group=Group::where('status',1)->get()->toArray();
-            return view('admin.admin.add',['group'=>$group]);
+    public function add(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            $status = 1;
+            $this->post($data, $status);
+        } else {
+            $group = Group::where('status', 1)->get()->toArray();
+            return view('admin.admin.add', ['group' => $group]);
         }
     }
 
@@ -102,15 +109,16 @@ class AdminController extends BaseController{
      * @author totti_zgl
      * @date 2018/3/28 10:30
      */
-    public function edit(Request $request,$id){
+    public function edit(Request $request, $id)
+    {
         if ($request->isMethod('post')) {
-            if(empty($id)){
-                return response(['code'=>2,'info'=>'非法操作']);
+            if (empty($id)) {
+                return response(['code' => 2, 'info' => '非法操作']);
             }
-            $data=$request->all();
-            $file=$data['pic'];
-            $status=2;
-            $this->post($data,$status);
+            $data = $request->all();
+            $file = $data['pic'];
+            $status = 2;
+            $this->post($data, $status);
         } else {
             $info = Admin::where('id', $id)->with('access')->first()->toArray();
             foreach ($info['access'] as $k => $v) {
@@ -130,100 +138,101 @@ class AdminController extends BaseController{
      * @author totti_zgl
      * @date 2018/3/28 10:29
      */
-    public function post($data,$status){
-        $rules1=['username'=>'required', 'password'=>'required','mail'=>'required'];
-        $rules2=['username'=>'required', 'mail'=>'required'];
-        if($status==1){
-            $validator=Validator::make($data,$rules1);
-            if($validator->passes()){
-                $info=Admin::where('username',$data['username'])->first();
-                if($info){
-                    return response(['code'=>2,'info'=>'用户名已存在']);
+    public function post($data, $status)
+    {
+        $rules1 = ['username' => 'required', 'password' => 'required', 'mail' => 'required'];
+        $rules2 = ['username' => 'required', 'mail' => 'required'];
+        if ($status == 1) {
+            $validator = Validator::make($data, $rules1);
+            if ($validator->passes()) {
+                $info = Admin::where('username', $data['username'])->first();
+                if ($info) {
+                    return response(['code' => 2, 'info' => '用户名已存在']);
                 }
-                $arr['username']=$data['username'];
-                $arr['password']=md5($data['password']);
-                $arr['mail']=$data['mail'];
-                $arr['addtime']=time();
-                $admin= new Admin();
-                $admin->username=$data['username'];
-                $admin->password=md5($data['password']);
-                $admin->mail=$data['mail'];
-                $admin->addtime=time();
-                $row=$admin->save();
-                if($row){
-                    $id=$admin->id;
-                    if(!empty($data['group_id'])){
-                        Access::destroy(['uid'=>$id]);
-                        foreach($data['group_id'] as $v){
-                            $access['group_id']=$v;
-                            $access['uid']=$id;
-                            $model= new Access();
+                $arr['username'] = $data['username'];
+                $arr['password'] = md5($data['password']);
+                $arr['mail'] = $data['mail'];
+                $arr['addtime'] = time();
+                $admin = new Admin();
+                $admin->username = $data['username'];
+                $admin->password = md5($data['password']);
+                $admin->mail = $data['mail'];
+                $admin->addtime = time();
+                $row = $admin->save();
+                if ($row) {
+                    $id = $admin->id;
+                    if (!empty($data['group_id'])) {
+                        Access::destroy(['uid' => $id]);
+                        foreach ($data['group_id'] as $v) {
+                            $access['group_id'] = $v;
+                            $access['uid'] = $id;
+                            $model = new Access();
                             $model->save($access);
                         }
                     }
-                    $file=$data['pic'];
-                    if($file){
-                        $path=$this->uploadPic($file);
-                        if($path){
-                            $info->pic=$path;
+                    $file = $data['pic'];
+                    if ($file) {
+                        $path = $this->uploadPic($file);
+                        if ($path) {
+                            $info->pic = $path;
                             $info->save();
-                        }else{
-                            return response(['code'=>5,'info'=>'图片不合法']);
+                        } else {
+                            return response(['code' => 5, 'info' => '图片不合法']);
                         }
                     }
-                    return response(['code'=>1,'info'=>'添加成功']);
-                }else{
-                    return response(['code'=>2,'info'=>'添加失败']);
+                    return response(['code' => 1, 'info' => '添加成功']);
+                } else {
+                    return response(['code' => 2, 'info' => '添加失败']);
                 }
-            }else{
-                return response(['code'=>2,'info'=>$validator->messages()]);
+            } else {
+                return response(['code' => 2, 'info' => $validator->messages()]);
             }
-        }elseif($status==2){
-            $id=$data['id'];
-            $validator=Validator::make($data,$rules2);
-            if($validator->passes()){
-                $info=Admin::find($id);
-                if($info['username'] != $data['username']){
-                    $user=Admin::where('username',$data['username'])->first();
-                    if($user){
-                        return response(['code'=>2,'info'=>'用户名已存在']);
+        } elseif ($status == 2) {
+            $id = $data['id'];
+            $validator = Validator::make($data, $rules2);
+            if ($validator->passes()) {
+                $info = Admin::find($id);
+                if ($info['username'] != $data['username']) {
+                    $user = Admin::where('username', $data['username'])->first();
+                    if ($user) {
+                        return response(['code' => 2, 'info' => '用户名已存在']);
                     }
                 }
-                $info->username=$data['username'];
-                if(!empty($data['password'])){
-                    if($data['password'] != $data['pwd']){
-                        return response(['code'=>2,'info'=>'两次密码输入不一致']);
+                $info->username = $data['username'];
+                if (!empty($data['password'])) {
+                    if ($data['password'] != $data['pwd']) {
+                        return response(['code' => 2, 'info' => '两次密码输入不一致']);
                     }
-                    $info->password=md5($data['password']);
+                    $info->password = md5($data['password']);
                 }
-                $info->mail=$data['mail'];
-                $row=$info->save();
-                if($row){
-                    if(!empty($data['group_id'])){
-                        Access::destroy(['uid'=>$id]);
-                        foreach($data['group_id'] as $v){
-                            $access['group_id']=$v;
-                            $access['uid']=$id;
-                            $model= new Access();
+                $info->mail = $data['mail'];
+                $row = $info->save();
+                if ($row) {
+                    if (!empty($data['group_id'])) {
+                        Access::destroy(['uid' => $id]);
+                        foreach ($data['group_id'] as $v) {
+                            $access['group_id'] = $v;
+                            $access['uid'] = $id;
+                            $model = new Access();
                             $model->save($access);
                         }
                     }
-                    $file=$data['pic'];
-                    if($file){
-                        $path=$this->uploadPic($file);
-                        if($path){
-                            $info->pic=$path;
+                    $file = $data['pic'];
+                    if ($file) {
+                        $path = $this->uploadPic($file);
+                        if ($path) {
+                            $info->pic = $path;
                             $info->save();
-                        }else{
-                            return response(['code'=>5,'info'=>'图片不合法']);
+                        } else {
+                            return response(['code' => 5, 'info' => '图片不合法']);
                         }
                     }
-                    return response(['code'=>1,'info'=>'编辑成功']);
-                }else{
-                    return response(['code'=>2,'info'=>'编辑失败']);
+                    return response(['code' => 1, 'info' => '编辑成功']);
+                } else {
+                    return response(['code' => 2, 'info' => '编辑失败']);
                 }
-            }else{
-                return response(['code'=>2,'info'=>$validator->messages()]);
+            } else {
+                return response(['code' => 2, 'info' => $validator->messages()]);
             }
         }
     }
@@ -235,27 +244,29 @@ class AdminController extends BaseController{
      * @author totti_zgl
      * @date 2018/3/28 16:47
      */
-    public function uploadPic($file){
-        if($file->isValid()){
-            if(in_array( strtolower($file->extension()),['jpeg','jpg','gif','gpeg','png'])){
-                $path = $file->store('admin','public');
+    public function uploadPic($file)
+    {
+        if ($file->isValid()) {
+            if (in_array(strtolower($file->extension()), ['jpeg', 'jpg', 'gif', 'gpeg', 'png'])) {
+                $path = $file->store('admin', 'public');
                 return $path;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
 
     //图片上传
-    protected function image_upload($file){
-        if($file->isValid()){
+    protected function image_upload($file)
+    {
+        if ($file->isValid()) {
             //获取临时文件的绝对路径
-            $realPath=$file->getRealPath();
-            $newFileName=md5(microtime()).'.'.$file->getClientOriginalExtension();
-            Storage::fake(['disks'=>'pubic'])->put($newFileName,file_get_contents($realPath));
-            return $image_path='/uploads/'.$newFileName;
+            $realPath = $file->getRealPath();
+            $newFileName = md5(microtime()) . '.' . $file->getClientOriginalExtension();
+            Storage::fake(['disks' => 'pubic'])->put($newFileName, file_get_contents($realPath));
+            return $image_path = '/uploads/' . $newFileName;
         }
     }
 
