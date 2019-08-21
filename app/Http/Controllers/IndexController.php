@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2018/7/20
- * Time: 17:09
- */
 
 namespace App\Http\Controllers;
 
@@ -20,6 +14,32 @@ use App\Post;
 
 class IndexController extends Controller
 {
+    /*
+     * 推送任务到队列
+     */
+    public function queue()
+    {
+        $data=[];
+        dispatch(new SendPostEmail($data));
+    }
+
+    /**
+     * 发送邮件(走队列)
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title'=>'required|min:6',
+            'body'=> 'required|min:6',
+        ]);
+        $post = new Post;
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->save();
+        $this->dispatch(new SendPostEmail($post)); // 队列
+        return redirect()->back()->with('status', 'Your post has been submitted successfully');
+    }
+
     /**
      * 创建订单
      */
@@ -148,23 +168,5 @@ class IndexController extends Controller
         }
 
         $redis->close();
-    }
-
-
-    /**
-     * 发送邮件(走队列)
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title'=>'required|min:6',
-            'body'=> 'required|min:6',
-        ]);
-        $post = new Post;
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->save();
-        $this->dispatch(new SendPostEmail($post)); // 队列
-        return redirect()->back()->with('status', 'Your post has been submitted successfully');
     }
 }
