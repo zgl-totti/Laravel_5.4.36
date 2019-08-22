@@ -36,7 +36,7 @@ class IndexController extends Controller
         $post->title = $request->title;
         $post->body = $request->body;
         $post->save();
-        $this->dispatch(new SendPostEmail($post)); // 队列
+        dispatch(new SendPostEmail($post)); // 队列
         return redirect()->back()->with('status', 'Your post has been submitted successfully');
     }
 
