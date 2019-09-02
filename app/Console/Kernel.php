@@ -5,6 +5,9 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+// crontab定时执行schedule
+// php /home/wwwroot/g.cn/artisan schedule:run >> /dev/null 2>&1
+
 class Kernel extends ConsoleKernel
 {
     /**
