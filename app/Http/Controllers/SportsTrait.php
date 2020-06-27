@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -8,13 +9,14 @@
 
 namespace App\Http\Controllers;
 
-
-trait SportsTrait{
-    public static function hello(){
+trait SportsTrait
+{
+    public static function hello()
+    {
         echo 666;
     }
 
-    public static $statusMap=[
-        '足球','篮球','橄榄球'
+    public static $statusMap = [
+        '足球', '篮球', '橄榄球'
     ];
 }

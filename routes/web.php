@@ -14,6 +14,14 @@
 /*Route::get('/', function () {
     return view('welcome');
 });*/
+
+
+//vue或react入口路由
+Route::get('{path?}', function () {
+    return view('app');
+})->where('path', '.*');
+
+
 //中间件
 Route::group(['namespace'=>'Wap','prefix'=>'wap','middleware'=>'login'],function(){
    Route::get('base','BaseController@index');
