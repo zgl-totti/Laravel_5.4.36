@@ -54,4 +54,12 @@ class QueuedTest implements ShouldQueue
 
         //Log::info(time().':totti is king');
     }
+
+    /*
+     * 失败任务处理
+     */
+    public function fail($exception = null)
+    {
+        var_dump($exception->getMessage());
+    }
 }

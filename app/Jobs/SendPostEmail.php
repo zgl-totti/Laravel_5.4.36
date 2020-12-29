@@ -21,7 +21,7 @@ class SendPostEmail implements ShouldQueue
      */
     public function __construct($post)
     {
-        $this->post=$post;
+        $this->post = $post;
     }
 
     /**
@@ -31,19 +31,27 @@ class SendPostEmail implements ShouldQueue
      */
     public function handle()
     {
-        $data= array(
-            'title'=> $this->post->title,
-            'body'=> $this->post->body,
+        $data = array(
+            'title' => $this->post->title,
+            'body' => $this->post->body,
         );
 
         // emails.post 对应的视图文件模板
-        Mail::send('emails.post', $data, function($message){
+        Mail::send('emails.post', $data, function ($message) {
             $message->from('************', 'Laravel Queues');
             $message->to('************')->subject('There is a new post');
         });
 
-        Mail::raw('队列测试',function ($message){
+        Mail::raw('队列测试', function ($message) {
             $message->to('************');
         });
+    }
+
+    /*
+     * 失败任务处理
+     */
+    public function fail($exception = null)
+    {
+        var_dump($exception->getMessage());
     }
 }
